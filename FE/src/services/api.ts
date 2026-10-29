@@ -1,5 +1,9 @@
 const env = (import.meta as ImportMeta & { env?: Record<string, string | undefined> }).env;
-export const API_BASE_URL = (env?.VITE_API_BASE_URL || "/api").replace(/\/$/, "");
+/** The configured URL includes the API context, e.g. https://backend.example/api. */
+export function resolveApiBaseUrl(config: Record<string, string | undefined> = {}) {
+  return (config.VITE_API_URL?.trim() || config.VITE_API_BASE_URL?.trim() || "/api").replace(/\/+$/, "");
+}
+export const API_BASE_URL = resolveApiBaseUrl(env);
 
 export class ApiError extends Error {
   public code: string;

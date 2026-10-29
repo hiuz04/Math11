@@ -19,7 +19,6 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
@@ -27,6 +26,11 @@ import java.util.UUID;
 
 @WebFilter(urlPatterns = "/api/*")
 public class SecurityFilter implements Filter {
+    private static final Set<String> CORS_METHODS =
+            Set.of("GET", "HEAD", "POST", "PUT", "DELETE", "OPTIONS");
+    private static final Set<String> CORS_HEADERS =
+            Set.of("content-type", "x-csrf-token", "idempotency-key");
+
     @Override
     public void doFilter(
             ServletRequest servletRequest, ServletResponse servletResponse, FilterChain chain)
@@ -41,15 +45,54 @@ public class SecurityFilter implements Filter {
         response.setHeader("Referrer-Policy", "same-origin");
         String requestId = UUID.randomUUID().toString();
         response.setHeader("X-Request-ID", requestId);
+        response.addHeader("Vary", "Origin");
         try {
+            String origin = request.getHeader("Origin");
+            boolean allowedOrigin =
+                    origin != null
+                            && !origin.equals("null")
+                            && !origin.equals("*")
+                            && Arrays.stream(
+                                            Environment.get(
+                                                            "APP_ORIGIN",
+                                                            "http://localhost:8443,http://127.0.0.1:8443")
+                                                    .split(","))
+                                    .map(String::trim)
+                                    .anyMatch(origin::equals);
+            ApiException.require(
+                    origin == null || allowedOrigin, 403, "Origin không được phép.");
+            if (allowedOrigin) {
+                response.setHeader("Access-Control-Allow-Origin", origin);
+                response.setHeader("Access-Control-Allow-Credentials", "true");
+                response.setHeader("Access-Control-Expose-Headers", "X-Request-ID");
+            }
+            if (request.getMethod().equals("OPTIONS")) {
+                String method = request.getHeader("Access-Control-Request-Method");
+                String headers = request.getHeader("Access-Control-Request-Headers");
+                ApiException.require(
+                        allowedOrigin && method != null && CORS_METHODS.contains(method),
+                        403,
+                        "CORS preflight không được phép.");
+                if (headers != null && !headers.isBlank()) {
+                    ApiException.require(
+                            Arrays.stream(headers.split(","))
+                                    .map(String::trim)
+                                    .map(header -> header.toLowerCase(Locale.ROOT))
+                                    .allMatch(CORS_HEADERS::contains),
+                            403,
+                            "CORS header không được phép.");
+                }
+                response.addHeader("Vary", "Access-Control-Request-Method");
+                response.addHeader("Vary", "Access-Control-Request-Headers");
+                response.setHeader("Access-Control-Allow-Methods", "GET, HEAD, POST, PUT, DELETE, OPTIONS");
+                response.setHeader("Access-Control-Allow-Headers", "Content-Type, X-CSRF-Token, Idempotency-Key");
+                response.setStatus(HttpServletResponse.SC_NO_CONTENT);
+                return;
+            }
             ApiException.require(
                     request.getContentLengthLong() <= 12_000_000, 413, "Yêu cầu quá lớn.");
             String path = request.getRequestURI().substring(request.getContextPath().length());
             boolean safe = Set.of("GET", "HEAD", "OPTIONS").contains(request.getMethod());
-            ApiException.require(
-                    !request.getMethod().equals("OPTIONS"),
-                    403,
-                    "Chỉ hỗ trợ truy cập cùng origin qua proxy.");
             if (!path.equals("/api/auth/login") && !path.equals("/api/auth/csrf")) {
                 HttpSession s = request.getSession(false);
                 Actor actor = s == null ? null : (Actor) s.getAttribute("actor");
@@ -65,16 +108,6 @@ public class SecurityFilter implements Filter {
                 request.setAttribute("actor", actor);
             }
             if (!safe) {
-                String origin = request.getHeader("Origin");
-                Set<String> origins =
-                        new HashSet<>(
-                                Arrays.asList(
-                                        Environment.get(
-                                                        "APP_ORIGIN",
-                                                        "http://localhost:8443,http://127.0.0.1:8443")
-                                                .split(",")));
-                ApiException.require(
-                        origin == null || origins.contains(origin), 403, "Origin không được phép.");
                 HttpSession session = request.getSession(false);
                 String expected = session == null ? null : (String) session.getAttribute("csrf"),
                         actual = request.getHeader("X-CSRF-Token");

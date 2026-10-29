@@ -68,6 +68,8 @@ public class Application implements ServletContextListener {
         event.getServletContext().setAttribute(Application.class.getName(), this);
         event.getServletContext().getSessionCookieConfig().setHttpOnly(true);
         event.getServletContext().getSessionCookieConfig().setSecure(Environment.production());
+        event.getServletContext().getSessionCookieConfig()
+                .setAttribute("SameSite", Environment.production() ? "None" : "Lax");
     }
 
     @Override

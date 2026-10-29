@@ -28,6 +28,8 @@ DB_PASSWORD=<sql-server-password>
 
 ## Kết nối frontend
 
+Với frontend trên Vercel gọi backend Render, đặt `APP_ENV=production` và `APP_ORIGIN=https://math11-khaki.vercel.app` (không có path/dấu `/` cuối); có thể phân cách nhiều origin tin cậy bằng dấu phẩy. `SecurityFilter` cho phép CORS credentials đúng origin đã khai báo và trả 204 cho preflight hợp lệ trước kiểm tra session. `Application` đặt cookie session `SameSite=None; Secure; HttpOnly` trong production, ghi đè mặc định Lax của Tomcat; development vẫn dùng Lax. Mutation tiếp tục yêu cầu CSRF token. Cấu hình Vercel và URL API đầy đủ xem `../FE/README.md`.
+
 Frontend vẫn ở `D:\PRJ\ProjectPRJ\FE`. Cấu hình Vite:
 
 ```dotenv

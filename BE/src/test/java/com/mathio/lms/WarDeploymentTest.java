@@ -6,7 +6,8 @@ import com.mathio.lms.model.Json;
 
 import org.apache.catalina.startup.Tomcat;
 import org.apache.tomcat.util.scan.StandardJarScanner;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable;
 import org.junit.jupiter.api.io.TempDir;
 
@@ -20,14 +21,17 @@ import java.time.Duration;
 class WarDeploymentTest {
     @TempDir Path dir;
 
-    @Test
-    void packagedWarStartsAtMath11WithItsRealServletsAndSecurityFilter() throws Exception {
+    @ParameterizedTest
+    @ValueSource(booleans = {false, true})
+    void packagedWarStartsWithItsRealServletsCorsAndSessionCookies(boolean production) throws Exception {
+        String contextPath = production ? "" : "/Math11";
         Path war = Path.of("target", "Math11.war").toAbsolutePath();
         assertTrue(Files.isRegularFile(war), "Build the WAR with mvn package first");
         Path config = dir.resolve("test.env");
         Files.writeString(
                 config,
-                "APP_ENV=development\n"
+                "APP_ENV=" + (production ? "production" : "development") + "\n"
+                    + "APP_ORIGIN=https://frontend.example\n"
                     + "DB_URL=jdbc:sqlserver://127.0.0.1:1;databaseName=unconfigured_test;encrypt=true;trustServerCertificate=false;loginTimeout=1\n"
                     + "DB_USER=fixture\n"
                     + "DB_PASSWORD=fixture\n"
@@ -42,7 +46,7 @@ class WarDeploymentTest {
         tomcat.getServer()
                 .addLifecycleListener(new org.apache.catalina.core.JreMemoryLeakPreventionListener());
         tomcat.setAddDefaultWebXmlToWebapp(false);
-        var context = tomcat.addWebapp("/Math11", war.toString());
+        var context = tomcat.addWebapp(contextPath, war.toString());
         ((StandardJarScanner) context.getJarScanner()).setScanClassPath(false);
         // REST-only WAR: omit Jasper/JSP defaults from the embedded test container.
         Path defaults = dir.resolve("defaults.xml");
@@ -67,12 +71,13 @@ class WarDeploymentTest {
                 assertEquals(8 * 1024 * 1024, wrapper.getMultipartConfigElement().getMaxFileSize());
             }
             String base =
-                    "http://127.0.0.1:" + tomcat.getConnector().getLocalPort() + "/Math11/api";
+                    "http://127.0.0.1:" + tomcat.getConnector().getLocalPort() + contextPath + "/api";
             HttpClient client =
                     HttpClient.newBuilder().connectTimeout(Duration.ofSeconds(3)).build();
             var csrf =
                     client.send(
                             HttpRequest.newBuilder(URI.create(base + "/auth/csrf"))
+                                    .header("Origin", "https://frontend.example")
                                     .timeout(Duration.ofSeconds(15))
                                     .build(),
                             HttpResponse.BodyHandlers.ofString());
@@ -80,7 +85,20 @@ class WarDeploymentTest {
             assertFalse(Json.parse(csrf.body()).path("csrfToken").asText().isBlank());
             assertTrue(
                     csrf.headers().allValues("set-cookie").stream()
-                            .anyMatch(s -> s.contains("HttpOnly") && s.contains("SameSite=Lax")));
+                            .anyMatch(s -> s.contains("HttpOnly")
+                                    && s.contains(production ? "SameSite=None" : "SameSite=Lax")
+                                    && (!production || s.contains("Secure"))));
+            assertEquals("https://frontend.example", csrf.headers().firstValue("Access-Control-Allow-Origin").orElseThrow());
+            assertEquals("true", csrf.headers().firstValue("Access-Control-Allow-Credentials").orElseThrow());
+            var preflight = client.send(
+                    HttpRequest.newBuilder(URI.create(base + "/users"))
+                            .header("Origin", "https://frontend.example")
+                            .header("Access-Control-Request-Method", "PUT")
+                            .header("Access-Control-Request-Headers", "content-type,x-csrf-token,idempotency-key")
+                            .method("OPTIONS", HttpRequest.BodyPublishers.noBody()).build(),
+                    HttpResponse.BodyHandlers.ofString());
+            assertEquals(204, preflight.statusCode());
+            assertEquals("https://frontend.example", preflight.headers().firstValue("Access-Control-Allow-Origin").orElseThrow());
             assertEquals(
                     401,
                     client.send(

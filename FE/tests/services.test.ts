@@ -7,7 +7,7 @@ import { historyService } from "../src/services/historyService";
 import { questionService } from "../src/services/questionService";
 import { adminConfigService } from "../src/services/adminConfigService";
 import { defaultPrompts } from "../src/constants/lms";
-import { apiRequest, apiOperation, ApiError, setCsrfToken, clearApiOperations } from "../src/services/api";
+import { apiRequest, apiOperation, ApiError, setCsrfToken, clearApiOperations, resolveApiBaseUrl } from "../src/services/api";
 import { quizApiService, quizClock, quizRemaining, type QuizAttempt } from "../src/services/quizApiService";
 import { selection, resetSelection, canAccess } from "../src/services/routeState";
 import { submitContent } from "../src/services/imageService";
@@ -15,6 +15,14 @@ import { validateQuestions } from "../src/services/questionValidation";
 import { lmsService } from "../src/services/lmsService";
 const settings = new Map<string, string>();
 Object.defineProperty(globalThis, "localStorage", { value: { getItem: (key: string) => settings.get(key) ?? null, setItem: (key: string, value: string) => settings.set(key, value) }, configurable: true });
+
+test("API URL uses the Vercel variable without duplicating the API context", () => {
+  assert.equal(resolveApiBaseUrl({ VITE_API_URL: " https://math11.onrender.com/api/// ", VITE_API_BASE_URL: "/legacy/api" }), "https://math11.onrender.com/api");
+  assert.equal(resolveApiBaseUrl({ VITE_API_URL: "https://example.com/Math11/api/" }), "https://example.com/Math11/api");
+  assert.equal(resolveApiBaseUrl({ VITE_API_BASE_URL: "/legacy/api/" }), "/legacy/api");
+  assert.equal(resolveApiBaseUrl({ VITE_API_URL: "  " }), "/api");
+  assert.equal(resolveApiBaseUrl(), "/api");
+});
 
 test("essay Tutor gates every step, keeps all attempts, requires a new image and persists history", async () => {
   const initial = await essayService.submit(101, { text: "u10 = 30", image: "original-image", imageHash: "old-hash" }, new Date().toISOString());
