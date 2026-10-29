@@ -140,8 +140,20 @@ public class SecurityFilter implements Filter {
         } catch (ApiException e) {
             error(response, e.status, e.getMessage(), requestId);
         } catch (Exception e) {
-            request.getServletContext().log("Request " + requestId + " failed", e);
-            error(response, 500, "Không thể xử lý yêu cầu. Vui lòng thử lại.", requestId);
+            System.err.println(
+                "[ERROR] Request " + requestId
+                + " | " + request.getMethod()
+                + " " + request.getRequestURI()
+            );
+
+            e.printStackTrace(System.err);
+
+            error(
+                response,
+                500,
+                "Không thể xử lý yêu cầu. Vui lòng thử lại.",
+                requestId
+            );
         }
     }
 
