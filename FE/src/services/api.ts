@@ -1,7 +1,10 @@
 const env = (import.meta as ImportMeta & { env?: Record<string, string | undefined> }).env;
-/** The configured URL includes the API context, e.g. https://backend.example/api. */
+/** Default to the same-origin proxy; preserve a configured WAR context and include /api once. */
 export function resolveApiBaseUrl(config: Record<string, string | undefined> = {}) {
-  return (config.VITE_API_URL?.trim() || config.VITE_API_BASE_URL?.trim() || "/api").replace(/\/+$/, "");
+  const configured = config.VITE_API_URL?.trim() || config.VITE_API_BASE_URL?.trim() || "/api";
+  const url = new URL(configured, "http://math11.local");
+  const apiPath = url.pathname.replace(/\/+$/, "").replace(/(?:\/api)+$/, "") + "/api";
+  return /^https?:\/\//i.test(configured) ? url.origin + apiPath : apiPath;
 }
 export const API_BASE_URL = resolveApiBaseUrl(env);
 
@@ -17,6 +20,14 @@ export class ApiError extends Error {
     this.code = code;
     this.kind = status === 0 ? "network" : status === 401 ? "authentication" : status === 403 ? "authorization" : status === 409 ? "conflict" : [400, 413, 422].includes(status) ? "validation" : "server";
   }
+}
+
+/** This client serves JSON endpoints; file/image URLs are rendered by the browser. */
+async function readJson<T>(response: Response): Promise<T> {
+  const mediaType = response.headers.get("Content-Type")?.split(";", 1)[0].trim().toLowerCase();
+  if (!mediaType || !(mediaType === "application/json" || /^application\/.+\+json$/.test(mediaType))) throw new ApiError(502, "");
+  try { return await response.json() as T; }
+  catch (error) { if (error instanceof DOMException && error.name === "AbortError") throw error; throw new ApiError(502, ""); }
 }
 
 let csrfToken = "";
@@ -49,11 +60,11 @@ async function ensureCsrf() {
   const generation = operationGeneration;
   const request = (async () => {
     let response: Response;
-    try { response = await fetch(API_BASE_URL + "/auth/csrf", { credentials: "include" }); }
+    try { response = await fetch(API_BASE_URL + "/auth/csrf", { credentials: "include", cache: "no-store", headers: { Accept: "application/json" } }); }
     catch { throw new ApiError(0, ""); }
     if (!response.ok) throw new ApiError(response.status, await response.text());
-    let token: unknown;
-    try { token = (await response.json()).csrfToken; } catch { throw new ApiError(502, ""); }
+    const body = await readJson<{ csrfToken?: unknown } | null>(response);
+    const token = body?.csrfToken;
     if (generation !== operationGeneration) throw new DOMException("Phiên thao tác đã thay đổi.", "AbortError");
     if (typeof token !== "string" || !token) throw new ApiError(500, "");
     csrfToken = token;
@@ -65,6 +76,7 @@ async function ensureCsrf() {
 export async function apiRequest<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
   const generation = operationGeneration;
   const headers = new Headers(options.headers);
+  if (!headers.has("Accept")) headers.set("Accept", "application/json");
   const mutation = !["GET", "HEAD", "OPTIONS"].includes((options.method || "GET").toUpperCase());
   if (mutation) { await ensureCsrf(); headers.set("X-CSRF-Token", csrfToken); if (!headers.has("Idempotency-Key")) headers.set("Idempotency-Key", crypto.randomUUID()); }
   if (options.body && !(options.body instanceof FormData) && !headers.has("Content-Type")) headers.set("Content-Type", "application/json");
@@ -72,17 +84,15 @@ export async function apiRequest<T>(endpoint: string, options: RequestInit = {})
   options.signal?.throwIfAborted();
   if (generation !== operationGeneration) throw new DOMException("Phiên thao tác đã thay đổi.", "AbortError");
   let response: Response;
-  try { response = await fetch(API_BASE_URL + "/" + endpoint.replace(/^\//, ""), { ...options, credentials: "include", headers }); }
+  try { response = await fetch(API_BASE_URL + "/" + endpoint.replace(/^\/+/, ""), { ...options, credentials: "include", cache: "no-store", headers }); }
   catch (error) { if (options.signal?.aborted || error instanceof DOMException && error.name === "AbortError") throw error; throw new ApiError(0, ""); }
   if (generation !== operationGeneration) throw new DOMException("Phiên thao tác đã thay đổi.", "AbortError");
   if (!response.ok) {
     if (response.status === 401 && generation === operationGeneration) { csrfToken = ""; if (typeof window !== "undefined") window.dispatchEvent(new Event("mathio:session-expired")); }
     throw new ApiError(response.status, await response.text());
   }
-  if (response.status === 204) return undefined as T;
-  let body: T;
-  try { body = await response.json() as T; }
-  catch (error) { if (options.signal?.aborted || error instanceof DOMException && error.name === "AbortError") throw error; throw new ApiError(502, ""); }
+  if (response.status === 204 || response.status === 205 || options.method?.toUpperCase() === "HEAD") return undefined as T;
+  const body = await readJson<T>(response);
   options.signal?.throwIfAborted();
   if (generation !== operationGeneration) throw new DOMException("Phiên thao tác đã thay đổi.", "AbortError");
   return body;

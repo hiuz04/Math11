@@ -1,6 +1,7 @@
 import "fake-indexeddb/auto";
 import { test } from "node:test";
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
 import { essayService } from "../src/services/essayService";
 import { aiTutorService } from "../src/services/aiTutorService";
 import { historyService } from "../src/services/historyService";
@@ -22,6 +23,75 @@ test("API URL uses the Vercel variable without duplicating the API context", () 
   assert.equal(resolveApiBaseUrl({ VITE_API_BASE_URL: "/legacy/api/" }), "/legacy/api");
   assert.equal(resolveApiBaseUrl({ VITE_API_URL: "  " }), "/api");
   assert.equal(resolveApiBaseUrl(), "/api");
+  assert.equal(resolveApiBaseUrl({ VITE_API_URL: "/api" }), "/api");
+  assert.equal(resolveApiBaseUrl({ VITE_API_URL: "https://math11.onrender.com" }), "https://math11.onrender.com/api");
+  assert.equal(resolveApiBaseUrl({ VITE_API_URL: "https://example.com/Math11" }), "https://example.com/Math11/api");
+  assert.equal(resolveApiBaseUrl({ VITE_API_URL: "/api/api/" }), "/api");
+});
+
+test("Vercel routes every API to Render before the SPA fallback and disables API caching", () => {
+  const config = JSON.parse(readFileSync(new URL("../vercel.json", import.meta.url), "utf8"));
+  const proxy = config.rewrites.findIndex((route: { source: string }) => route.source === "/api/:path*");
+  const spa = config.rewrites.findIndex((route: { destination: string }) => route.destination === "/index.html");
+  assert.ok(proxy >= 0 && proxy < spa, "API requests must not fall through to index.html");
+  assert.equal(config.rewrites[proxy].destination, "https://math11.onrender.com/api/:path*");
+  const headers = config.headers.find((route: { source: string }) => route.source === "/api/:path*").headers;
+  assert.ok(headers.some((header: { key: string; value: string }) => header.key === "Cache-Control" && header.value === "no-store"));
+  assert.ok(headers.some((header: { key: string; value: string }) => header.key === "x-vercel-enable-rewrite-caching" && header.value === "0"));
+});
+
+test("API responses reject HTML/non-JSON, skip empty responses, and never reuse the HTTP cache", async () => {
+  const original = globalThis.fetch;
+  setCsrfToken("token");
+  try {
+    for (const status of [204, 205]) {
+      globalThis.fetch = async () => new Response(null, { status });
+      assert.equal(await apiRequest("auth/logout", { method: "POST" }), undefined);
+    }
+    globalThis.fetch = async () => new Response(null);
+    assert.equal(await apiRequest("auth/me", { method: "HEAD" }), undefined);
+    for (const contentType of ["text/html", "text/plain"]) {
+      globalThis.fetch = async () => new Response('{"user":{}}', { headers: { "Content-Type": contentType } });
+      await assert.rejects(apiRequest("auth/me"), (error: ApiError) => error.status === 502);
+    }
+    globalThis.fetch = async () => new Response("not-json", { headers: { "Content-Type": "application/json" } });
+    await assert.rejects(apiRequest("auth/me"), (error: ApiError) => error.status === 502);
+    globalThis.fetch = async (url, options) => {
+      assert.equal(url, "/api/auth/me");
+      assert.equal(options?.credentials, "include");
+      assert.equal(options?.cache, "no-store");
+      assert.equal(new Headers(options?.headers).get("Accept"), "application/json");
+      return Response.json({ user: { id: 1 } });
+    };
+    assert.deepEqual(await apiRequest("/auth/me"), { user: { id: 1 } });
+  } finally { globalThis.fetch = original; setCsrfToken(""); clearApiOperations(); }
+});
+
+test("CSRF bootstrap uses the same API base and rejects SPA HTML before sending login", async () => {
+  const original = globalThis.fetch;
+  const requests: string[] = [];
+  let html = true;
+  setCsrfToken(""); clearApiOperations();
+  globalThis.fetch = async (url, options) => {
+    requests.push(String(url));
+    assert.equal(options?.credentials, "include");
+    assert.equal(options?.cache, "no-store");
+    if (String(url) === "/api/auth/csrf") {
+      return html ? new Response("<!doctype html><html></html>", { headers: { "Content-Type": "text/html" } }) : Response.json({ csrfToken: "bootstrap-token" });
+    }
+    assert.equal(url, "/api/auth/login");
+    assert.equal(new Headers(options?.headers).get("X-CSRF-Token"), "bootstrap-token");
+    assert.equal(options?.body, '{"email":"fixture@example.vn","password":"fixture"}');
+    return Response.json({ user: { id: 1 }, csrfToken: "rotated-token" });
+  };
+  try {
+    const options = { method: "POST", body: '{"email":"fixture@example.vn","password":"fixture"}' };
+    await assert.rejects(apiRequest("auth/login", options), (error: ApiError) => error.status === 502);
+    assert.deepEqual(requests, ["/api/auth/csrf"]);
+    html = false;
+    await apiRequest("auth/login", options);
+    assert.deepEqual(requests, ["/api/auth/csrf", "/api/auth/csrf", "/api/auth/login"]);
+  } finally { globalThis.fetch = original; setCsrfToken(""); clearApiOperations(); }
 });
 
 test("essay Tutor gates every step, keeps all attempts, requires a new image and persists history", async () => {
