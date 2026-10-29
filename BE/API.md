@@ -194,7 +194,7 @@ GET `/exercises` trả `{id,title,chapter,kind,difficulty?,questionCount,duratio
 
 ### Phân trang và cấu hình
 
-Courses và lessons đã có OFFSET/FETCH khớp các tham số JDBC. Không còn tài khoản SQL mặc định trong source. Cấu hình DB_USERNAME/DB_PASSWORD hoặc DB_URL với cơ chế xác thực phù hợp. Tomcat đọc biến môi trường/JVM properties; dùng MATHIO_ENV_FILE để trỏ file .env bên ngoài WAR. Không còn đường dẫn máy cũ trong META-INF/context.xml.
+Courses và lessons đã có OFFSET/FETCH khớp các tham số JDBC. Không còn tài khoản SQL mặc định trong source. Cấu hình đủ DB_URL, DB_USER và DB_PASSWORD; DB_USERNAME được hỗ trợ khi chưa đặt DB_USER. Tomcat đọc biến môi trường/JVM properties; dùng MATHIO_ENV_FILE để trỏ file .env bên ngoài WAR. Không còn đường dẫn máy cũ trong META-INF/context.xml.
 
 ## Cập nhật tích hợp 28/10/2026
 

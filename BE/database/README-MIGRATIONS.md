@@ -14,7 +14,7 @@ Không có migration/seed tự chạy khi backend khởi động. Kết nối da
 
 Tạo riêng `math11_tutor_db_test`. Trong bản sao của setup/seed mở trong SSMS, thay **tất cả** tên `math11_tutor_db` thành `math11_tutor_db_test`, kiểm tra USE/guard rồi tự Execute. V002 riêng chấp nhận tên kết thúc `_test`. Không dùng database production với cờ test.
 
-Tạo `.env.test` riêng, copy các key từ `.env.example`, đặt DB_NAME=math11_tutor_db_test và credentials kiểm thử hợp lệ. Nếu dùng DB_URL, databaseName trong URL phải trỏ đúng `_test`. Đặt RUN_SQL_INTEGRATION=true; giữ RUN_GEMINI_INTEGRATION=false. Chạy:
+Tạo `.env.test` riêng, copy các key từ `.env.example`, đặt DB_URL với databaseName=math11_tutor_db_test cùng DB_USER và DB_PASSWORD kiểm thử hợp lệ. databaseName trong URL phải trỏ đúng `_test`. Đặt RUN_SQL_INTEGRATION=true; giữ RUN_GEMINI_INTEGRATION=false. Chạy:
 
 ```powershell
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts\run.ps1 -Action verify -EnvFile .env.test

@@ -23,19 +23,12 @@ public final class DBContext implements AutoCloseable {
 
     public static DBContext configured() {
         HikariConfig config = new HikariConfig();
-        String url =
-                Environment.get(
-                        "DB_URL",
-                        "jdbc:sqlserver://"
-                                + Environment.get("DB_HOST", "localhost")
-                                + ":"
-                                + Environment.get("DB_PORT", "1433")
-                                + ";databaseName="
-                                + Environment.get("DB_NAME", "math11_tutor_db")
-                                + ";encrypt="
-                                + Environment.get("DB_ENCRYPT", "true")
-                                + ";trustServerCertificate="
-                                + Environment.get("DB_TRUST_SERVER_CERTIFICATE", "false"));
+        String url = required("DB_URL", Environment.get("DB_URL", ""));
+        String user =
+                required(
+                        "DB_USER",
+                        Environment.get("DB_USER", Environment.get("DB_USERNAME", "")));
+        String password = required("DB_PASSWORD", Environment.get("DB_PASSWORD", ""));
         String normalized = url.toLowerCase(Locale.ROOT);
         if (Environment.production()
                 && (Environment.get("DB_TRUST_SERVER_CERTIFICATE", "false").equalsIgnoreCase("true")
@@ -48,8 +41,8 @@ public final class DBContext implements AutoCloseable {
         config.setJdbcUrl(url);
         // Tomcat initializes DriverManager before scanning web application libraries.
         config.setDriverClassName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-        config.setUsername(Environment.get("DB_USERNAME", "sa"));
-        config.setPassword(Environment.get("DB_PASSWORD", "123"));
+        config.setUsername(user);
+        config.setPassword(password);
         int poolSize = Environment.integer("DB_POOL_SIZE", 10, 2, 50);
         config.setMaximumPoolSize(poolSize);
         config.setMinimumIdle(Math.min(2, poolSize));
@@ -60,6 +53,13 @@ public final class DBContext implements AutoCloseable {
         config.setInitializationFailTimeout(-1);
         config.setPoolName("Mathio");
         return new DBContext(new HikariDataSource(config));
+    }
+
+    private static String required(String key, String value) {
+        if (value == null || value.isBlank()) {
+            throw new IllegalStateException("Missing required database configuration: " + key);
+        }
+        return value;
     }
 
     public Connection getConnection() throws SQLException {
@@ -114,7 +114,7 @@ public final class DBContext implements AutoCloseable {
                             + detail.getSQLState());
             System.err.println(
                     detail.getErrorCode() == 18456
-                            ? "Kiểm tra DB_USERNAME, DB_PASSWORD và quyền đăng nhập SQL Server."
+                            ? "Kiểm tra DB_USER, DB_PASSWORD và quyền đăng nhập SQL Server."
                             : "Kiểm tra host/port, tên database, tài khoản và cấu hình TLS.");
             System.exit(1);
         } catch (RuntimeException e) {

@@ -29,7 +29,7 @@ class WarDeploymentTest {
                 config,
                 "APP_ENV=development\n"
                     + "DB_URL=jdbc:sqlserver://127.0.0.1:1;databaseName=unconfigured_test;encrypt=true;trustServerCertificate=false;loginTimeout=1\n"
-                    + "DB_USERNAME=fixture\n"
+                    + "DB_USER=fixture\n"
                     + "DB_PASSWORD=fixture\n"
                     + "STORAGE_DIR=private-storage\n");
         String previous = System.getProperty("MATHIO_ENV_FILE");

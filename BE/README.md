@@ -14,6 +14,18 @@ Backend đã tách khỏi frontend tại `D:\PRJ\ProjectPRJ\BE`. Dự án giữ 
 
 `.env`, database SQL và ảnh riêng tư không được đóng gói vào WAR. Các thư viện runtime đầy đủ ở `lib/`; không còn tham chiếu JDBC/JSTL cũ tại `D:\PRJ\sqljdbc42`.
 
+## Cấu hình database khi deploy Docker / Render
+
+Đặt đủ ba biến môi trường trên dịch vụ backend:
+
+```dotenv
+DB_URL=jdbc:sqlserver://<host>:1433;databaseName=<database>;encrypt=true;trustServerCertificate=false
+DB_USER=<sql-server-user>
+DB_PASSWORD=<sql-server-password>
+```
+
+`DBContext` dùng các giá trị này cho pool HikariCP; Maven đã có dependency Microsoft SQL Server JDBC. Không còn mặc định `localhost`, `sa` hoặc mật khẩu trong code kết nối. Thiếu hoặc để trống biến bắt buộc sẽ báo lỗi cấu hình khi khởi động. `DB_USERNAME` vẫn được hỗ trợ khi chưa đặt `DB_USER`; nếu có cả hai thì `DB_USER` được ưu tiên. Cấu hình cũ chỉ dùng `DB_HOST`/`DB_PORT`/`DB_NAME` cần chuyển sang `DB_URL`, kể cả trong `.env` dùng tại máy local.
+
 ## Kết nối frontend
 
 Frontend vẫn ở `D:\PRJ\ProjectPRJ\FE`. Cấu hình Vite:
