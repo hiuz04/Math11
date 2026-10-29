@@ -1,0 +1,178 @@
+{
+  "backup" : "D:\\PRJ\\ProjectPRJ\\BE\\database\\backups\\math11_pre_test_seed_9169d11f-f815-418e-881c-acec1b4eb92a.bak",
+  "courses" : [ {
+    "teacherId" : 5,
+    "id" : 2,
+    "published" : true
+  }, {
+    "teacherId" : 5,
+    "id" : 3,
+    "published" : true
+  }, {
+    "teacherId" : 6,
+    "id" : 4,
+    "published" : true
+  }, {
+    "teacherId" : 6,
+    "id" : 5,
+    "published" : true
+  }, {
+    "teacherId" : 7,
+    "id" : 6,
+    "published" : true
+  }, {
+    "teacherId" : 7,
+    "id" : 7,
+    "published" : false
+  }, {
+    "teacherId" : 2,
+    "id" : 8,
+    "published" : true
+  } ],
+  "accounts" : [ {
+    "id" : 4,
+    "name" : "[TEST] Quản trị kiểm thử",
+    "email" : "qa.admin@mathio.test",
+    "active" : true,
+    "role" : "ADMIN"
+  }, {
+    "id" : 5,
+    "name" : "[TEST] Trần Thanh Hương",
+    "email" : "qa.teacher01@mathio.test",
+    "active" : true,
+    "role" : "TEACHER"
+  }, {
+    "id" : 6,
+    "name" : "[TEST] Lê Quốc Bảo",
+    "email" : "qa.teacher02@mathio.test",
+    "active" : true,
+    "role" : "TEACHER"
+  }, {
+    "id" : 7,
+    "name" : "[TEST] Phạm Thu Hạnh",
+    "email" : "qa.teacher03@mathio.test",
+    "active" : true,
+    "role" : "TEACHER"
+  }, {
+    "id" : 8,
+    "name" : "[TEST] Nguyễn An",
+    "email" : "qa.student01@mathio.test",
+    "active" : true,
+    "role" : "STUDENT"
+  }, {
+    "id" : 9,
+    "name" : "[TEST] Trần Bình",
+    "email" : "qa.student02@mathio.test",
+    "active" : true,
+    "role" : "STUDENT"
+  }, {
+    "id" : 10,
+    "name" : "[TEST] Lê Chi",
+    "email" : "qa.student03@mathio.test",
+    "active" : true,
+    "role" : "STUDENT"
+  }, {
+    "id" : 11,
+    "name" : "[TEST] Phạm Dũng",
+    "email" : "qa.student04@mathio.test",
+    "active" : true,
+    "role" : "STUDENT"
+  }, {
+    "id" : 12,
+    "name" : "[TEST] Hoàng Hà",
+    "email" : "qa.student05@mathio.test",
+    "active" : true,
+    "role" : "STUDENT"
+  }, {
+    "id" : 13,
+    "name" : "[TEST] Vũ Linh",
+    "email" : "qa.student06@mathio.test",
+    "active" : true,
+    "role" : "STUDENT"
+  }, {
+    "id" : 14,
+    "name" : "[TEST] Đặng Nam",
+    "email" : "qa.student07@mathio.test",
+    "active" : true,
+    "role" : "STUDENT"
+  }, {
+    "id" : 15,
+    "name" : "[TEST] Bùi Ngọc",
+    "email" : "qa.student08@mathio.test",
+    "active" : true,
+    "role" : "STUDENT"
+  }, {
+    "id" : 16,
+    "name" : "[TEST] Đỗ Phúc",
+    "email" : "qa.student09@mathio.test",
+    "active" : true,
+    "role" : "STUDENT"
+  }, {
+    "id" : 17,
+    "name" : "[TEST] Hồ Quỳnh",
+    "email" : "qa.student10@mathio.test",
+    "active" : true,
+    "role" : "STUDENT"
+  }, {
+    "id" : 18,
+    "name" : "[TEST] Ngô Sơn",
+    "email" : "qa.student11@mathio.test",
+    "active" : true,
+    "role" : "STUDENT"
+  }, {
+    "id" : 19,
+    "name" : "[TEST] Dương Thảo",
+    "email" : "qa.student12@mathio.test",
+    "active" : true,
+    "role" : "STUDENT"
+  }, {
+    "id" : 20,
+    "name" : "[TEST] Lý Trang",
+    "email" : "qa.student13@mathio.test",
+    "active" : true,
+    "role" : "STUDENT"
+  }, {
+    "id" : 21,
+    "name" : "[TEST] Mai Tú",
+    "email" : "qa.student14@mathio.test",
+    "active" : true,
+    "role" : "STUDENT"
+  }, {
+    "id" : 22,
+    "name" : "[TEST] Đinh Vân",
+    "email" : "qa.student15@mathio.test",
+    "active" : true,
+    "role" : "STUDENT"
+  }, {
+    "id" : 23,
+    "name" : "[TEST] Cao Việt",
+    "email" : "qa.student16@mathio.test",
+    "active" : true,
+    "role" : "STUDENT"
+  }, {
+    "id" : 24,
+    "name" : "[TEST] Tạ Yến",
+    "email" : "qa.student17@mathio.test",
+    "active" : true,
+    "role" : "STUDENT"
+  }, {
+    "id" : 25,
+    "name" : "[TEST] Võ Khánh",
+    "email" : "qa.student18@mathio.test",
+    "active" : true,
+    "role" : "STUDENT"
+  }, {
+    "id" : 26,
+    "name" : "[TEST] Học sinh chưa đăng ký",
+    "email" : "qa.student19@mathio.test",
+    "active" : true,
+    "role" : "STUDENT"
+  }, {
+    "id" : 27,
+    "name" : "[TEST] Học sinh bị khóa",
+    "email" : "qa.student20@mathio.test",
+    "active" : false,
+    "role" : "STUDENT"
+  } ],
+  "newAccountPassword" : "TestMathio2026!"
+}

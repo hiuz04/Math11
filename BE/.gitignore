@@ -1,0 +1,12 @@
+.env
+.env.*
+!.env.example
+.m2/
+target/
+build/
+dist/
+private-storage/
+nbproject/private/
+.migration-backup/
+database/backups/
+*.log

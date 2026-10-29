@@ -1,0 +1,17 @@
+import { useEffect, useState } from "react";
+import { apiRequest } from "../../services/api";
+import { authService, type SessionUser } from "../../services/authService";
+import { useMockApi, postApi, errorMessage } from "../../services/serviceMode";
+import Button from "../../components/common/Button";
+import Badge from "../../components/common/Badge";
+import PageHeading from "../../components/common/PageHeading";
+
+export default function ProfilePage({ role, notify }: { role: string; notify: (m: string) => void }) {
+  const [editing,setEditing]=useState(false), [error,setError]=useState("");
+  const [profile,setProfile]=useState<Partial<SessionUser>>({});
+  const [passwordOpen,setPasswordOpen]=useState(false), [oldPassword,setOldPassword]=useState(""), [newPassword,setNewPassword]=useState("");
+  useEffect(()=>{if(!useMockApi)apiRequest<SessionUser>("profile").then(setProfile).catch(e=>setError(errorMessage(e)));},[]);
+  const save=async()=>{if(!editing){setEditing(true);return;}try{if(!useMockApi)setProfile(await postApi("profile",profile));notify("Đã lưu thay đổi.");setEditing(false);}catch(e){setError(errorMessage(e));}};
+  const changePassword=async()=>{try{await authService.changePassword(oldPassword,newPassword);setPasswordOpen(false);}catch(e){setError(errorMessage(e));}};
+  return <div className="page"><PageHeading eyebrow="TÀI KHOẢN CỦA TÔI" title="Hồ sơ cá nhân" subtitle="Quản lý thông tin và cài đặt bảo mật." action={<Button variant={editing?"primary":"secondary"} onClick={()=>void save()}>{editing?"Lưu thay đổi":"Chỉnh sửa"}</Button>}/>{error&&<p className="feature-error" role="alert">{error}</p>}<div className="profile-grid"><section className="card profile-summary"><span className="profile-avatar">{!useMockApi ? profile.name?.split(" ").slice(-2).map(part=>part[0]).join("") || "—" : role==="Học sinh"?"NA":role==="Giáo viên"?"NL":"TM"}</span><h2>{useMockApi ? (role==="Học sinh"?"Nguyễn Minh Anh":role==="Giáo viên"?"Nguyễn Thị Lan":"Trần Văn Minh") : profile.name || "—"}</h2><Badge tone="purple">{role}</Badge><p>Thành viên từ {useMockApi ? "tháng 9/2024" : profile.createdAt ? new Date(profile.createdAt).toLocaleDateString("vi-VN") : "—"}</p></section><section className="card profile-form"><h2>Thông tin cá nhân</h2>{["Họ và tên","Email","Ngày sinh","Số điện thoại"].map((x,i)=><label key={x}>{x}<input disabled={!editing || !useMockApi && i===1} onChange={e=>setProfile({...profile, [(["name","email","birthDate","phone"] as const)[i]]:e.target.value})} value={!useMockApi ? ([profile.name,profile.email,profile.birthDate,profile.phone][i] || "") : undefined} defaultValue={!useMockApi ? undefined : [role==="Học sinh"?"Nguyễn Minh Anh":role==="Giáo viên"?"Nguyễn Thị Lan":"Trần Văn Minh",role==="Học sinh"?"student@demo.vn":role==="Giáo viên"?"teacher@demo.vn":"admin@demo.vn","15/04/2008","0912 345 678"][i]}/></label>)}<h2 className="security-title">Bảo mật</h2><Button variant="secondary" icon="shield" onClick={()=>setPasswordOpen(true)}>Đổi mật khẩu</Button></section></div>{passwordOpen&&<div className="modal-backdrop"><div className="form-modal"><h2>Đổi mật khẩu</h2><label>Mật khẩu hiện tại<input type="password" value={oldPassword} onChange={e=>setOldPassword(e.target.value)}/></label><label>Mật khẩu mới<input type="password" value={newPassword} onChange={e=>setNewPassword(e.target.value)}/></label><div><Button variant="secondary" onClick={()=>setPasswordOpen(false)}>Hủy</Button><Button onClick={()=>void changePassword()}>Lưu</Button></div></div></div>}</div>;
+}

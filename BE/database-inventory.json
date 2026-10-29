@@ -1,0 +1,5549 @@
+{
+  "database" : {
+    "name" : "math11_tutor_db",
+    "server" : "Hieu\\SQLEXPRESS"
+  },
+  "tableCounts" : [ {
+    "rows" : 0,
+    "table" : "ai_conversations"
+  }, {
+    "rows" : 0,
+    "table" : "ai_messages"
+  }, {
+    "rows" : 0,
+    "table" : "ai_request_logs"
+  }, {
+    "rows" : 545,
+    "table" : "audit_logs"
+  }, {
+    "rows" : 5,
+    "table" : "chapters"
+  }, {
+    "rows" : 49,
+    "table" : "course_enrollments"
+  }, {
+    "rows" : 8,
+    "table" : "courses"
+  }, {
+    "rows" : 0,
+    "table" : "essay_ai_job_attempts"
+  }, {
+    "rows" : 0,
+    "table" : "essay_ai_jobs"
+  }, {
+    "rows" : 24,
+    "table" : "essay_evaluations"
+  }, {
+    "rows" : 0,
+    "table" : "essay_retry_submissions"
+  }, {
+    "rows" : 42,
+    "table" : "essay_submissions"
+  }, {
+    "rows" : 0,
+    "table" : "exam_answer_files"
+  }, {
+    "rows" : 420,
+    "table" : "exam_answers"
+  }, {
+    "rows" : 84,
+    "table" : "exam_attempts"
+  }, {
+    "rows" : 84,
+    "table" : "exam_essay_answers"
+  }, {
+    "rows" : 36,
+    "table" : "exam_grade_audit"
+  }, {
+    "rows" : 145,
+    "table" : "exam_questions"
+  }, {
+    "rows" : 48,
+    "table" : "exam_results"
+  }, {
+    "rows" : 22,
+    "table" : "exams"
+  }, {
+    "rows" : 0,
+    "table" : "gemini_settings"
+  }, {
+    "rows" : 54,
+    "table" : "idempotency_keys"
+  }, {
+    "rows" : 114,
+    "table" : "learning_history"
+  }, {
+    "rows" : 215,
+    "table" : "lesson_progress"
+  }, {
+    "rows" : 75,
+    "table" : "lessons"
+  }, {
+    "rows" : 474,
+    "table" : "notifications"
+  }, {
+    "rows" : 4,
+    "table" : "prompt_templates"
+  }, {
+    "rows" : 524,
+    "table" : "question_options"
+  }, {
+    "rows" : 175,
+    "table" : "questions"
+  }, {
+    "rows" : 3,
+    "table" : "roles"
+  }, {
+    "rows" : 1,
+    "table" : "schema_versions"
+  }, {
+    "rows" : 1,
+    "table" : "subjects"
+  }, {
+    "rows" : 0,
+    "table" : "submission_files"
+  }, {
+    "rows" : 7,
+    "table" : "topics"
+  }, {
+    "rows" : 0,
+    "table" : "tutor_sessions"
+  }, {
+    "rows" : 0,
+    "table" : "tutor_step_attempts"
+  }, {
+    "rows" : 0,
+    "table" : "tutor_steps"
+  }, {
+    "rows" : 27,
+    "table" : "user_profiles"
+  }, {
+    "rows" : 27,
+    "table" : "users"
+  } ],
+  "users" : [ {
+    "id" : 1,
+    "role" : "ADMIN",
+    "email" : "admin@demo.vn",
+    "name" : "Trần Văn Minh",
+    "active" : true,
+    "deleted" : false
+  }, {
+    "id" : 2,
+    "role" : "TEACHER",
+    "email" : "teacher@demo.vn",
+    "name" : "Nguyễn Thị Lan",
+    "active" : true,
+    "deleted" : false
+  }, {
+    "id" : 3,
+    "role" : "STUDENT",
+    "email" : "student@demo.vn",
+    "name" : "Nguyễn Minh Anh",
+    "active" : true,
+    "deleted" : false
+  }, {
+    "id" : 4,
+    "role" : "ADMIN",
+    "email" : "qa.admin@mathio.test",
+    "name" : "[TEST] Quản trị kiểm thử",
+    "active" : true,
+    "deleted" : false
+  }, {
+    "id" : 5,
+    "role" : "TEACHER",
+    "email" : "qa.teacher01@mathio.test",
+    "name" : "[TEST] Trần Thanh Hương",
+    "active" : true,
+    "deleted" : false
+  }, {
+    "id" : 6,
+    "role" : "TEACHER",
+    "email" : "qa.teacher02@mathio.test",
+    "name" : "[TEST] Lê Quốc Bảo",
+    "active" : true,
+    "deleted" : false
+  }, {
+    "id" : 7,
+    "role" : "TEACHER",
+    "email" : "qa.teacher03@mathio.test",
+    "name" : "[TEST] Phạm Thu Hạnh",
+    "active" : true,
+    "deleted" : false
+  }, {
+    "id" : 8,
+    "role" : "STUDENT",
+    "email" : "qa.student01@mathio.test",
+    "name" : "[TEST] Nguyễn An",
+    "active" : true,
+    "deleted" : false
+  }, {
+    "id" : 9,
+    "role" : "STUDENT",
+    "email" : "qa.student02@mathio.test",
+    "name" : "[TEST] Trần Bình",
+    "active" : true,
+    "deleted" : false
+  }, {
+    "id" : 10,
+    "role" : "STUDENT",
+    "email" : "qa.student03@mathio.test",
+    "name" : "[TEST] Lê Chi",
+    "active" : true,
+    "deleted" : false
+  }, {
+    "id" : 11,
+    "role" : "STUDENT",
+    "email" : "qa.student04@mathio.test",
+    "name" : "[TEST] Phạm Dũng",
+    "active" : true,
+    "deleted" : false
+  }, {
+    "id" : 12,
+    "role" : "STUDENT",
+    "email" : "qa.student05@mathio.test",
+    "name" : "[TEST] Hoàng Hà",
+    "active" : true,
+    "deleted" : false
+  }, {
+    "id" : 13,
+    "role" : "STUDENT",
+    "email" : "qa.student06@mathio.test",
+    "name" : "[TEST] Vũ Linh",
+    "active" : true,
+    "deleted" : false
+  }, {
+    "id" : 14,
+    "role" : "STUDENT",
+    "email" : "qa.student07@mathio.test",
+    "name" : "[TEST] Đặng Nam",
+    "active" : true,
+    "deleted" : false
+  }, {
+    "id" : 15,
+    "role" : "STUDENT",
+    "email" : "qa.student08@mathio.test",
+    "name" : "[TEST] Bùi Ngọc",
+    "active" : true,
+    "deleted" : false
+  }, {
+    "id" : 16,
+    "role" : "STUDENT",
+    "email" : "qa.student09@mathio.test",
+    "name" : "[TEST] Đỗ Phúc",
+    "active" : true,
+    "deleted" : false
+  }, {
+    "id" : 17,
+    "role" : "STUDENT",
+    "email" : "qa.student10@mathio.test",
+    "name" : "[TEST] Hồ Quỳnh",
+    "active" : true,
+    "deleted" : false
+  }, {
+    "id" : 18,
+    "role" : "STUDENT",
+    "email" : "qa.student11@mathio.test",
+    "name" : "[TEST] Ngô Sơn",
+    "active" : true,
+    "deleted" : false
+  }, {
+    "id" : 19,
+    "role" : "STUDENT",
+    "email" : "qa.student12@mathio.test",
+    "name" : "[TEST] Dương Thảo",
+    "active" : true,
+    "deleted" : false
+  }, {
+    "id" : 20,
+    "role" : "STUDENT",
+    "email" : "qa.student13@mathio.test",
+    "name" : "[TEST] Lý Trang",
+    "active" : true,
+    "deleted" : false
+  }, {
+    "id" : 21,
+    "role" : "STUDENT",
+    "email" : "qa.student14@mathio.test",
+    "name" : "[TEST] Mai Tú",
+    "active" : true,
+    "deleted" : false
+  }, {
+    "id" : 22,
+    "role" : "STUDENT",
+    "email" : "qa.student15@mathio.test",
+    "name" : "[TEST] Đinh Vân",
+    "active" : true,
+    "deleted" : false
+  }, {
+    "id" : 23,
+    "role" : "STUDENT",
+    "email" : "qa.student16@mathio.test",
+    "name" : "[TEST] Cao Việt",
+    "active" : true,
+    "deleted" : false
+  }, {
+    "id" : 24,
+    "role" : "STUDENT",
+    "email" : "qa.student17@mathio.test",
+    "name" : "[TEST] Tạ Yến",
+    "active" : true,
+    "deleted" : false
+  }, {
+    "id" : 25,
+    "role" : "STUDENT",
+    "email" : "qa.student18@mathio.test",
+    "name" : "[TEST] Võ Khánh",
+    "active" : true,
+    "deleted" : false
+  }, {
+    "id" : 26,
+    "role" : "STUDENT",
+    "email" : "qa.student19@mathio.test",
+    "name" : "[TEST] Học sinh chưa đăng ký",
+    "active" : true,
+    "deleted" : false
+  }, {
+    "id" : 27,
+    "role" : "STUDENT",
+    "email" : "qa.student20@mathio.test",
+    "name" : "[TEST] Học sinh bị khóa",
+    "active" : false,
+    "deleted" : false
+  } ],
+  "subjects" : [ {
+    "id" : 1,
+    "title" : "Toán 11"
+  } ],
+  "chapters" : [ {
+    "id" : 1,
+    "subject_id" : 1,
+    "title" : "Chương 1 – Hàm số lượng giác",
+    "position" : 1
+  }, {
+    "id" : 2,
+    "subject_id" : 1,
+    "title" : "Chương 2 – Dãy số",
+    "position" : 2
+  }, {
+    "id" : 3,
+    "subject_id" : 1,
+    "title" : "Chương 3 – Giới hạn",
+    "position" : 3
+  }, {
+    "id" : 4,
+    "subject_id" : 1,
+    "title" : "Chương 4 – Đường thẳng và mặt phẳng",
+    "position" : 4
+  }, {
+    "id" : 5,
+    "subject_id" : 1,
+    "title" : "Chương 5 – Quan hệ song song",
+    "position" : 5
+  } ],
+  "topics" : [ {
+    "id" : 1,
+    "chapter_id" : 1,
+    "title" : "Phương trình lượng giác"
+  }, {
+    "id" : 2,
+    "chapter_id" : 1,
+    "title" : "Hàm số lượng giác"
+  }, {
+    "id" : 3,
+    "chapter_id" : 2,
+    "title" : "Cấp số cộng"
+  }, {
+    "id" : 4,
+    "chapter_id" : 2,
+    "title" : "Cấp số nhân"
+  }, {
+    "id" : 5,
+    "chapter_id" : 3,
+    "title" : "Giới hạn của dãy số"
+  }, {
+    "id" : 6,
+    "chapter_id" : 4,
+    "title" : "Đường thẳng và mặt phẳng trong không gian"
+  }, {
+    "id" : 7,
+    "chapter_id" : 5,
+    "title" : "Quan hệ song song trong không gian"
+  } ],
+  "courses" : [ {
+    "id" : 1,
+    "title" : "Toán lớp 11",
+    "description" : "Chương trình Toán 11",
+    "teacher_id" : 2,
+    "teacher" : "Nguyễn Thị Lan",
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 2,
+    "title" : "[TEST] Toán 11 - Lớp 11A1",
+    "description" : "Dữ liệu kiểm thử: bài học, luyện tập, thi trắc nghiệm, tự luận và phân quyền theo lớp.",
+    "teacher_id" : 5,
+    "teacher" : "[TEST] Trần Thanh Hương",
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 3,
+    "title" : "[TEST] Toán 11 - Lớp 11A2",
+    "description" : "Dữ liệu kiểm thử: bài học, luyện tập, thi trắc nghiệm, tự luận và phân quyền theo lớp.",
+    "teacher_id" : 5,
+    "teacher" : "[TEST] Trần Thanh Hương",
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 4,
+    "title" : "[TEST] Toán 11 - Lớp 11B1",
+    "description" : "Dữ liệu kiểm thử: bài học, luyện tập, thi trắc nghiệm, tự luận và phân quyền theo lớp.",
+    "teacher_id" : 6,
+    "teacher" : "[TEST] Lê Quốc Bảo",
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 5,
+    "title" : "[TEST] Toán 11 - Lớp 11B2",
+    "description" : "Dữ liệu kiểm thử: bài học, luyện tập, thi trắc nghiệm, tự luận và phân quyền theo lớp.",
+    "teacher_id" : 6,
+    "teacher" : "[TEST] Lê Quốc Bảo",
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 6,
+    "title" : "[TEST] Toán 11 - Lớp 11C1",
+    "description" : "Dữ liệu kiểm thử: bài học, luyện tập, thi trắc nghiệm, tự luận và phân quyền theo lớp.",
+    "teacher_id" : 7,
+    "teacher" : "[TEST] Phạm Thu Hạnh",
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 7,
+    "title" : "[TEST] Toán 11 - Lớp 11C2 - Nháp",
+    "description" : "Dữ liệu kiểm thử: bài học, luyện tập, thi trắc nghiệm, tự luận và phân quyền theo lớp.",
+    "teacher_id" : 7,
+    "teacher" : "[TEST] Phạm Thu Hạnh",
+    "published" : false,
+    "deleted" : false
+  }, {
+    "id" : 8,
+    "title" : "[TEST] Toán 11 - Lớp 11 Demo mở rộng",
+    "description" : "Dữ liệu kiểm thử: bài học, luyện tập, thi trắc nghiệm, tự luận và phân quyền theo lớp.",
+    "teacher_id" : 2,
+    "teacher" : "Nguyễn Thị Lan",
+    "published" : true,
+    "deleted" : false
+  } ],
+  "course_enrollments" : [ {
+    "id" : 1,
+    "course_id" : 1,
+    "student_id" : 3,
+    "student" : "Nguyễn Minh Anh"
+  }, {
+    "id" : 2,
+    "course_id" : 2,
+    "student_id" : 8,
+    "student" : "[TEST] Nguyễn An"
+  }, {
+    "id" : 3,
+    "course_id" : 2,
+    "student_id" : 9,
+    "student" : "[TEST] Trần Bình"
+  }, {
+    "id" : 4,
+    "course_id" : 2,
+    "student_id" : 10,
+    "student" : "[TEST] Lê Chi"
+  }, {
+    "id" : 5,
+    "course_id" : 2,
+    "student_id" : 11,
+    "student" : "[TEST] Phạm Dũng"
+  }, {
+    "id" : 6,
+    "course_id" : 2,
+    "student_id" : 12,
+    "student" : "[TEST] Hoàng Hà"
+  }, {
+    "id" : 7,
+    "course_id" : 2,
+    "student_id" : 13,
+    "student" : "[TEST] Vũ Linh"
+  }, {
+    "id" : 8,
+    "course_id" : 2,
+    "student_id" : 3,
+    "student" : "Nguyễn Minh Anh"
+  }, {
+    "id" : 9,
+    "course_id" : 3,
+    "student_id" : 8,
+    "student" : "[TEST] Nguyễn An"
+  }, {
+    "id" : 10,
+    "course_id" : 3,
+    "student_id" : 9,
+    "student" : "[TEST] Trần Bình"
+  }, {
+    "id" : 11,
+    "course_id" : 3,
+    "student_id" : 10,
+    "student" : "[TEST] Lê Chi"
+  }, {
+    "id" : 12,
+    "course_id" : 3,
+    "student_id" : 11,
+    "student" : "[TEST] Phạm Dũng"
+  }, {
+    "id" : 13,
+    "course_id" : 3,
+    "student_id" : 12,
+    "student" : "[TEST] Hoàng Hà"
+  }, {
+    "id" : 14,
+    "course_id" : 3,
+    "student_id" : 13,
+    "student" : "[TEST] Vũ Linh"
+  }, {
+    "id" : 15,
+    "course_id" : 3,
+    "student_id" : 3,
+    "student" : "Nguyễn Minh Anh"
+  }, {
+    "id" : 16,
+    "course_id" : 4,
+    "student_id" : 14,
+    "student" : "[TEST] Đặng Nam"
+  }, {
+    "id" : 17,
+    "course_id" : 4,
+    "student_id" : 15,
+    "student" : "[TEST] Bùi Ngọc"
+  }, {
+    "id" : 18,
+    "course_id" : 4,
+    "student_id" : 16,
+    "student" : "[TEST] Đỗ Phúc"
+  }, {
+    "id" : 19,
+    "course_id" : 4,
+    "student_id" : 17,
+    "student" : "[TEST] Hồ Quỳnh"
+  }, {
+    "id" : 20,
+    "course_id" : 4,
+    "student_id" : 18,
+    "student" : "[TEST] Ngô Sơn"
+  }, {
+    "id" : 21,
+    "course_id" : 4,
+    "student_id" : 19,
+    "student" : "[TEST] Dương Thảo"
+  }, {
+    "id" : 22,
+    "course_id" : 4,
+    "student_id" : 3,
+    "student" : "Nguyễn Minh Anh"
+  }, {
+    "id" : 23,
+    "course_id" : 5,
+    "student_id" : 14,
+    "student" : "[TEST] Đặng Nam"
+  }, {
+    "id" : 24,
+    "course_id" : 5,
+    "student_id" : 15,
+    "student" : "[TEST] Bùi Ngọc"
+  }, {
+    "id" : 25,
+    "course_id" : 5,
+    "student_id" : 16,
+    "student" : "[TEST] Đỗ Phúc"
+  }, {
+    "id" : 26,
+    "course_id" : 5,
+    "student_id" : 17,
+    "student" : "[TEST] Hồ Quỳnh"
+  }, {
+    "id" : 27,
+    "course_id" : 5,
+    "student_id" : 18,
+    "student" : "[TEST] Ngô Sơn"
+  }, {
+    "id" : 28,
+    "course_id" : 5,
+    "student_id" : 19,
+    "student" : "[TEST] Dương Thảo"
+  }, {
+    "id" : 29,
+    "course_id" : 5,
+    "student_id" : 3,
+    "student" : "Nguyễn Minh Anh"
+  }, {
+    "id" : 30,
+    "course_id" : 6,
+    "student_id" : 20,
+    "student" : "[TEST] Lý Trang"
+  }, {
+    "id" : 31,
+    "course_id" : 6,
+    "student_id" : 21,
+    "student" : "[TEST] Mai Tú"
+  }, {
+    "id" : 32,
+    "course_id" : 6,
+    "student_id" : 22,
+    "student" : "[TEST] Đinh Vân"
+  }, {
+    "id" : 33,
+    "course_id" : 6,
+    "student_id" : 23,
+    "student" : "[TEST] Cao Việt"
+  }, {
+    "id" : 34,
+    "course_id" : 6,
+    "student_id" : 24,
+    "student" : "[TEST] Tạ Yến"
+  }, {
+    "id" : 35,
+    "course_id" : 6,
+    "student_id" : 25,
+    "student" : "[TEST] Võ Khánh"
+  }, {
+    "id" : 36,
+    "course_id" : 6,
+    "student_id" : 3,
+    "student" : "Nguyễn Minh Anh"
+  }, {
+    "id" : 37,
+    "course_id" : 7,
+    "student_id" : 20,
+    "student" : "[TEST] Lý Trang"
+  }, {
+    "id" : 38,
+    "course_id" : 7,
+    "student_id" : 21,
+    "student" : "[TEST] Mai Tú"
+  }, {
+    "id" : 39,
+    "course_id" : 7,
+    "student_id" : 22,
+    "student" : "[TEST] Đinh Vân"
+  }, {
+    "id" : 40,
+    "course_id" : 7,
+    "student_id" : 23,
+    "student" : "[TEST] Cao Việt"
+  }, {
+    "id" : 41,
+    "course_id" : 7,
+    "student_id" : 24,
+    "student" : "[TEST] Tạ Yến"
+  }, {
+    "id" : 42,
+    "course_id" : 7,
+    "student_id" : 25,
+    "student" : "[TEST] Võ Khánh"
+  }, {
+    "id" : 43,
+    "course_id" : 8,
+    "student_id" : 8,
+    "student" : "[TEST] Nguyễn An"
+  }, {
+    "id" : 44,
+    "course_id" : 8,
+    "student_id" : 9,
+    "student" : "[TEST] Trần Bình"
+  }, {
+    "id" : 45,
+    "course_id" : 8,
+    "student_id" : 10,
+    "student" : "[TEST] Lê Chi"
+  }, {
+    "id" : 46,
+    "course_id" : 8,
+    "student_id" : 11,
+    "student" : "[TEST] Phạm Dũng"
+  }, {
+    "id" : 47,
+    "course_id" : 8,
+    "student_id" : 12,
+    "student" : "[TEST] Hoàng Hà"
+  }, {
+    "id" : 48,
+    "course_id" : 8,
+    "student_id" : 13,
+    "student" : "[TEST] Vũ Linh"
+  }, {
+    "id" : 49,
+    "course_id" : 8,
+    "student_id" : 3,
+    "student" : "Nguyễn Minh Anh"
+  } ],
+  "lessons" : [ {
+    "id" : 1,
+    "title" : "Hàm số lượng giác",
+    "course_id" : 1,
+    "chapter_id" : 1,
+    "content_type" : "TEXT",
+    "duration_seconds" : 1200,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 2,
+    "title" : "Cấp số cộng",
+    "course_id" : 1,
+    "chapter_id" : 2,
+    "content_type" : "TEXT",
+    "duration_seconds" : 1200,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 3,
+    "title" : "Giới hạn của dãy số",
+    "course_id" : 1,
+    "chapter_id" : 3,
+    "content_type" : "TEXT",
+    "duration_seconds" : 1200,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 4,
+    "title" : "Đường thẳng và mặt phẳng",
+    "course_id" : 1,
+    "chapter_id" : 4,
+    "content_type" : "TEXT",
+    "duration_seconds" : 1200,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 5,
+    "title" : "Quan hệ song song",
+    "course_id" : 1,
+    "chapter_id" : 5,
+    "content_type" : "TEXT",
+    "duration_seconds" : 1200,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 6,
+    "title" : "[TEST] K01 - Chương 1 – Hàm số lượng giác - Lý thuyết",
+    "course_id" : 2,
+    "chapter_id" : 1,
+    "content_type" : "TEXT",
+    "duration_seconds" : 1200,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 7,
+    "title" : "[TEST] K01 - Chương 2 – Dãy số - Lý thuyết",
+    "course_id" : 2,
+    "chapter_id" : 2,
+    "content_type" : "TEXT",
+    "duration_seconds" : 1200,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 8,
+    "title" : "[TEST] K01 - Chương 3 – Giới hạn - Lý thuyết",
+    "course_id" : 2,
+    "chapter_id" : 3,
+    "content_type" : "TEXT",
+    "duration_seconds" : 1200,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 9,
+    "title" : "[TEST] K01 - Chương 4 – Đường thẳng và mặt phẳng - Lý thuyết",
+    "course_id" : 2,
+    "chapter_id" : 4,
+    "content_type" : "TEXT",
+    "duration_seconds" : 1200,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 10,
+    "title" : "[TEST] K01 - Chương 5 – Quan hệ song song - Lý thuyết",
+    "course_id" : 2,
+    "chapter_id" : 5,
+    "content_type" : "TEXT",
+    "duration_seconds" : 1200,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 11,
+    "title" : "[TEST] K01 - Chương 1 – Hàm số lượng giác - Luyện tập",
+    "course_id" : 2,
+    "chapter_id" : 1,
+    "content_type" : "TEXT",
+    "duration_seconds" : 1200,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 12,
+    "title" : "[TEST] K01 - Chương 2 – Dãy số - Luyện tập",
+    "course_id" : 2,
+    "chapter_id" : 2,
+    "content_type" : "YOUTUBE",
+    "duration_seconds" : 1200,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 13,
+    "title" : "[TEST] K01 - Chương 3 – Giới hạn - Luyện tập",
+    "course_id" : 2,
+    "chapter_id" : 3,
+    "content_type" : "TEXT",
+    "duration_seconds" : 1200,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 14,
+    "title" : "[TEST] K01 - Chương 4 – Đường thẳng và mặt phẳng - Luyện tập",
+    "course_id" : 2,
+    "chapter_id" : 4,
+    "content_type" : "TEXT",
+    "duration_seconds" : 1200,
+    "published" : false,
+    "deleted" : false
+  }, {
+    "id" : 15,
+    "title" : "[TEST] K01 - Chương 5 – Quan hệ song song - Luyện tập",
+    "course_id" : 2,
+    "chapter_id" : 5,
+    "content_type" : "TEXT",
+    "duration_seconds" : 1200,
+    "published" : false,
+    "deleted" : false
+  }, {
+    "id" : 16,
+    "title" : "[TEST] K02 - Chương 1 – Hàm số lượng giác - Lý thuyết",
+    "course_id" : 3,
+    "chapter_id" : 1,
+    "content_type" : "TEXT",
+    "duration_seconds" : 1200,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 17,
+    "title" : "[TEST] K02 - Chương 2 – Dãy số - Lý thuyết",
+    "course_id" : 3,
+    "chapter_id" : 2,
+    "content_type" : "TEXT",
+    "duration_seconds" : 1200,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 18,
+    "title" : "[TEST] K02 - Chương 3 – Giới hạn - Lý thuyết",
+    "course_id" : 3,
+    "chapter_id" : 3,
+    "content_type" : "TEXT",
+    "duration_seconds" : 1200,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 19,
+    "title" : "[TEST] K02 - Chương 4 – Đường thẳng và mặt phẳng - Lý thuyết",
+    "course_id" : 3,
+    "chapter_id" : 4,
+    "content_type" : "TEXT",
+    "duration_seconds" : 1200,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 20,
+    "title" : "[TEST] K02 - Chương 5 – Quan hệ song song - Lý thuyết",
+    "course_id" : 3,
+    "chapter_id" : 5,
+    "content_type" : "TEXT",
+    "duration_seconds" : 1200,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 21,
+    "title" : "[TEST] K02 - Chương 1 – Hàm số lượng giác - Luyện tập",
+    "course_id" : 3,
+    "chapter_id" : 1,
+    "content_type" : "TEXT",
+    "duration_seconds" : 1200,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 22,
+    "title" : "[TEST] K02 - Chương 2 – Dãy số - Luyện tập",
+    "course_id" : 3,
+    "chapter_id" : 2,
+    "content_type" : "YOUTUBE",
+    "duration_seconds" : 1200,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 23,
+    "title" : "[TEST] K02 - Chương 3 – Giới hạn - Luyện tập",
+    "course_id" : 3,
+    "chapter_id" : 3,
+    "content_type" : "TEXT",
+    "duration_seconds" : 1200,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 24,
+    "title" : "[TEST] K02 - Chương 4 – Đường thẳng và mặt phẳng - Luyện tập",
+    "course_id" : 3,
+    "chapter_id" : 4,
+    "content_type" : "TEXT",
+    "duration_seconds" : 1200,
+    "published" : false,
+    "deleted" : false
+  }, {
+    "id" : 25,
+    "title" : "[TEST] K02 - Chương 5 – Quan hệ song song - Luyện tập",
+    "course_id" : 3,
+    "chapter_id" : 5,
+    "content_type" : "TEXT",
+    "duration_seconds" : 1200,
+    "published" : false,
+    "deleted" : false
+  }, {
+    "id" : 26,
+    "title" : "[TEST] K03 - Chương 1 – Hàm số lượng giác - Lý thuyết",
+    "course_id" : 4,
+    "chapter_id" : 1,
+    "content_type" : "TEXT",
+    "duration_seconds" : 1200,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 27,
+    "title" : "[TEST] K03 - Chương 2 – Dãy số - Lý thuyết",
+    "course_id" : 4,
+    "chapter_id" : 2,
+    "content_type" : "TEXT",
+    "duration_seconds" : 1200,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 28,
+    "title" : "[TEST] K03 - Chương 3 – Giới hạn - Lý thuyết",
+    "course_id" : 4,
+    "chapter_id" : 3,
+    "content_type" : "TEXT",
+    "duration_seconds" : 1200,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 29,
+    "title" : "[TEST] K03 - Chương 4 – Đường thẳng và mặt phẳng - Lý thuyết",
+    "course_id" : 4,
+    "chapter_id" : 4,
+    "content_type" : "TEXT",
+    "duration_seconds" : 1200,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 30,
+    "title" : "[TEST] K03 - Chương 5 – Quan hệ song song - Lý thuyết",
+    "course_id" : 4,
+    "chapter_id" : 5,
+    "content_type" : "TEXT",
+    "duration_seconds" : 1200,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 31,
+    "title" : "[TEST] K03 - Chương 1 – Hàm số lượng giác - Luyện tập",
+    "course_id" : 4,
+    "chapter_id" : 1,
+    "content_type" : "TEXT",
+    "duration_seconds" : 1200,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 32,
+    "title" : "[TEST] K03 - Chương 2 – Dãy số - Luyện tập",
+    "course_id" : 4,
+    "chapter_id" : 2,
+    "content_type" : "YOUTUBE",
+    "duration_seconds" : 1200,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 33,
+    "title" : "[TEST] K03 - Chương 3 – Giới hạn - Luyện tập",
+    "course_id" : 4,
+    "chapter_id" : 3,
+    "content_type" : "TEXT",
+    "duration_seconds" : 1200,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 34,
+    "title" : "[TEST] K03 - Chương 4 – Đường thẳng và mặt phẳng - Luyện tập",
+    "course_id" : 4,
+    "chapter_id" : 4,
+    "content_type" : "TEXT",
+    "duration_seconds" : 1200,
+    "published" : false,
+    "deleted" : false
+  }, {
+    "id" : 35,
+    "title" : "[TEST] K03 - Chương 5 – Quan hệ song song - Luyện tập",
+    "course_id" : 4,
+    "chapter_id" : 5,
+    "content_type" : "TEXT",
+    "duration_seconds" : 1200,
+    "published" : false,
+    "deleted" : false
+  }, {
+    "id" : 36,
+    "title" : "[TEST] K04 - Chương 1 – Hàm số lượng giác - Lý thuyết",
+    "course_id" : 5,
+    "chapter_id" : 1,
+    "content_type" : "TEXT",
+    "duration_seconds" : 1200,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 37,
+    "title" : "[TEST] K04 - Chương 2 – Dãy số - Lý thuyết",
+    "course_id" : 5,
+    "chapter_id" : 2,
+    "content_type" : "TEXT",
+    "duration_seconds" : 1200,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 38,
+    "title" : "[TEST] K04 - Chương 3 – Giới hạn - Lý thuyết",
+    "course_id" : 5,
+    "chapter_id" : 3,
+    "content_type" : "TEXT",
+    "duration_seconds" : 1200,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 39,
+    "title" : "[TEST] K04 - Chương 4 – Đường thẳng và mặt phẳng - Lý thuyết",
+    "course_id" : 5,
+    "chapter_id" : 4,
+    "content_type" : "TEXT",
+    "duration_seconds" : 1200,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 40,
+    "title" : "[TEST] K04 - Chương 5 – Quan hệ song song - Lý thuyết",
+    "course_id" : 5,
+    "chapter_id" : 5,
+    "content_type" : "TEXT",
+    "duration_seconds" : 1200,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 41,
+    "title" : "[TEST] K04 - Chương 1 – Hàm số lượng giác - Luyện tập",
+    "course_id" : 5,
+    "chapter_id" : 1,
+    "content_type" : "TEXT",
+    "duration_seconds" : 1200,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 42,
+    "title" : "[TEST] K04 - Chương 2 – Dãy số - Luyện tập",
+    "course_id" : 5,
+    "chapter_id" : 2,
+    "content_type" : "YOUTUBE",
+    "duration_seconds" : 1200,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 43,
+    "title" : "[TEST] K04 - Chương 3 – Giới hạn - Luyện tập",
+    "course_id" : 5,
+    "chapter_id" : 3,
+    "content_type" : "TEXT",
+    "duration_seconds" : 1200,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 44,
+    "title" : "[TEST] K04 - Chương 4 – Đường thẳng và mặt phẳng - Luyện tập",
+    "course_id" : 5,
+    "chapter_id" : 4,
+    "content_type" : "TEXT",
+    "duration_seconds" : 1200,
+    "published" : false,
+    "deleted" : false
+  }, {
+    "id" : 45,
+    "title" : "[TEST] K04 - Chương 5 – Quan hệ song song - Luyện tập",
+    "course_id" : 5,
+    "chapter_id" : 5,
+    "content_type" : "TEXT",
+    "duration_seconds" : 1200,
+    "published" : false,
+    "deleted" : false
+  }, {
+    "id" : 46,
+    "title" : "[TEST] K05 - Chương 1 – Hàm số lượng giác - Lý thuyết",
+    "course_id" : 6,
+    "chapter_id" : 1,
+    "content_type" : "TEXT",
+    "duration_seconds" : 1200,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 47,
+    "title" : "[TEST] K05 - Chương 2 – Dãy số - Lý thuyết",
+    "course_id" : 6,
+    "chapter_id" : 2,
+    "content_type" : "TEXT",
+    "duration_seconds" : 1200,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 48,
+    "title" : "[TEST] K05 - Chương 3 – Giới hạn - Lý thuyết",
+    "course_id" : 6,
+    "chapter_id" : 3,
+    "content_type" : "TEXT",
+    "duration_seconds" : 1200,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 49,
+    "title" : "[TEST] K05 - Chương 4 – Đường thẳng và mặt phẳng - Lý thuyết",
+    "course_id" : 6,
+    "chapter_id" : 4,
+    "content_type" : "TEXT",
+    "duration_seconds" : 1200,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 50,
+    "title" : "[TEST] K05 - Chương 5 – Quan hệ song song - Lý thuyết",
+    "course_id" : 6,
+    "chapter_id" : 5,
+    "content_type" : "TEXT",
+    "duration_seconds" : 1200,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 51,
+    "title" : "[TEST] K05 - Chương 1 – Hàm số lượng giác - Luyện tập",
+    "course_id" : 6,
+    "chapter_id" : 1,
+    "content_type" : "TEXT",
+    "duration_seconds" : 1200,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 52,
+    "title" : "[TEST] K05 - Chương 2 – Dãy số - Luyện tập",
+    "course_id" : 6,
+    "chapter_id" : 2,
+    "content_type" : "YOUTUBE",
+    "duration_seconds" : 1200,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 53,
+    "title" : "[TEST] K05 - Chương 3 – Giới hạn - Luyện tập",
+    "course_id" : 6,
+    "chapter_id" : 3,
+    "content_type" : "TEXT",
+    "duration_seconds" : 1200,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 54,
+    "title" : "[TEST] K05 - Chương 4 – Đường thẳng và mặt phẳng - Luyện tập",
+    "course_id" : 6,
+    "chapter_id" : 4,
+    "content_type" : "TEXT",
+    "duration_seconds" : 1200,
+    "published" : false,
+    "deleted" : false
+  }, {
+    "id" : 55,
+    "title" : "[TEST] K05 - Chương 5 – Quan hệ song song - Luyện tập",
+    "course_id" : 6,
+    "chapter_id" : 5,
+    "content_type" : "TEXT",
+    "duration_seconds" : 1200,
+    "published" : false,
+    "deleted" : false
+  }, {
+    "id" : 56,
+    "title" : "[TEST] K06 - Chương 1 – Hàm số lượng giác - Lý thuyết",
+    "course_id" : 7,
+    "chapter_id" : 1,
+    "content_type" : "TEXT",
+    "duration_seconds" : 1200,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 57,
+    "title" : "[TEST] K06 - Chương 2 – Dãy số - Lý thuyết",
+    "course_id" : 7,
+    "chapter_id" : 2,
+    "content_type" : "TEXT",
+    "duration_seconds" : 1200,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 58,
+    "title" : "[TEST] K06 - Chương 3 – Giới hạn - Lý thuyết",
+    "course_id" : 7,
+    "chapter_id" : 3,
+    "content_type" : "TEXT",
+    "duration_seconds" : 1200,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 59,
+    "title" : "[TEST] K06 - Chương 4 – Đường thẳng và mặt phẳng - Lý thuyết",
+    "course_id" : 7,
+    "chapter_id" : 4,
+    "content_type" : "TEXT",
+    "duration_seconds" : 1200,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 60,
+    "title" : "[TEST] K06 - Chương 5 – Quan hệ song song - Lý thuyết",
+    "course_id" : 7,
+    "chapter_id" : 5,
+    "content_type" : "TEXT",
+    "duration_seconds" : 1200,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 61,
+    "title" : "[TEST] K06 - Chương 1 – Hàm số lượng giác - Luyện tập",
+    "course_id" : 7,
+    "chapter_id" : 1,
+    "content_type" : "TEXT",
+    "duration_seconds" : 1200,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 62,
+    "title" : "[TEST] K06 - Chương 2 – Dãy số - Luyện tập",
+    "course_id" : 7,
+    "chapter_id" : 2,
+    "content_type" : "YOUTUBE",
+    "duration_seconds" : 1200,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 63,
+    "title" : "[TEST] K06 - Chương 3 – Giới hạn - Luyện tập",
+    "course_id" : 7,
+    "chapter_id" : 3,
+    "content_type" : "TEXT",
+    "duration_seconds" : 1200,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 64,
+    "title" : "[TEST] K06 - Chương 4 – Đường thẳng và mặt phẳng - Luyện tập",
+    "course_id" : 7,
+    "chapter_id" : 4,
+    "content_type" : "TEXT",
+    "duration_seconds" : 1200,
+    "published" : false,
+    "deleted" : false
+  }, {
+    "id" : 65,
+    "title" : "[TEST] K06 - Chương 5 – Quan hệ song song - Luyện tập",
+    "course_id" : 7,
+    "chapter_id" : 5,
+    "content_type" : "TEXT",
+    "duration_seconds" : 1200,
+    "published" : false,
+    "deleted" : false
+  }, {
+    "id" : 66,
+    "title" : "[TEST] K07 - Chương 1 – Hàm số lượng giác - Lý thuyết",
+    "course_id" : 8,
+    "chapter_id" : 1,
+    "content_type" : "TEXT",
+    "duration_seconds" : 1200,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 67,
+    "title" : "[TEST] K07 - Chương 2 – Dãy số - Lý thuyết",
+    "course_id" : 8,
+    "chapter_id" : 2,
+    "content_type" : "TEXT",
+    "duration_seconds" : 1200,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 68,
+    "title" : "[TEST] K07 - Chương 3 – Giới hạn - Lý thuyết",
+    "course_id" : 8,
+    "chapter_id" : 3,
+    "content_type" : "TEXT",
+    "duration_seconds" : 1200,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 69,
+    "title" : "[TEST] K07 - Chương 4 – Đường thẳng và mặt phẳng - Lý thuyết",
+    "course_id" : 8,
+    "chapter_id" : 4,
+    "content_type" : "TEXT",
+    "duration_seconds" : 1200,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 70,
+    "title" : "[TEST] K07 - Chương 5 – Quan hệ song song - Lý thuyết",
+    "course_id" : 8,
+    "chapter_id" : 5,
+    "content_type" : "TEXT",
+    "duration_seconds" : 1200,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 71,
+    "title" : "[TEST] K07 - Chương 1 – Hàm số lượng giác - Luyện tập",
+    "course_id" : 8,
+    "chapter_id" : 1,
+    "content_type" : "TEXT",
+    "duration_seconds" : 1200,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 72,
+    "title" : "[TEST] K07 - Chương 2 – Dãy số - Luyện tập",
+    "course_id" : 8,
+    "chapter_id" : 2,
+    "content_type" : "YOUTUBE",
+    "duration_seconds" : 1200,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 73,
+    "title" : "[TEST] K07 - Chương 3 – Giới hạn - Luyện tập",
+    "course_id" : 8,
+    "chapter_id" : 3,
+    "content_type" : "TEXT",
+    "duration_seconds" : 1200,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 74,
+    "title" : "[TEST] K07 - Chương 4 – Đường thẳng và mặt phẳng - Luyện tập",
+    "course_id" : 8,
+    "chapter_id" : 4,
+    "content_type" : "TEXT",
+    "duration_seconds" : 1200,
+    "published" : false,
+    "deleted" : false
+  }, {
+    "id" : 75,
+    "title" : "[TEST] K07 - Chương 5 – Quan hệ song song - Luyện tập",
+    "course_id" : 8,
+    "chapter_id" : 5,
+    "content_type" : "TEXT",
+    "duration_seconds" : 1200,
+    "published" : false,
+    "deleted" : false
+  } ],
+  "questions" : [ {
+    "id" : 1,
+    "title" : "Giá trị lớn nhất của sin x",
+    "type" : "MCQ",
+    "difficulty" : "EASY",
+    "cognitive_level" : "KNOWLEDGE",
+    "chapter_id" : 1,
+    "topic_id" : 2,
+    "course_id" : null,
+    "published" : false,
+    "deleted" : false
+  }, {
+    "id" : 2,
+    "title" : "Số hạng cấp số cộng",
+    "type" : "MCQ",
+    "difficulty" : "EASY",
+    "cognitive_level" : "KNOWLEDGE",
+    "chapter_id" : 2,
+    "topic_id" : 3,
+    "course_id" : null,
+    "published" : false,
+    "deleted" : false
+  }, {
+    "id" : 3,
+    "title" : "Cấp số cộng và ứng dụng",
+    "type" : "ESSAY",
+    "difficulty" : "MEDIUM",
+    "cognitive_level" : "UNDERSTANDING",
+    "chapter_id" : 2,
+    "topic_id" : 3,
+    "course_id" : null,
+    "published" : false,
+    "deleted" : false
+  }, {
+    "id" : 4,
+    "title" : "Số hạng cấp số nhân",
+    "type" : "MCQ",
+    "difficulty" : "EASY",
+    "cognitive_level" : "KNOWLEDGE",
+    "chapter_id" : 2,
+    "topic_id" : 4,
+    "course_id" : null,
+    "published" : false,
+    "deleted" : false
+  }, {
+    "id" : 5,
+    "title" : "Bài toán thực tế về cấp số nhân",
+    "type" : "ESSAY",
+    "difficulty" : "HARD",
+    "cognitive_level" : "APPLICATION",
+    "chapter_id" : 2,
+    "topic_id" : 4,
+    "course_id" : null,
+    "published" : false,
+    "deleted" : false
+  }, {
+    "id" : 6,
+    "title" : "Giới hạn dãy số",
+    "type" : "MCQ",
+    "difficulty" : "EASY",
+    "cognitive_level" : "KNOWLEDGE",
+    "chapter_id" : 3,
+    "topic_id" : 5,
+    "course_id" : null,
+    "published" : false,
+    "deleted" : false
+  }, {
+    "id" : 7,
+    "title" : "Đường thẳng qua hai điểm",
+    "type" : "MCQ",
+    "difficulty" : "EASY",
+    "cognitive_level" : "KNOWLEDGE",
+    "chapter_id" : 4,
+    "topic_id" : 6,
+    "course_id" : null,
+    "published" : false,
+    "deleted" : false
+  }, {
+    "id" : 8,
+    "title" : "[TEST] K01 - Giá trị lớn nhất của hàm lượng giác 01",
+    "type" : "MCQ",
+    "difficulty" : "EASY",
+    "cognitive_level" : "KNOWLEDGE",
+    "chapter_id" : 1,
+    "topic_id" : 2,
+    "course_id" : 2,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 9,
+    "title" : "[TEST] K01 - Số hạng của cấp số cộng 02",
+    "type" : "MCQ",
+    "difficulty" : "EASY",
+    "cognitive_level" : "KNOWLEDGE",
+    "chapter_id" : 2,
+    "topic_id" : 3,
+    "course_id" : 2,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 10,
+    "title" : "[TEST] K01 - Số hạng của cấp số nhân 03",
+    "type" : "MCQ",
+    "difficulty" : "EASY",
+    "cognitive_level" : "KNOWLEDGE",
+    "chapter_id" : 2,
+    "topic_id" : 4,
+    "course_id" : 2,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 11,
+    "title" : "[TEST] K01 - Giới hạn của dãy số 04",
+    "type" : "MCQ",
+    "difficulty" : "EASY",
+    "cognitive_level" : "KNOWLEDGE",
+    "chapter_id" : 3,
+    "topic_id" : 5,
+    "course_id" : 2,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 12,
+    "title" : "[TEST] K01 - Đếm đường thẳng trong mặt phẳng 05",
+    "type" : "MCQ",
+    "difficulty" : "EASY",
+    "cognitive_level" : "KNOWLEDGE",
+    "chapter_id" : 4,
+    "topic_id" : 6,
+    "course_id" : 2,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 13,
+    "title" : "[TEST] K01 - Đường trung bình và quan hệ song song 06",
+    "type" : "MCQ",
+    "difficulty" : "EASY",
+    "cognitive_level" : "KNOWLEDGE",
+    "chapter_id" : 5,
+    "topic_id" : 7,
+    "course_id" : 2,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 14,
+    "title" : "[TEST] K01 - Giá trị lớn nhất của hàm lượng giác 07",
+    "type" : "MCQ",
+    "difficulty" : "MEDIUM",
+    "cognitive_level" : "UNDERSTANDING",
+    "chapter_id" : 1,
+    "topic_id" : 2,
+    "course_id" : 2,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 15,
+    "title" : "[TEST] K01 - Số hạng của cấp số cộng 08",
+    "type" : "MCQ",
+    "difficulty" : "MEDIUM",
+    "cognitive_level" : "UNDERSTANDING",
+    "chapter_id" : 2,
+    "topic_id" : 3,
+    "course_id" : 2,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 16,
+    "title" : "[TEST] K01 - Số hạng của cấp số nhân 09",
+    "type" : "MCQ",
+    "difficulty" : "MEDIUM",
+    "cognitive_level" : "UNDERSTANDING",
+    "chapter_id" : 2,
+    "topic_id" : 4,
+    "course_id" : 2,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 17,
+    "title" : "[TEST] K01 - Giới hạn của dãy số 10",
+    "type" : "MCQ",
+    "difficulty" : "MEDIUM",
+    "cognitive_level" : "UNDERSTANDING",
+    "chapter_id" : 3,
+    "topic_id" : 5,
+    "course_id" : 2,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 18,
+    "title" : "[TEST] K01 - Đếm đường thẳng trong mặt phẳng 11",
+    "type" : "MCQ",
+    "difficulty" : "MEDIUM",
+    "cognitive_level" : "UNDERSTANDING",
+    "chapter_id" : 4,
+    "topic_id" : 6,
+    "course_id" : 2,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 19,
+    "title" : "[TEST] K01 - Đường trung bình và quan hệ song song 12",
+    "type" : "MCQ",
+    "difficulty" : "MEDIUM",
+    "cognitive_level" : "UNDERSTANDING",
+    "chapter_id" : 5,
+    "topic_id" : 7,
+    "course_id" : 2,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 20,
+    "title" : "[TEST] K01 - Giá trị lớn nhất của hàm lượng giác 13",
+    "type" : "MCQ",
+    "difficulty" : "HARD",
+    "cognitive_level" : "APPLICATION",
+    "chapter_id" : 1,
+    "topic_id" : 2,
+    "course_id" : 2,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 21,
+    "title" : "[TEST] K01 - Số hạng của cấp số cộng 14",
+    "type" : "MCQ",
+    "difficulty" : "HARD",
+    "cognitive_level" : "APPLICATION",
+    "chapter_id" : 2,
+    "topic_id" : 3,
+    "course_id" : 2,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 22,
+    "title" : "[TEST] K01 - Số hạng của cấp số nhân 15",
+    "type" : "MCQ",
+    "difficulty" : "HARD",
+    "cognitive_level" : "APPLICATION",
+    "chapter_id" : 2,
+    "topic_id" : 4,
+    "course_id" : 2,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 23,
+    "title" : "[TEST] K01 - Giới hạn của dãy số 16",
+    "type" : "MCQ",
+    "difficulty" : "HARD",
+    "cognitive_level" : "APPLICATION",
+    "chapter_id" : 3,
+    "topic_id" : 5,
+    "course_id" : 2,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 24,
+    "title" : "[TEST] K01 - Đếm đường thẳng trong mặt phẳng 17",
+    "type" : "MCQ",
+    "difficulty" : "HARD",
+    "cognitive_level" : "APPLICATION",
+    "chapter_id" : 4,
+    "topic_id" : 6,
+    "course_id" : 2,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 25,
+    "title" : "[TEST] K01 - Đường trung bình và quan hệ song song 18",
+    "type" : "MCQ",
+    "difficulty" : "HARD",
+    "cognitive_level" : "APPLICATION",
+    "chapter_id" : 5,
+    "topic_id" : 7,
+    "course_id" : 2,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 26,
+    "title" : "[TEST] K01 - Giá trị lớn nhất của hàm lượng giác 19",
+    "type" : "ESSAY",
+    "difficulty" : "EASY",
+    "cognitive_level" : "KNOWLEDGE",
+    "chapter_id" : 1,
+    "topic_id" : 2,
+    "course_id" : 2,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 27,
+    "title" : "[TEST] K01 - Số hạng của cấp số cộng 20",
+    "type" : "ESSAY",
+    "difficulty" : "EASY",
+    "cognitive_level" : "KNOWLEDGE",
+    "chapter_id" : 2,
+    "topic_id" : 3,
+    "course_id" : 2,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 28,
+    "title" : "[TEST] K01 - Số hạng của cấp số nhân 21",
+    "type" : "ESSAY",
+    "difficulty" : "EASY",
+    "cognitive_level" : "KNOWLEDGE",
+    "chapter_id" : 2,
+    "topic_id" : 4,
+    "course_id" : 2,
+    "published" : false,
+    "deleted" : false
+  }, {
+    "id" : 29,
+    "title" : "[TEST] K01 - Giới hạn của dãy số 22",
+    "type" : "ESSAY",
+    "difficulty" : "EASY",
+    "cognitive_level" : "KNOWLEDGE",
+    "chapter_id" : 3,
+    "topic_id" : 5,
+    "course_id" : 2,
+    "published" : false,
+    "deleted" : false
+  }, {
+    "id" : 30,
+    "title" : "[TEST] K01 - Đếm đường thẳng trong mặt phẳng 23",
+    "type" : "ESSAY",
+    "difficulty" : "EASY",
+    "cognitive_level" : "KNOWLEDGE",
+    "chapter_id" : 4,
+    "topic_id" : 6,
+    "course_id" : 2,
+    "published" : false,
+    "deleted" : false
+  }, {
+    "id" : 31,
+    "title" : "[TEST] K01 - Đường trung bình và quan hệ song song 24",
+    "type" : "ESSAY",
+    "difficulty" : "EASY",
+    "cognitive_level" : "KNOWLEDGE",
+    "chapter_id" : 5,
+    "topic_id" : 7,
+    "course_id" : 2,
+    "published" : false,
+    "deleted" : false
+  }, {
+    "id" : 32,
+    "title" : "[TEST] K02 - Giá trị lớn nhất của hàm lượng giác 01",
+    "type" : "MCQ",
+    "difficulty" : "EASY",
+    "cognitive_level" : "KNOWLEDGE",
+    "chapter_id" : 1,
+    "topic_id" : 2,
+    "course_id" : 3,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 33,
+    "title" : "[TEST] K02 - Số hạng của cấp số cộng 02",
+    "type" : "MCQ",
+    "difficulty" : "EASY",
+    "cognitive_level" : "KNOWLEDGE",
+    "chapter_id" : 2,
+    "topic_id" : 3,
+    "course_id" : 3,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 34,
+    "title" : "[TEST] K02 - Số hạng của cấp số nhân 03",
+    "type" : "MCQ",
+    "difficulty" : "EASY",
+    "cognitive_level" : "KNOWLEDGE",
+    "chapter_id" : 2,
+    "topic_id" : 4,
+    "course_id" : 3,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 35,
+    "title" : "[TEST] K02 - Giới hạn của dãy số 04",
+    "type" : "MCQ",
+    "difficulty" : "EASY",
+    "cognitive_level" : "KNOWLEDGE",
+    "chapter_id" : 3,
+    "topic_id" : 5,
+    "course_id" : 3,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 36,
+    "title" : "[TEST] K02 - Đếm đường thẳng trong mặt phẳng 05",
+    "type" : "MCQ",
+    "difficulty" : "EASY",
+    "cognitive_level" : "KNOWLEDGE",
+    "chapter_id" : 4,
+    "topic_id" : 6,
+    "course_id" : 3,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 37,
+    "title" : "[TEST] K02 - Đường trung bình và quan hệ song song 06",
+    "type" : "MCQ",
+    "difficulty" : "EASY",
+    "cognitive_level" : "KNOWLEDGE",
+    "chapter_id" : 5,
+    "topic_id" : 7,
+    "course_id" : 3,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 38,
+    "title" : "[TEST] K02 - Giá trị lớn nhất của hàm lượng giác 07",
+    "type" : "MCQ",
+    "difficulty" : "MEDIUM",
+    "cognitive_level" : "UNDERSTANDING",
+    "chapter_id" : 1,
+    "topic_id" : 2,
+    "course_id" : 3,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 39,
+    "title" : "[TEST] K02 - Số hạng của cấp số cộng 08",
+    "type" : "MCQ",
+    "difficulty" : "MEDIUM",
+    "cognitive_level" : "UNDERSTANDING",
+    "chapter_id" : 2,
+    "topic_id" : 3,
+    "course_id" : 3,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 40,
+    "title" : "[TEST] K02 - Số hạng của cấp số nhân 09",
+    "type" : "MCQ",
+    "difficulty" : "MEDIUM",
+    "cognitive_level" : "UNDERSTANDING",
+    "chapter_id" : 2,
+    "topic_id" : 4,
+    "course_id" : 3,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 41,
+    "title" : "[TEST] K02 - Giới hạn của dãy số 10",
+    "type" : "MCQ",
+    "difficulty" : "MEDIUM",
+    "cognitive_level" : "UNDERSTANDING",
+    "chapter_id" : 3,
+    "topic_id" : 5,
+    "course_id" : 3,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 42,
+    "title" : "[TEST] K02 - Đếm đường thẳng trong mặt phẳng 11",
+    "type" : "MCQ",
+    "difficulty" : "MEDIUM",
+    "cognitive_level" : "UNDERSTANDING",
+    "chapter_id" : 4,
+    "topic_id" : 6,
+    "course_id" : 3,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 43,
+    "title" : "[TEST] K02 - Đường trung bình và quan hệ song song 12",
+    "type" : "MCQ",
+    "difficulty" : "MEDIUM",
+    "cognitive_level" : "UNDERSTANDING",
+    "chapter_id" : 5,
+    "topic_id" : 7,
+    "course_id" : 3,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 44,
+    "title" : "[TEST] K02 - Giá trị lớn nhất của hàm lượng giác 13",
+    "type" : "MCQ",
+    "difficulty" : "HARD",
+    "cognitive_level" : "APPLICATION",
+    "chapter_id" : 1,
+    "topic_id" : 2,
+    "course_id" : 3,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 45,
+    "title" : "[TEST] K02 - Số hạng của cấp số cộng 14",
+    "type" : "MCQ",
+    "difficulty" : "HARD",
+    "cognitive_level" : "APPLICATION",
+    "chapter_id" : 2,
+    "topic_id" : 3,
+    "course_id" : 3,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 46,
+    "title" : "[TEST] K02 - Số hạng của cấp số nhân 15",
+    "type" : "MCQ",
+    "difficulty" : "HARD",
+    "cognitive_level" : "APPLICATION",
+    "chapter_id" : 2,
+    "topic_id" : 4,
+    "course_id" : 3,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 47,
+    "title" : "[TEST] K02 - Giới hạn của dãy số 16",
+    "type" : "MCQ",
+    "difficulty" : "HARD",
+    "cognitive_level" : "APPLICATION",
+    "chapter_id" : 3,
+    "topic_id" : 5,
+    "course_id" : 3,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 48,
+    "title" : "[TEST] K02 - Đếm đường thẳng trong mặt phẳng 17",
+    "type" : "MCQ",
+    "difficulty" : "HARD",
+    "cognitive_level" : "APPLICATION",
+    "chapter_id" : 4,
+    "topic_id" : 6,
+    "course_id" : 3,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 49,
+    "title" : "[TEST] K02 - Đường trung bình và quan hệ song song 18",
+    "type" : "MCQ",
+    "difficulty" : "HARD",
+    "cognitive_level" : "APPLICATION",
+    "chapter_id" : 5,
+    "topic_id" : 7,
+    "course_id" : 3,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 50,
+    "title" : "[TEST] K02 - Giá trị lớn nhất của hàm lượng giác 19",
+    "type" : "ESSAY",
+    "difficulty" : "EASY",
+    "cognitive_level" : "KNOWLEDGE",
+    "chapter_id" : 1,
+    "topic_id" : 2,
+    "course_id" : 3,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 51,
+    "title" : "[TEST] K02 - Số hạng của cấp số cộng 20",
+    "type" : "ESSAY",
+    "difficulty" : "EASY",
+    "cognitive_level" : "KNOWLEDGE",
+    "chapter_id" : 2,
+    "topic_id" : 3,
+    "course_id" : 3,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 52,
+    "title" : "[TEST] K02 - Số hạng của cấp số nhân 21",
+    "type" : "ESSAY",
+    "difficulty" : "EASY",
+    "cognitive_level" : "KNOWLEDGE",
+    "chapter_id" : 2,
+    "topic_id" : 4,
+    "course_id" : 3,
+    "published" : false,
+    "deleted" : false
+  }, {
+    "id" : 53,
+    "title" : "[TEST] K02 - Giới hạn của dãy số 22",
+    "type" : "ESSAY",
+    "difficulty" : "EASY",
+    "cognitive_level" : "KNOWLEDGE",
+    "chapter_id" : 3,
+    "topic_id" : 5,
+    "course_id" : 3,
+    "published" : false,
+    "deleted" : false
+  }, {
+    "id" : 54,
+    "title" : "[TEST] K02 - Đếm đường thẳng trong mặt phẳng 23",
+    "type" : "ESSAY",
+    "difficulty" : "EASY",
+    "cognitive_level" : "KNOWLEDGE",
+    "chapter_id" : 4,
+    "topic_id" : 6,
+    "course_id" : 3,
+    "published" : false,
+    "deleted" : false
+  }, {
+    "id" : 55,
+    "title" : "[TEST] K02 - Đường trung bình và quan hệ song song 24",
+    "type" : "ESSAY",
+    "difficulty" : "EASY",
+    "cognitive_level" : "KNOWLEDGE",
+    "chapter_id" : 5,
+    "topic_id" : 7,
+    "course_id" : 3,
+    "published" : false,
+    "deleted" : false
+  }, {
+    "id" : 56,
+    "title" : "[TEST] K03 - Giá trị lớn nhất của hàm lượng giác 01",
+    "type" : "MCQ",
+    "difficulty" : "EASY",
+    "cognitive_level" : "KNOWLEDGE",
+    "chapter_id" : 1,
+    "topic_id" : 2,
+    "course_id" : 4,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 57,
+    "title" : "[TEST] K03 - Số hạng của cấp số cộng 02",
+    "type" : "MCQ",
+    "difficulty" : "EASY",
+    "cognitive_level" : "KNOWLEDGE",
+    "chapter_id" : 2,
+    "topic_id" : 3,
+    "course_id" : 4,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 58,
+    "title" : "[TEST] K03 - Số hạng của cấp số nhân 03",
+    "type" : "MCQ",
+    "difficulty" : "EASY",
+    "cognitive_level" : "KNOWLEDGE",
+    "chapter_id" : 2,
+    "topic_id" : 4,
+    "course_id" : 4,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 59,
+    "title" : "[TEST] K03 - Giới hạn của dãy số 04",
+    "type" : "MCQ",
+    "difficulty" : "EASY",
+    "cognitive_level" : "KNOWLEDGE",
+    "chapter_id" : 3,
+    "topic_id" : 5,
+    "course_id" : 4,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 60,
+    "title" : "[TEST] K03 - Đếm đường thẳng trong mặt phẳng 05",
+    "type" : "MCQ",
+    "difficulty" : "EASY",
+    "cognitive_level" : "KNOWLEDGE",
+    "chapter_id" : 4,
+    "topic_id" : 6,
+    "course_id" : 4,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 61,
+    "title" : "[TEST] K03 - Đường trung bình và quan hệ song song 06",
+    "type" : "MCQ",
+    "difficulty" : "EASY",
+    "cognitive_level" : "KNOWLEDGE",
+    "chapter_id" : 5,
+    "topic_id" : 7,
+    "course_id" : 4,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 62,
+    "title" : "[TEST] K03 - Giá trị lớn nhất của hàm lượng giác 07",
+    "type" : "MCQ",
+    "difficulty" : "MEDIUM",
+    "cognitive_level" : "UNDERSTANDING",
+    "chapter_id" : 1,
+    "topic_id" : 2,
+    "course_id" : 4,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 63,
+    "title" : "[TEST] K03 - Số hạng của cấp số cộng 08",
+    "type" : "MCQ",
+    "difficulty" : "MEDIUM",
+    "cognitive_level" : "UNDERSTANDING",
+    "chapter_id" : 2,
+    "topic_id" : 3,
+    "course_id" : 4,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 64,
+    "title" : "[TEST] K03 - Số hạng của cấp số nhân 09",
+    "type" : "MCQ",
+    "difficulty" : "MEDIUM",
+    "cognitive_level" : "UNDERSTANDING",
+    "chapter_id" : 2,
+    "topic_id" : 4,
+    "course_id" : 4,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 65,
+    "title" : "[TEST] K03 - Giới hạn của dãy số 10",
+    "type" : "MCQ",
+    "difficulty" : "MEDIUM",
+    "cognitive_level" : "UNDERSTANDING",
+    "chapter_id" : 3,
+    "topic_id" : 5,
+    "course_id" : 4,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 66,
+    "title" : "[TEST] K03 - Đếm đường thẳng trong mặt phẳng 11",
+    "type" : "MCQ",
+    "difficulty" : "MEDIUM",
+    "cognitive_level" : "UNDERSTANDING",
+    "chapter_id" : 4,
+    "topic_id" : 6,
+    "course_id" : 4,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 67,
+    "title" : "[TEST] K03 - Đường trung bình và quan hệ song song 12",
+    "type" : "MCQ",
+    "difficulty" : "MEDIUM",
+    "cognitive_level" : "UNDERSTANDING",
+    "chapter_id" : 5,
+    "topic_id" : 7,
+    "course_id" : 4,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 68,
+    "title" : "[TEST] K03 - Giá trị lớn nhất của hàm lượng giác 13",
+    "type" : "MCQ",
+    "difficulty" : "HARD",
+    "cognitive_level" : "APPLICATION",
+    "chapter_id" : 1,
+    "topic_id" : 2,
+    "course_id" : 4,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 69,
+    "title" : "[TEST] K03 - Số hạng của cấp số cộng 14",
+    "type" : "MCQ",
+    "difficulty" : "HARD",
+    "cognitive_level" : "APPLICATION",
+    "chapter_id" : 2,
+    "topic_id" : 3,
+    "course_id" : 4,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 70,
+    "title" : "[TEST] K03 - Số hạng của cấp số nhân 15",
+    "type" : "MCQ",
+    "difficulty" : "HARD",
+    "cognitive_level" : "APPLICATION",
+    "chapter_id" : 2,
+    "topic_id" : 4,
+    "course_id" : 4,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 71,
+    "title" : "[TEST] K03 - Giới hạn của dãy số 16",
+    "type" : "MCQ",
+    "difficulty" : "HARD",
+    "cognitive_level" : "APPLICATION",
+    "chapter_id" : 3,
+    "topic_id" : 5,
+    "course_id" : 4,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 72,
+    "title" : "[TEST] K03 - Đếm đường thẳng trong mặt phẳng 17",
+    "type" : "MCQ",
+    "difficulty" : "HARD",
+    "cognitive_level" : "APPLICATION",
+    "chapter_id" : 4,
+    "topic_id" : 6,
+    "course_id" : 4,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 73,
+    "title" : "[TEST] K03 - Đường trung bình và quan hệ song song 18",
+    "type" : "MCQ",
+    "difficulty" : "HARD",
+    "cognitive_level" : "APPLICATION",
+    "chapter_id" : 5,
+    "topic_id" : 7,
+    "course_id" : 4,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 74,
+    "title" : "[TEST] K03 - Giá trị lớn nhất của hàm lượng giác 19",
+    "type" : "ESSAY",
+    "difficulty" : "EASY",
+    "cognitive_level" : "KNOWLEDGE",
+    "chapter_id" : 1,
+    "topic_id" : 2,
+    "course_id" : 4,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 75,
+    "title" : "[TEST] K03 - Số hạng của cấp số cộng 20",
+    "type" : "ESSAY",
+    "difficulty" : "EASY",
+    "cognitive_level" : "KNOWLEDGE",
+    "chapter_id" : 2,
+    "topic_id" : 3,
+    "course_id" : 4,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 76,
+    "title" : "[TEST] K03 - Số hạng của cấp số nhân 21",
+    "type" : "ESSAY",
+    "difficulty" : "EASY",
+    "cognitive_level" : "KNOWLEDGE",
+    "chapter_id" : 2,
+    "topic_id" : 4,
+    "course_id" : 4,
+    "published" : false,
+    "deleted" : false
+  }, {
+    "id" : 77,
+    "title" : "[TEST] K03 - Giới hạn của dãy số 22",
+    "type" : "ESSAY",
+    "difficulty" : "EASY",
+    "cognitive_level" : "KNOWLEDGE",
+    "chapter_id" : 3,
+    "topic_id" : 5,
+    "course_id" : 4,
+    "published" : false,
+    "deleted" : false
+  }, {
+    "id" : 78,
+    "title" : "[TEST] K03 - Đếm đường thẳng trong mặt phẳng 23",
+    "type" : "ESSAY",
+    "difficulty" : "EASY",
+    "cognitive_level" : "KNOWLEDGE",
+    "chapter_id" : 4,
+    "topic_id" : 6,
+    "course_id" : 4,
+    "published" : false,
+    "deleted" : false
+  }, {
+    "id" : 79,
+    "title" : "[TEST] K03 - Đường trung bình và quan hệ song song 24",
+    "type" : "ESSAY",
+    "difficulty" : "EASY",
+    "cognitive_level" : "KNOWLEDGE",
+    "chapter_id" : 5,
+    "topic_id" : 7,
+    "course_id" : 4,
+    "published" : false,
+    "deleted" : false
+  }, {
+    "id" : 80,
+    "title" : "[TEST] K04 - Giá trị lớn nhất của hàm lượng giác 01",
+    "type" : "MCQ",
+    "difficulty" : "EASY",
+    "cognitive_level" : "KNOWLEDGE",
+    "chapter_id" : 1,
+    "topic_id" : 2,
+    "course_id" : 5,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 81,
+    "title" : "[TEST] K04 - Số hạng của cấp số cộng 02",
+    "type" : "MCQ",
+    "difficulty" : "EASY",
+    "cognitive_level" : "KNOWLEDGE",
+    "chapter_id" : 2,
+    "topic_id" : 3,
+    "course_id" : 5,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 82,
+    "title" : "[TEST] K04 - Số hạng của cấp số nhân 03",
+    "type" : "MCQ",
+    "difficulty" : "EASY",
+    "cognitive_level" : "KNOWLEDGE",
+    "chapter_id" : 2,
+    "topic_id" : 4,
+    "course_id" : 5,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 83,
+    "title" : "[TEST] K04 - Giới hạn của dãy số 04",
+    "type" : "MCQ",
+    "difficulty" : "EASY",
+    "cognitive_level" : "KNOWLEDGE",
+    "chapter_id" : 3,
+    "topic_id" : 5,
+    "course_id" : 5,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 84,
+    "title" : "[TEST] K04 - Đếm đường thẳng trong mặt phẳng 05",
+    "type" : "MCQ",
+    "difficulty" : "EASY",
+    "cognitive_level" : "KNOWLEDGE",
+    "chapter_id" : 4,
+    "topic_id" : 6,
+    "course_id" : 5,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 85,
+    "title" : "[TEST] K04 - Đường trung bình và quan hệ song song 06",
+    "type" : "MCQ",
+    "difficulty" : "EASY",
+    "cognitive_level" : "KNOWLEDGE",
+    "chapter_id" : 5,
+    "topic_id" : 7,
+    "course_id" : 5,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 86,
+    "title" : "[TEST] K04 - Giá trị lớn nhất của hàm lượng giác 07",
+    "type" : "MCQ",
+    "difficulty" : "MEDIUM",
+    "cognitive_level" : "UNDERSTANDING",
+    "chapter_id" : 1,
+    "topic_id" : 2,
+    "course_id" : 5,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 87,
+    "title" : "[TEST] K04 - Số hạng của cấp số cộng 08",
+    "type" : "MCQ",
+    "difficulty" : "MEDIUM",
+    "cognitive_level" : "UNDERSTANDING",
+    "chapter_id" : 2,
+    "topic_id" : 3,
+    "course_id" : 5,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 88,
+    "title" : "[TEST] K04 - Số hạng của cấp số nhân 09",
+    "type" : "MCQ",
+    "difficulty" : "MEDIUM",
+    "cognitive_level" : "UNDERSTANDING",
+    "chapter_id" : 2,
+    "topic_id" : 4,
+    "course_id" : 5,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 89,
+    "title" : "[TEST] K04 - Giới hạn của dãy số 10",
+    "type" : "MCQ",
+    "difficulty" : "MEDIUM",
+    "cognitive_level" : "UNDERSTANDING",
+    "chapter_id" : 3,
+    "topic_id" : 5,
+    "course_id" : 5,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 90,
+    "title" : "[TEST] K04 - Đếm đường thẳng trong mặt phẳng 11",
+    "type" : "MCQ",
+    "difficulty" : "MEDIUM",
+    "cognitive_level" : "UNDERSTANDING",
+    "chapter_id" : 4,
+    "topic_id" : 6,
+    "course_id" : 5,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 91,
+    "title" : "[TEST] K04 - Đường trung bình và quan hệ song song 12",
+    "type" : "MCQ",
+    "difficulty" : "MEDIUM",
+    "cognitive_level" : "UNDERSTANDING",
+    "chapter_id" : 5,
+    "topic_id" : 7,
+    "course_id" : 5,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 92,
+    "title" : "[TEST] K04 - Giá trị lớn nhất của hàm lượng giác 13",
+    "type" : "MCQ",
+    "difficulty" : "HARD",
+    "cognitive_level" : "APPLICATION",
+    "chapter_id" : 1,
+    "topic_id" : 2,
+    "course_id" : 5,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 93,
+    "title" : "[TEST] K04 - Số hạng của cấp số cộng 14",
+    "type" : "MCQ",
+    "difficulty" : "HARD",
+    "cognitive_level" : "APPLICATION",
+    "chapter_id" : 2,
+    "topic_id" : 3,
+    "course_id" : 5,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 94,
+    "title" : "[TEST] K04 - Số hạng của cấp số nhân 15",
+    "type" : "MCQ",
+    "difficulty" : "HARD",
+    "cognitive_level" : "APPLICATION",
+    "chapter_id" : 2,
+    "topic_id" : 4,
+    "course_id" : 5,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 95,
+    "title" : "[TEST] K04 - Giới hạn của dãy số 16",
+    "type" : "MCQ",
+    "difficulty" : "HARD",
+    "cognitive_level" : "APPLICATION",
+    "chapter_id" : 3,
+    "topic_id" : 5,
+    "course_id" : 5,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 96,
+    "title" : "[TEST] K04 - Đếm đường thẳng trong mặt phẳng 17",
+    "type" : "MCQ",
+    "difficulty" : "HARD",
+    "cognitive_level" : "APPLICATION",
+    "chapter_id" : 4,
+    "topic_id" : 6,
+    "course_id" : 5,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 97,
+    "title" : "[TEST] K04 - Đường trung bình và quan hệ song song 18",
+    "type" : "MCQ",
+    "difficulty" : "HARD",
+    "cognitive_level" : "APPLICATION",
+    "chapter_id" : 5,
+    "topic_id" : 7,
+    "course_id" : 5,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 98,
+    "title" : "[TEST] K04 - Giá trị lớn nhất của hàm lượng giác 19",
+    "type" : "ESSAY",
+    "difficulty" : "EASY",
+    "cognitive_level" : "KNOWLEDGE",
+    "chapter_id" : 1,
+    "topic_id" : 2,
+    "course_id" : 5,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 99,
+    "title" : "[TEST] K04 - Số hạng của cấp số cộng 20",
+    "type" : "ESSAY",
+    "difficulty" : "EASY",
+    "cognitive_level" : "KNOWLEDGE",
+    "chapter_id" : 2,
+    "topic_id" : 3,
+    "course_id" : 5,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 100,
+    "title" : "[TEST] K04 - Số hạng của cấp số nhân 21",
+    "type" : "ESSAY",
+    "difficulty" : "EASY",
+    "cognitive_level" : "KNOWLEDGE",
+    "chapter_id" : 2,
+    "topic_id" : 4,
+    "course_id" : 5,
+    "published" : false,
+    "deleted" : false
+  }, {
+    "id" : 101,
+    "title" : "[TEST] K04 - Giới hạn của dãy số 22",
+    "type" : "ESSAY",
+    "difficulty" : "EASY",
+    "cognitive_level" : "KNOWLEDGE",
+    "chapter_id" : 3,
+    "topic_id" : 5,
+    "course_id" : 5,
+    "published" : false,
+    "deleted" : false
+  }, {
+    "id" : 102,
+    "title" : "[TEST] K04 - Đếm đường thẳng trong mặt phẳng 23",
+    "type" : "ESSAY",
+    "difficulty" : "EASY",
+    "cognitive_level" : "KNOWLEDGE",
+    "chapter_id" : 4,
+    "topic_id" : 6,
+    "course_id" : 5,
+    "published" : false,
+    "deleted" : false
+  }, {
+    "id" : 103,
+    "title" : "[TEST] K04 - Đường trung bình và quan hệ song song 24",
+    "type" : "ESSAY",
+    "difficulty" : "EASY",
+    "cognitive_level" : "KNOWLEDGE",
+    "chapter_id" : 5,
+    "topic_id" : 7,
+    "course_id" : 5,
+    "published" : false,
+    "deleted" : false
+  }, {
+    "id" : 104,
+    "title" : "[TEST] K05 - Giá trị lớn nhất của hàm lượng giác 01",
+    "type" : "MCQ",
+    "difficulty" : "EASY",
+    "cognitive_level" : "KNOWLEDGE",
+    "chapter_id" : 1,
+    "topic_id" : 2,
+    "course_id" : 6,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 105,
+    "title" : "[TEST] K05 - Số hạng của cấp số cộng 02",
+    "type" : "MCQ",
+    "difficulty" : "EASY",
+    "cognitive_level" : "KNOWLEDGE",
+    "chapter_id" : 2,
+    "topic_id" : 3,
+    "course_id" : 6,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 106,
+    "title" : "[TEST] K05 - Số hạng của cấp số nhân 03",
+    "type" : "MCQ",
+    "difficulty" : "EASY",
+    "cognitive_level" : "KNOWLEDGE",
+    "chapter_id" : 2,
+    "topic_id" : 4,
+    "course_id" : 6,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 107,
+    "title" : "[TEST] K05 - Giới hạn của dãy số 04",
+    "type" : "MCQ",
+    "difficulty" : "EASY",
+    "cognitive_level" : "KNOWLEDGE",
+    "chapter_id" : 3,
+    "topic_id" : 5,
+    "course_id" : 6,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 108,
+    "title" : "[TEST] K05 - Đếm đường thẳng trong mặt phẳng 05",
+    "type" : "MCQ",
+    "difficulty" : "EASY",
+    "cognitive_level" : "KNOWLEDGE",
+    "chapter_id" : 4,
+    "topic_id" : 6,
+    "course_id" : 6,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 109,
+    "title" : "[TEST] K05 - Đường trung bình và quan hệ song song 06",
+    "type" : "MCQ",
+    "difficulty" : "EASY",
+    "cognitive_level" : "KNOWLEDGE",
+    "chapter_id" : 5,
+    "topic_id" : 7,
+    "course_id" : 6,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 110,
+    "title" : "[TEST] K05 - Giá trị lớn nhất của hàm lượng giác 07",
+    "type" : "MCQ",
+    "difficulty" : "MEDIUM",
+    "cognitive_level" : "UNDERSTANDING",
+    "chapter_id" : 1,
+    "topic_id" : 2,
+    "course_id" : 6,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 111,
+    "title" : "[TEST] K05 - Số hạng của cấp số cộng 08",
+    "type" : "MCQ",
+    "difficulty" : "MEDIUM",
+    "cognitive_level" : "UNDERSTANDING",
+    "chapter_id" : 2,
+    "topic_id" : 3,
+    "course_id" : 6,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 112,
+    "title" : "[TEST] K05 - Số hạng của cấp số nhân 09",
+    "type" : "MCQ",
+    "difficulty" : "MEDIUM",
+    "cognitive_level" : "UNDERSTANDING",
+    "chapter_id" : 2,
+    "topic_id" : 4,
+    "course_id" : 6,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 113,
+    "title" : "[TEST] K05 - Giới hạn của dãy số 10",
+    "type" : "MCQ",
+    "difficulty" : "MEDIUM",
+    "cognitive_level" : "UNDERSTANDING",
+    "chapter_id" : 3,
+    "topic_id" : 5,
+    "course_id" : 6,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 114,
+    "title" : "[TEST] K05 - Đếm đường thẳng trong mặt phẳng 11",
+    "type" : "MCQ",
+    "difficulty" : "MEDIUM",
+    "cognitive_level" : "UNDERSTANDING",
+    "chapter_id" : 4,
+    "topic_id" : 6,
+    "course_id" : 6,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 115,
+    "title" : "[TEST] K05 - Đường trung bình và quan hệ song song 12",
+    "type" : "MCQ",
+    "difficulty" : "MEDIUM",
+    "cognitive_level" : "UNDERSTANDING",
+    "chapter_id" : 5,
+    "topic_id" : 7,
+    "course_id" : 6,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 116,
+    "title" : "[TEST] K05 - Giá trị lớn nhất của hàm lượng giác 13",
+    "type" : "MCQ",
+    "difficulty" : "HARD",
+    "cognitive_level" : "APPLICATION",
+    "chapter_id" : 1,
+    "topic_id" : 2,
+    "course_id" : 6,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 117,
+    "title" : "[TEST] K05 - Số hạng của cấp số cộng 14",
+    "type" : "MCQ",
+    "difficulty" : "HARD",
+    "cognitive_level" : "APPLICATION",
+    "chapter_id" : 2,
+    "topic_id" : 3,
+    "course_id" : 6,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 118,
+    "title" : "[TEST] K05 - Số hạng của cấp số nhân 15",
+    "type" : "MCQ",
+    "difficulty" : "HARD",
+    "cognitive_level" : "APPLICATION",
+    "chapter_id" : 2,
+    "topic_id" : 4,
+    "course_id" : 6,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 119,
+    "title" : "[TEST] K05 - Giới hạn của dãy số 16",
+    "type" : "MCQ",
+    "difficulty" : "HARD",
+    "cognitive_level" : "APPLICATION",
+    "chapter_id" : 3,
+    "topic_id" : 5,
+    "course_id" : 6,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 120,
+    "title" : "[TEST] K05 - Đếm đường thẳng trong mặt phẳng 17",
+    "type" : "MCQ",
+    "difficulty" : "HARD",
+    "cognitive_level" : "APPLICATION",
+    "chapter_id" : 4,
+    "topic_id" : 6,
+    "course_id" : 6,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 121,
+    "title" : "[TEST] K05 - Đường trung bình và quan hệ song song 18",
+    "type" : "MCQ",
+    "difficulty" : "HARD",
+    "cognitive_level" : "APPLICATION",
+    "chapter_id" : 5,
+    "topic_id" : 7,
+    "course_id" : 6,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 122,
+    "title" : "[TEST] K05 - Giá trị lớn nhất của hàm lượng giác 19",
+    "type" : "ESSAY",
+    "difficulty" : "EASY",
+    "cognitive_level" : "KNOWLEDGE",
+    "chapter_id" : 1,
+    "topic_id" : 2,
+    "course_id" : 6,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 123,
+    "title" : "[TEST] K05 - Số hạng của cấp số cộng 20",
+    "type" : "ESSAY",
+    "difficulty" : "EASY",
+    "cognitive_level" : "KNOWLEDGE",
+    "chapter_id" : 2,
+    "topic_id" : 3,
+    "course_id" : 6,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 124,
+    "title" : "[TEST] K05 - Số hạng của cấp số nhân 21",
+    "type" : "ESSAY",
+    "difficulty" : "EASY",
+    "cognitive_level" : "KNOWLEDGE",
+    "chapter_id" : 2,
+    "topic_id" : 4,
+    "course_id" : 6,
+    "published" : false,
+    "deleted" : false
+  }, {
+    "id" : 125,
+    "title" : "[TEST] K05 - Giới hạn của dãy số 22",
+    "type" : "ESSAY",
+    "difficulty" : "EASY",
+    "cognitive_level" : "KNOWLEDGE",
+    "chapter_id" : 3,
+    "topic_id" : 5,
+    "course_id" : 6,
+    "published" : false,
+    "deleted" : false
+  }, {
+    "id" : 126,
+    "title" : "[TEST] K05 - Đếm đường thẳng trong mặt phẳng 23",
+    "type" : "ESSAY",
+    "difficulty" : "EASY",
+    "cognitive_level" : "KNOWLEDGE",
+    "chapter_id" : 4,
+    "topic_id" : 6,
+    "course_id" : 6,
+    "published" : false,
+    "deleted" : false
+  }, {
+    "id" : 127,
+    "title" : "[TEST] K05 - Đường trung bình và quan hệ song song 24",
+    "type" : "ESSAY",
+    "difficulty" : "EASY",
+    "cognitive_level" : "KNOWLEDGE",
+    "chapter_id" : 5,
+    "topic_id" : 7,
+    "course_id" : 6,
+    "published" : false,
+    "deleted" : false
+  }, {
+    "id" : 128,
+    "title" : "[TEST] K06 - Giá trị lớn nhất của hàm lượng giác 01",
+    "type" : "MCQ",
+    "difficulty" : "EASY",
+    "cognitive_level" : "KNOWLEDGE",
+    "chapter_id" : 1,
+    "topic_id" : 2,
+    "course_id" : 7,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 129,
+    "title" : "[TEST] K06 - Số hạng của cấp số cộng 02",
+    "type" : "MCQ",
+    "difficulty" : "EASY",
+    "cognitive_level" : "KNOWLEDGE",
+    "chapter_id" : 2,
+    "topic_id" : 3,
+    "course_id" : 7,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 130,
+    "title" : "[TEST] K06 - Số hạng của cấp số nhân 03",
+    "type" : "MCQ",
+    "difficulty" : "EASY",
+    "cognitive_level" : "KNOWLEDGE",
+    "chapter_id" : 2,
+    "topic_id" : 4,
+    "course_id" : 7,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 131,
+    "title" : "[TEST] K06 - Giới hạn của dãy số 04",
+    "type" : "MCQ",
+    "difficulty" : "EASY",
+    "cognitive_level" : "KNOWLEDGE",
+    "chapter_id" : 3,
+    "topic_id" : 5,
+    "course_id" : 7,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 132,
+    "title" : "[TEST] K06 - Đếm đường thẳng trong mặt phẳng 05",
+    "type" : "MCQ",
+    "difficulty" : "EASY",
+    "cognitive_level" : "KNOWLEDGE",
+    "chapter_id" : 4,
+    "topic_id" : 6,
+    "course_id" : 7,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 133,
+    "title" : "[TEST] K06 - Đường trung bình và quan hệ song song 06",
+    "type" : "MCQ",
+    "difficulty" : "EASY",
+    "cognitive_level" : "KNOWLEDGE",
+    "chapter_id" : 5,
+    "topic_id" : 7,
+    "course_id" : 7,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 134,
+    "title" : "[TEST] K06 - Giá trị lớn nhất của hàm lượng giác 07",
+    "type" : "MCQ",
+    "difficulty" : "MEDIUM",
+    "cognitive_level" : "UNDERSTANDING",
+    "chapter_id" : 1,
+    "topic_id" : 2,
+    "course_id" : 7,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 135,
+    "title" : "[TEST] K06 - Số hạng của cấp số cộng 08",
+    "type" : "MCQ",
+    "difficulty" : "MEDIUM",
+    "cognitive_level" : "UNDERSTANDING",
+    "chapter_id" : 2,
+    "topic_id" : 3,
+    "course_id" : 7,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 136,
+    "title" : "[TEST] K06 - Số hạng của cấp số nhân 09",
+    "type" : "MCQ",
+    "difficulty" : "MEDIUM",
+    "cognitive_level" : "UNDERSTANDING",
+    "chapter_id" : 2,
+    "topic_id" : 4,
+    "course_id" : 7,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 137,
+    "title" : "[TEST] K06 - Giới hạn của dãy số 10",
+    "type" : "MCQ",
+    "difficulty" : "MEDIUM",
+    "cognitive_level" : "UNDERSTANDING",
+    "chapter_id" : 3,
+    "topic_id" : 5,
+    "course_id" : 7,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 138,
+    "title" : "[TEST] K06 - Đếm đường thẳng trong mặt phẳng 11",
+    "type" : "MCQ",
+    "difficulty" : "MEDIUM",
+    "cognitive_level" : "UNDERSTANDING",
+    "chapter_id" : 4,
+    "topic_id" : 6,
+    "course_id" : 7,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 139,
+    "title" : "[TEST] K06 - Đường trung bình và quan hệ song song 12",
+    "type" : "MCQ",
+    "difficulty" : "MEDIUM",
+    "cognitive_level" : "UNDERSTANDING",
+    "chapter_id" : 5,
+    "topic_id" : 7,
+    "course_id" : 7,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 140,
+    "title" : "[TEST] K06 - Giá trị lớn nhất của hàm lượng giác 13",
+    "type" : "MCQ",
+    "difficulty" : "HARD",
+    "cognitive_level" : "APPLICATION",
+    "chapter_id" : 1,
+    "topic_id" : 2,
+    "course_id" : 7,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 141,
+    "title" : "[TEST] K06 - Số hạng của cấp số cộng 14",
+    "type" : "MCQ",
+    "difficulty" : "HARD",
+    "cognitive_level" : "APPLICATION",
+    "chapter_id" : 2,
+    "topic_id" : 3,
+    "course_id" : 7,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 142,
+    "title" : "[TEST] K06 - Số hạng của cấp số nhân 15",
+    "type" : "MCQ",
+    "difficulty" : "HARD",
+    "cognitive_level" : "APPLICATION",
+    "chapter_id" : 2,
+    "topic_id" : 4,
+    "course_id" : 7,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 143,
+    "title" : "[TEST] K06 - Giới hạn của dãy số 16",
+    "type" : "MCQ",
+    "difficulty" : "HARD",
+    "cognitive_level" : "APPLICATION",
+    "chapter_id" : 3,
+    "topic_id" : 5,
+    "course_id" : 7,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 144,
+    "title" : "[TEST] K06 - Đếm đường thẳng trong mặt phẳng 17",
+    "type" : "MCQ",
+    "difficulty" : "HARD",
+    "cognitive_level" : "APPLICATION",
+    "chapter_id" : 4,
+    "topic_id" : 6,
+    "course_id" : 7,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 145,
+    "title" : "[TEST] K06 - Đường trung bình và quan hệ song song 18",
+    "type" : "MCQ",
+    "difficulty" : "HARD",
+    "cognitive_level" : "APPLICATION",
+    "chapter_id" : 5,
+    "topic_id" : 7,
+    "course_id" : 7,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 146,
+    "title" : "[TEST] K06 - Giá trị lớn nhất của hàm lượng giác 19",
+    "type" : "ESSAY",
+    "difficulty" : "EASY",
+    "cognitive_level" : "KNOWLEDGE",
+    "chapter_id" : 1,
+    "topic_id" : 2,
+    "course_id" : 7,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 147,
+    "title" : "[TEST] K06 - Số hạng của cấp số cộng 20",
+    "type" : "ESSAY",
+    "difficulty" : "EASY",
+    "cognitive_level" : "KNOWLEDGE",
+    "chapter_id" : 2,
+    "topic_id" : 3,
+    "course_id" : 7,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 148,
+    "title" : "[TEST] K06 - Số hạng của cấp số nhân 21",
+    "type" : "ESSAY",
+    "difficulty" : "EASY",
+    "cognitive_level" : "KNOWLEDGE",
+    "chapter_id" : 2,
+    "topic_id" : 4,
+    "course_id" : 7,
+    "published" : false,
+    "deleted" : false
+  }, {
+    "id" : 149,
+    "title" : "[TEST] K06 - Giới hạn của dãy số 22",
+    "type" : "ESSAY",
+    "difficulty" : "EASY",
+    "cognitive_level" : "KNOWLEDGE",
+    "chapter_id" : 3,
+    "topic_id" : 5,
+    "course_id" : 7,
+    "published" : false,
+    "deleted" : false
+  }, {
+    "id" : 150,
+    "title" : "[TEST] K06 - Đếm đường thẳng trong mặt phẳng 23",
+    "type" : "ESSAY",
+    "difficulty" : "EASY",
+    "cognitive_level" : "KNOWLEDGE",
+    "chapter_id" : 4,
+    "topic_id" : 6,
+    "course_id" : 7,
+    "published" : false,
+    "deleted" : false
+  }, {
+    "id" : 151,
+    "title" : "[TEST] K06 - Đường trung bình và quan hệ song song 24",
+    "type" : "ESSAY",
+    "difficulty" : "EASY",
+    "cognitive_level" : "KNOWLEDGE",
+    "chapter_id" : 5,
+    "topic_id" : 7,
+    "course_id" : 7,
+    "published" : false,
+    "deleted" : false
+  }, {
+    "id" : 152,
+    "title" : "[TEST] K07 - Giá trị lớn nhất của hàm lượng giác 01",
+    "type" : "MCQ",
+    "difficulty" : "EASY",
+    "cognitive_level" : "KNOWLEDGE",
+    "chapter_id" : 1,
+    "topic_id" : 2,
+    "course_id" : 8,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 153,
+    "title" : "[TEST] K07 - Số hạng của cấp số cộng 02",
+    "type" : "MCQ",
+    "difficulty" : "EASY",
+    "cognitive_level" : "KNOWLEDGE",
+    "chapter_id" : 2,
+    "topic_id" : 3,
+    "course_id" : 8,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 154,
+    "title" : "[TEST] K07 - Số hạng của cấp số nhân 03",
+    "type" : "MCQ",
+    "difficulty" : "EASY",
+    "cognitive_level" : "KNOWLEDGE",
+    "chapter_id" : 2,
+    "topic_id" : 4,
+    "course_id" : 8,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 155,
+    "title" : "[TEST] K07 - Giới hạn của dãy số 04",
+    "type" : "MCQ",
+    "difficulty" : "EASY",
+    "cognitive_level" : "KNOWLEDGE",
+    "chapter_id" : 3,
+    "topic_id" : 5,
+    "course_id" : 8,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 156,
+    "title" : "[TEST] K07 - Đếm đường thẳng trong mặt phẳng 05",
+    "type" : "MCQ",
+    "difficulty" : "EASY",
+    "cognitive_level" : "KNOWLEDGE",
+    "chapter_id" : 4,
+    "topic_id" : 6,
+    "course_id" : 8,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 157,
+    "title" : "[TEST] K07 - Đường trung bình và quan hệ song song 06",
+    "type" : "MCQ",
+    "difficulty" : "EASY",
+    "cognitive_level" : "KNOWLEDGE",
+    "chapter_id" : 5,
+    "topic_id" : 7,
+    "course_id" : 8,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 158,
+    "title" : "[TEST] K07 - Giá trị lớn nhất của hàm lượng giác 07",
+    "type" : "MCQ",
+    "difficulty" : "MEDIUM",
+    "cognitive_level" : "UNDERSTANDING",
+    "chapter_id" : 1,
+    "topic_id" : 2,
+    "course_id" : 8,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 159,
+    "title" : "[TEST] K07 - Số hạng của cấp số cộng 08",
+    "type" : "MCQ",
+    "difficulty" : "MEDIUM",
+    "cognitive_level" : "UNDERSTANDING",
+    "chapter_id" : 2,
+    "topic_id" : 3,
+    "course_id" : 8,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 160,
+    "title" : "[TEST] K07 - Số hạng của cấp số nhân 09",
+    "type" : "MCQ",
+    "difficulty" : "MEDIUM",
+    "cognitive_level" : "UNDERSTANDING",
+    "chapter_id" : 2,
+    "topic_id" : 4,
+    "course_id" : 8,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 161,
+    "title" : "[TEST] K07 - Giới hạn của dãy số 10",
+    "type" : "MCQ",
+    "difficulty" : "MEDIUM",
+    "cognitive_level" : "UNDERSTANDING",
+    "chapter_id" : 3,
+    "topic_id" : 5,
+    "course_id" : 8,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 162,
+    "title" : "[TEST] K07 - Đếm đường thẳng trong mặt phẳng 11",
+    "type" : "MCQ",
+    "difficulty" : "MEDIUM",
+    "cognitive_level" : "UNDERSTANDING",
+    "chapter_id" : 4,
+    "topic_id" : 6,
+    "course_id" : 8,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 163,
+    "title" : "[TEST] K07 - Đường trung bình và quan hệ song song 12",
+    "type" : "MCQ",
+    "difficulty" : "MEDIUM",
+    "cognitive_level" : "UNDERSTANDING",
+    "chapter_id" : 5,
+    "topic_id" : 7,
+    "course_id" : 8,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 164,
+    "title" : "[TEST] K07 - Giá trị lớn nhất của hàm lượng giác 13",
+    "type" : "MCQ",
+    "difficulty" : "HARD",
+    "cognitive_level" : "APPLICATION",
+    "chapter_id" : 1,
+    "topic_id" : 2,
+    "course_id" : 8,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 165,
+    "title" : "[TEST] K07 - Số hạng của cấp số cộng 14",
+    "type" : "MCQ",
+    "difficulty" : "HARD",
+    "cognitive_level" : "APPLICATION",
+    "chapter_id" : 2,
+    "topic_id" : 3,
+    "course_id" : 8,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 166,
+    "title" : "[TEST] K07 - Số hạng của cấp số nhân 15",
+    "type" : "MCQ",
+    "difficulty" : "HARD",
+    "cognitive_level" : "APPLICATION",
+    "chapter_id" : 2,
+    "topic_id" : 4,
+    "course_id" : 8,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 167,
+    "title" : "[TEST] K07 - Giới hạn của dãy số 16",
+    "type" : "MCQ",
+    "difficulty" : "HARD",
+    "cognitive_level" : "APPLICATION",
+    "chapter_id" : 3,
+    "topic_id" : 5,
+    "course_id" : 8,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 168,
+    "title" : "[TEST] K07 - Đếm đường thẳng trong mặt phẳng 17",
+    "type" : "MCQ",
+    "difficulty" : "HARD",
+    "cognitive_level" : "APPLICATION",
+    "chapter_id" : 4,
+    "topic_id" : 6,
+    "course_id" : 8,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 169,
+    "title" : "[TEST] K07 - Đường trung bình và quan hệ song song 18",
+    "type" : "MCQ",
+    "difficulty" : "HARD",
+    "cognitive_level" : "APPLICATION",
+    "chapter_id" : 5,
+    "topic_id" : 7,
+    "course_id" : 8,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 170,
+    "title" : "[TEST] K07 - Giá trị lớn nhất của hàm lượng giác 19",
+    "type" : "ESSAY",
+    "difficulty" : "EASY",
+    "cognitive_level" : "KNOWLEDGE",
+    "chapter_id" : 1,
+    "topic_id" : 2,
+    "course_id" : 8,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 171,
+    "title" : "[TEST] K07 - Số hạng của cấp số cộng 20",
+    "type" : "ESSAY",
+    "difficulty" : "EASY",
+    "cognitive_level" : "KNOWLEDGE",
+    "chapter_id" : 2,
+    "topic_id" : 3,
+    "course_id" : 8,
+    "published" : true,
+    "deleted" : false
+  }, {
+    "id" : 172,
+    "title" : "[TEST] K07 - Số hạng của cấp số nhân 21",
+    "type" : "ESSAY",
+    "difficulty" : "EASY",
+    "cognitive_level" : "KNOWLEDGE",
+    "chapter_id" : 2,
+    "topic_id" : 4,
+    "course_id" : 8,
+    "published" : false,
+    "deleted" : false
+  }, {
+    "id" : 173,
+    "title" : "[TEST] K07 - Giới hạn của dãy số 22",
+    "type" : "ESSAY",
+    "difficulty" : "EASY",
+    "cognitive_level" : "KNOWLEDGE",
+    "chapter_id" : 3,
+    "topic_id" : 5,
+    "course_id" : 8,
+    "published" : false,
+    "deleted" : false
+  }, {
+    "id" : 174,
+    "title" : "[TEST] K07 - Đếm đường thẳng trong mặt phẳng 23",
+    "type" : "ESSAY",
+    "difficulty" : "EASY",
+    "cognitive_level" : "KNOWLEDGE",
+    "chapter_id" : 4,
+    "topic_id" : 6,
+    "course_id" : 8,
+    "published" : false,
+    "deleted" : false
+  }, {
+    "id" : 175,
+    "title" : "[TEST] K07 - Đường trung bình và quan hệ song song 24",
+    "type" : "ESSAY",
+    "difficulty" : "EASY",
+    "cognitive_level" : "KNOWLEDGE",
+    "chapter_id" : 5,
+    "topic_id" : 7,
+    "course_id" : 8,
+    "published" : false,
+    "deleted" : false
+  } ],
+  "exams" : [ {
+    "id" : 1,
+    "title" : "Luyện tập Toán 11",
+    "chapter" : "Toán 11",
+    "topic" : "Ôn tập",
+    "course_id" : null,
+    "author_id" : 2,
+    "published" : true,
+    "results_published" : true,
+    "deleted" : false,
+    "duration_seconds" : 1800,
+    "questionCount" : 5
+  }, {
+    "id" : 2,
+    "title" : "[TEST] K01 - Trắc nghiệm tổng hợp",
+    "chapter" : "Toán 11",
+    "topic" : "Ôn tập",
+    "course_id" : 2,
+    "author_id" : 5,
+    "published" : true,
+    "results_published" : true,
+    "deleted" : false,
+    "duration_seconds" : 3600,
+    "questionCount" : 8
+  }, {
+    "id" : 3,
+    "title" : "[TEST] K01 - Kiểm tra kết hợp tự luận",
+    "chapter" : "Toán 11",
+    "topic" : "Ôn tập",
+    "course_id" : 2,
+    "author_id" : 5,
+    "published" : true,
+    "results_published" : true,
+    "deleted" : false,
+    "duration_seconds" : 3600,
+    "questionCount" : 6
+  }, {
+    "id" : 4,
+    "title" : "[TEST] K01 - Đề nháp chưa xuất bản",
+    "chapter" : "Toán 11",
+    "topic" : "Ôn tập",
+    "course_id" : 2,
+    "author_id" : 5,
+    "published" : false,
+    "results_published" : true,
+    "deleted" : false,
+    "duration_seconds" : 3600,
+    "questionCount" : 6
+  }, {
+    "id" : 5,
+    "title" : "[TEST] K02 - Trắc nghiệm tổng hợp",
+    "chapter" : "Toán 11",
+    "topic" : "Ôn tập",
+    "course_id" : 3,
+    "author_id" : 5,
+    "published" : true,
+    "results_published" : true,
+    "deleted" : false,
+    "duration_seconds" : 3600,
+    "questionCount" : 8
+  }, {
+    "id" : 6,
+    "title" : "[TEST] K02 - Kiểm tra kết hợp tự luận",
+    "chapter" : "Toán 11",
+    "topic" : "Ôn tập",
+    "course_id" : 3,
+    "author_id" : 5,
+    "published" : true,
+    "results_published" : false,
+    "deleted" : false,
+    "duration_seconds" : 3600,
+    "questionCount" : 6
+  }, {
+    "id" : 7,
+    "title" : "[TEST] K02 - Đề nháp chưa xuất bản",
+    "chapter" : "Toán 11",
+    "topic" : "Ôn tập",
+    "course_id" : 3,
+    "author_id" : 5,
+    "published" : false,
+    "results_published" : false,
+    "deleted" : false,
+    "duration_seconds" : 3600,
+    "questionCount" : 6
+  }, {
+    "id" : 8,
+    "title" : "[TEST] K03 - Trắc nghiệm tổng hợp",
+    "chapter" : "Toán 11",
+    "topic" : "Ôn tập",
+    "course_id" : 4,
+    "author_id" : 6,
+    "published" : true,
+    "results_published" : true,
+    "deleted" : false,
+    "duration_seconds" : 3600,
+    "questionCount" : 8
+  }, {
+    "id" : 9,
+    "title" : "[TEST] K03 - Kiểm tra kết hợp tự luận",
+    "chapter" : "Toán 11",
+    "topic" : "Ôn tập",
+    "course_id" : 4,
+    "author_id" : 6,
+    "published" : true,
+    "results_published" : true,
+    "deleted" : false,
+    "duration_seconds" : 3600,
+    "questionCount" : 6
+  }, {
+    "id" : 10,
+    "title" : "[TEST] K03 - Đề nháp chưa xuất bản",
+    "chapter" : "Toán 11",
+    "topic" : "Ôn tập",
+    "course_id" : 4,
+    "author_id" : 6,
+    "published" : false,
+    "results_published" : true,
+    "deleted" : false,
+    "duration_seconds" : 3600,
+    "questionCount" : 6
+  }, {
+    "id" : 11,
+    "title" : "[TEST] K04 - Trắc nghiệm tổng hợp",
+    "chapter" : "Toán 11",
+    "topic" : "Ôn tập",
+    "course_id" : 5,
+    "author_id" : 6,
+    "published" : true,
+    "results_published" : true,
+    "deleted" : false,
+    "duration_seconds" : 3600,
+    "questionCount" : 8
+  }, {
+    "id" : 12,
+    "title" : "[TEST] K04 - Kiểm tra kết hợp tự luận",
+    "chapter" : "Toán 11",
+    "topic" : "Ôn tập",
+    "course_id" : 5,
+    "author_id" : 6,
+    "published" : true,
+    "results_published" : false,
+    "deleted" : false,
+    "duration_seconds" : 3600,
+    "questionCount" : 6
+  }, {
+    "id" : 13,
+    "title" : "[TEST] K04 - Đề nháp chưa xuất bản",
+    "chapter" : "Toán 11",
+    "topic" : "Ôn tập",
+    "course_id" : 5,
+    "author_id" : 6,
+    "published" : false,
+    "results_published" : false,
+    "deleted" : false,
+    "duration_seconds" : 3600,
+    "questionCount" : 6
+  }, {
+    "id" : 14,
+    "title" : "[TEST] K05 - Trắc nghiệm tổng hợp",
+    "chapter" : "Toán 11",
+    "topic" : "Ôn tập",
+    "course_id" : 6,
+    "author_id" : 7,
+    "published" : true,
+    "results_published" : true,
+    "deleted" : false,
+    "duration_seconds" : 3600,
+    "questionCount" : 8
+  }, {
+    "id" : 15,
+    "title" : "[TEST] K05 - Kiểm tra kết hợp tự luận",
+    "chapter" : "Toán 11",
+    "topic" : "Ôn tập",
+    "course_id" : 6,
+    "author_id" : 7,
+    "published" : true,
+    "results_published" : true,
+    "deleted" : false,
+    "duration_seconds" : 3600,
+    "questionCount" : 6
+  }, {
+    "id" : 16,
+    "title" : "[TEST] K05 - Đề nháp chưa xuất bản",
+    "chapter" : "Toán 11",
+    "topic" : "Ôn tập",
+    "course_id" : 6,
+    "author_id" : 7,
+    "published" : false,
+    "results_published" : true,
+    "deleted" : false,
+    "duration_seconds" : 3600,
+    "questionCount" : 6
+  }, {
+    "id" : 17,
+    "title" : "[TEST] K06 - Trắc nghiệm tổng hợp",
+    "chapter" : "Toán 11",
+    "topic" : "Ôn tập",
+    "course_id" : 7,
+    "author_id" : 7,
+    "published" : true,
+    "results_published" : true,
+    "deleted" : false,
+    "duration_seconds" : 3600,
+    "questionCount" : 8
+  }, {
+    "id" : 18,
+    "title" : "[TEST] K06 - Kiểm tra kết hợp tự luận",
+    "chapter" : "Toán 11",
+    "topic" : "Ôn tập",
+    "course_id" : 7,
+    "author_id" : 7,
+    "published" : true,
+    "results_published" : false,
+    "deleted" : false,
+    "duration_seconds" : 3600,
+    "questionCount" : 6
+  }, {
+    "id" : 19,
+    "title" : "[TEST] K06 - Đề nháp chưa xuất bản",
+    "chapter" : "Toán 11",
+    "topic" : "Ôn tập",
+    "course_id" : 7,
+    "author_id" : 7,
+    "published" : false,
+    "results_published" : false,
+    "deleted" : false,
+    "duration_seconds" : 3600,
+    "questionCount" : 6
+  }, {
+    "id" : 20,
+    "title" : "[TEST] K07 - Trắc nghiệm tổng hợp",
+    "chapter" : "Toán 11",
+    "topic" : "Ôn tập",
+    "course_id" : 8,
+    "author_id" : 2,
+    "published" : true,
+    "results_published" : true,
+    "deleted" : false,
+    "duration_seconds" : 3600,
+    "questionCount" : 8
+  }, {
+    "id" : 21,
+    "title" : "[TEST] K07 - Kiểm tra kết hợp tự luận",
+    "chapter" : "Toán 11",
+    "topic" : "Ôn tập",
+    "course_id" : 8,
+    "author_id" : 2,
+    "published" : true,
+    "results_published" : true,
+    "deleted" : false,
+    "duration_seconds" : 3600,
+    "questionCount" : 6
+  }, {
+    "id" : 22,
+    "title" : "[TEST] K07 - Đề nháp chưa xuất bản",
+    "chapter" : "Toán 11",
+    "topic" : "Ôn tập",
+    "course_id" : 8,
+    "author_id" : 2,
+    "published" : false,
+    "results_published" : true,
+    "deleted" : false,
+    "duration_seconds" : 3600,
+    "questionCount" : 6
+  } ],
+  "gemini_settings" : [ ],
+  "prompt_templates" : [ {
+    "id" : 1,
+    "name" : "system",
+    "contentLength" : 184
+  }, {
+    "id" : 2,
+    "name" : "essayEvaluation",
+    "contentLength" : 129
+  }, {
+    "id" : 3,
+    "name" : "stepTutor",
+    "contentLength" : 141
+  }, {
+    "id" : 4,
+    "name" : "retryEvaluation",
+    "contentLength" : 128
+  } ],
+  "learning_history" : [ {
+    "id" : 114,
+    "student_id" : 3,
+    "title" : "[TEST] K07 - Giá trị lớn nhất của hàm lượng giác 19",
+    "type" : "ESSAY",
+    "score" : 7.00,
+    "status" : "COMPLETED"
+  }, {
+    "id" : 113,
+    "student_id" : 3,
+    "title" : "[TEST] K07 - Giá trị lớn nhất của hàm lượng giác 19",
+    "type" : "ESSAY",
+    "score" : null,
+    "status" : "Đã nộp"
+  }, {
+    "id" : 112,
+    "student_id" : 13,
+    "title" : "[TEST] K07 - Giá trị lớn nhất của hàm lượng giác 19",
+    "type" : "ESSAY",
+    "score" : null,
+    "status" : "Đã nộp"
+  }, {
+    "id" : 111,
+    "student_id" : 13,
+    "title" : "[TEST] K07 - Kiểm tra kết hợp tự luận",
+    "type" : "MCQ",
+    "score" : 7.00,
+    "status" : "Hoàn thành"
+  }, {
+    "id" : 110,
+    "student_id" : 13,
+    "title" : "[TEST] K07 - Trắc nghiệm tổng hợp",
+    "type" : "MCQ",
+    "score" : 7.50,
+    "status" : "Hoàn thành"
+  }, {
+    "id" : 109,
+    "student_id" : 12,
+    "title" : "[TEST] K07 - Giá trị lớn nhất của hàm lượng giác 19",
+    "type" : "ESSAY",
+    "score" : 7.00,
+    "status" : "COMPLETED"
+  }, {
+    "id" : 108,
+    "student_id" : 12,
+    "title" : "[TEST] K07 - Giá trị lớn nhất của hàm lượng giác 19",
+    "type" : "ESSAY",
+    "score" : null,
+    "status" : "Đã nộp"
+  }, {
+    "id" : 107,
+    "student_id" : 12,
+    "title" : "[TEST] K07 - Kiểm tra kết hợp tự luận",
+    "type" : "MCQ",
+    "score" : 8.00,
+    "status" : "Hoàn thành"
+  }, {
+    "id" : 106,
+    "student_id" : 12,
+    "title" : "[TEST] K07 - Trắc nghiệm tổng hợp",
+    "type" : "MCQ",
+    "score" : 7.50,
+    "status" : "Hoàn thành"
+  }, {
+    "id" : 105,
+    "student_id" : 11,
+    "title" : "[TEST] K07 - Giá trị lớn nhất của hàm lượng giác 19",
+    "type" : "ESSAY",
+    "score" : null,
+    "status" : "Đã nộp"
+  }, {
+    "id" : 104,
+    "student_id" : 11,
+    "title" : "[TEST] K07 - Kiểm tra kết hợp tự luận",
+    "type" : "MCQ",
+    "score" : 7.00,
+    "status" : "Hoàn thành"
+  }, {
+    "id" : 103,
+    "student_id" : 11,
+    "title" : "[TEST] K07 - Trắc nghiệm tổng hợp",
+    "type" : "MCQ",
+    "score" : 7.50,
+    "status" : "Hoàn thành"
+  }, {
+    "id" : 102,
+    "student_id" : 10,
+    "title" : "[TEST] K07 - Giá trị lớn nhất của hàm lượng giác 19",
+    "type" : "ESSAY",
+    "score" : 7.00,
+    "status" : "COMPLETED"
+  }, {
+    "id" : 101,
+    "student_id" : 10,
+    "title" : "[TEST] K07 - Giá trị lớn nhất của hàm lượng giác 19",
+    "type" : "ESSAY",
+    "score" : null,
+    "status" : "Đã nộp"
+  }, {
+    "id" : 100,
+    "student_id" : 10,
+    "title" : "[TEST] K07 - Trắc nghiệm tổng hợp",
+    "type" : "MCQ",
+    "score" : 7.50,
+    "status" : "Hoàn thành"
+  }, {
+    "id" : 99,
+    "student_id" : 9,
+    "title" : "[TEST] K07 - Giá trị lớn nhất của hàm lượng giác 19",
+    "type" : "ESSAY",
+    "score" : null,
+    "status" : "Đã nộp"
+  }, {
+    "id" : 98,
+    "student_id" : 9,
+    "title" : "[TEST] K07 - Trắc nghiệm tổng hợp",
+    "type" : "MCQ",
+    "score" : 7.50,
+    "status" : "Hoàn thành"
+  }, {
+    "id" : 97,
+    "student_id" : 8,
+    "title" : "[TEST] K07 - Giá trị lớn nhất của hàm lượng giác 19",
+    "type" : "ESSAY",
+    "score" : 9.50,
+    "status" : "COMPLETED"
+  }, {
+    "id" : 96,
+    "student_id" : 8,
+    "title" : "[TEST] K07 - Giá trị lớn nhất của hàm lượng giác 19",
+    "type" : "ESSAY",
+    "score" : null,
+    "status" : "Đã nộp"
+  }, {
+    "id" : 95,
+    "student_id" : 3,
+    "title" : "[TEST] K05 - Giá trị lớn nhất của hàm lượng giác 19",
+    "type" : "ESSAY",
+    "score" : 7.00,
+    "status" : "COMPLETED"
+  }, {
+    "id" : 94,
+    "student_id" : 3,
+    "title" : "[TEST] K05 - Giá trị lớn nhất của hàm lượng giác 19",
+    "type" : "ESSAY",
+    "score" : null,
+    "status" : "Đã nộp"
+  }, {
+    "id" : 93,
+    "student_id" : 25,
+    "title" : "[TEST] K05 - Giá trị lớn nhất của hàm lượng giác 19",
+    "type" : "ESSAY",
+    "score" : null,
+    "status" : "Đã nộp"
+  }, {
+    "id" : 92,
+    "student_id" : 25,
+    "title" : "[TEST] K05 - Kiểm tra kết hợp tự luận",
+    "type" : "MCQ",
+    "score" : 7.00,
+    "status" : "Hoàn thành"
+  }, {
+    "id" : 91,
+    "student_id" : 25,
+    "title" : "[TEST] K05 - Trắc nghiệm tổng hợp",
+    "type" : "MCQ",
+    "score" : 7.50,
+    "status" : "Hoàn thành"
+  }, {
+    "id" : 90,
+    "student_id" : 24,
+    "title" : "[TEST] K05 - Giá trị lớn nhất của hàm lượng giác 19",
+    "type" : "ESSAY",
+    "score" : 7.00,
+    "status" : "COMPLETED"
+  }, {
+    "id" : 89,
+    "student_id" : 24,
+    "title" : "[TEST] K05 - Giá trị lớn nhất của hàm lượng giác 19",
+    "type" : "ESSAY",
+    "score" : null,
+    "status" : "Đã nộp"
+  }, {
+    "id" : 88,
+    "student_id" : 24,
+    "title" : "[TEST] K05 - Kiểm tra kết hợp tự luận",
+    "type" : "MCQ",
+    "score" : 8.00,
+    "status" : "Hoàn thành"
+  }, {
+    "id" : 87,
+    "student_id" : 24,
+    "title" : "[TEST] K05 - Trắc nghiệm tổng hợp",
+    "type" : "MCQ",
+    "score" : 7.50,
+    "status" : "Hoàn thành"
+  }, {
+    "id" : 86,
+    "student_id" : 23,
+    "title" : "[TEST] K05 - Giá trị lớn nhất của hàm lượng giác 19",
+    "type" : "ESSAY",
+    "score" : null,
+    "status" : "Đã nộp"
+  }, {
+    "id" : 85,
+    "student_id" : 23,
+    "title" : "[TEST] K05 - Kiểm tra kết hợp tự luận",
+    "type" : "MCQ",
+    "score" : 7.00,
+    "status" : "Hoàn thành"
+  }, {
+    "id" : 84,
+    "student_id" : 23,
+    "title" : "[TEST] K05 - Trắc nghiệm tổng hợp",
+    "type" : "MCQ",
+    "score" : 7.50,
+    "status" : "Hoàn thành"
+  }, {
+    "id" : 83,
+    "student_id" : 22,
+    "title" : "[TEST] K05 - Giá trị lớn nhất của hàm lượng giác 19",
+    "type" : "ESSAY",
+    "score" : 7.00,
+    "status" : "COMPLETED"
+  }, {
+    "id" : 82,
+    "student_id" : 22,
+    "title" : "[TEST] K05 - Giá trị lớn nhất của hàm lượng giác 19",
+    "type" : "ESSAY",
+    "score" : null,
+    "status" : "Đã nộp"
+  }, {
+    "id" : 81,
+    "student_id" : 22,
+    "title" : "[TEST] K05 - Trắc nghiệm tổng hợp",
+    "type" : "MCQ",
+    "score" : 7.50,
+    "status" : "Hoàn thành"
+  }, {
+    "id" : 80,
+    "student_id" : 21,
+    "title" : "[TEST] K05 - Giá trị lớn nhất của hàm lượng giác 19",
+    "type" : "ESSAY",
+    "score" : null,
+    "status" : "Đã nộp"
+  }, {
+    "id" : 79,
+    "student_id" : 21,
+    "title" : "[TEST] K05 - Trắc nghiệm tổng hợp",
+    "type" : "MCQ",
+    "score" : 7.50,
+    "status" : "Hoàn thành"
+  }, {
+    "id" : 78,
+    "student_id" : 20,
+    "title" : "[TEST] K05 - Giá trị lớn nhất của hàm lượng giác 19",
+    "type" : "ESSAY",
+    "score" : 9.50,
+    "status" : "COMPLETED"
+  }, {
+    "id" : 77,
+    "student_id" : 20,
+    "title" : "[TEST] K05 - Giá trị lớn nhất của hàm lượng giác 19",
+    "type" : "ESSAY",
+    "score" : null,
+    "status" : "Đã nộp"
+  }, {
+    "id" : 76,
+    "student_id" : 3,
+    "title" : "[TEST] K04 - Giá trị lớn nhất của hàm lượng giác 19",
+    "type" : "ESSAY",
+    "score" : 7.00,
+    "status" : "COMPLETED"
+  }, {
+    "id" : 75,
+    "student_id" : 3,
+    "title" : "[TEST] K04 - Giá trị lớn nhất của hàm lượng giác 19",
+    "type" : "ESSAY",
+    "score" : null,
+    "status" : "Đã nộp"
+  }, {
+    "id" : 74,
+    "student_id" : 19,
+    "title" : "[TEST] K04 - Giá trị lớn nhất của hàm lượng giác 19",
+    "type" : "ESSAY",
+    "score" : null,
+    "status" : "Đã nộp"
+  }, {
+    "id" : 73,
+    "student_id" : 19,
+    "title" : "[TEST] K04 - Kiểm tra kết hợp tự luận",
+    "type" : "MCQ",
+    "score" : 7.00,
+    "status" : "Hoàn thành"
+  }, {
+    "id" : 72,
+    "student_id" : 19,
+    "title" : "[TEST] K04 - Trắc nghiệm tổng hợp",
+    "type" : "MCQ",
+    "score" : 7.50,
+    "status" : "Hoàn thành"
+  }, {
+    "id" : 71,
+    "student_id" : 18,
+    "title" : "[TEST] K04 - Giá trị lớn nhất của hàm lượng giác 19",
+    "type" : "ESSAY",
+    "score" : 7.00,
+    "status" : "COMPLETED"
+  }, {
+    "id" : 70,
+    "student_id" : 18,
+    "title" : "[TEST] K04 - Giá trị lớn nhất của hàm lượng giác 19",
+    "type" : "ESSAY",
+    "score" : null,
+    "status" : "Đã nộp"
+  }, {
+    "id" : 69,
+    "student_id" : 18,
+    "title" : "[TEST] K04 - Kiểm tra kết hợp tự luận",
+    "type" : "MCQ",
+    "score" : 8.00,
+    "status" : "Hoàn thành"
+  }, {
+    "id" : 68,
+    "student_id" : 18,
+    "title" : "[TEST] K04 - Trắc nghiệm tổng hợp",
+    "type" : "MCQ",
+    "score" : 7.50,
+    "status" : "Hoàn thành"
+  }, {
+    "id" : 67,
+    "student_id" : 17,
+    "title" : "[TEST] K04 - Giá trị lớn nhất của hàm lượng giác 19",
+    "type" : "ESSAY",
+    "score" : null,
+    "status" : "Đã nộp"
+  }, {
+    "id" : 66,
+    "student_id" : 17,
+    "title" : "[TEST] K04 - Kiểm tra kết hợp tự luận",
+    "type" : "MCQ",
+    "score" : 7.00,
+    "status" : "Hoàn thành"
+  }, {
+    "id" : 65,
+    "student_id" : 17,
+    "title" : "[TEST] K04 - Trắc nghiệm tổng hợp",
+    "type" : "MCQ",
+    "score" : 7.50,
+    "status" : "Hoàn thành"
+  }, {
+    "id" : 64,
+    "student_id" : 16,
+    "title" : "[TEST] K04 - Giá trị lớn nhất của hàm lượng giác 19",
+    "type" : "ESSAY",
+    "score" : 7.00,
+    "status" : "COMPLETED"
+  }, {
+    "id" : 63,
+    "student_id" : 16,
+    "title" : "[TEST] K04 - Giá trị lớn nhất của hàm lượng giác 19",
+    "type" : "ESSAY",
+    "score" : null,
+    "status" : "Đã nộp"
+  }, {
+    "id" : 62,
+    "student_id" : 16,
+    "title" : "[TEST] K04 - Trắc nghiệm tổng hợp",
+    "type" : "MCQ",
+    "score" : 7.50,
+    "status" : "Hoàn thành"
+  }, {
+    "id" : 61,
+    "student_id" : 15,
+    "title" : "[TEST] K04 - Giá trị lớn nhất của hàm lượng giác 19",
+    "type" : "ESSAY",
+    "score" : null,
+    "status" : "Đã nộp"
+  }, {
+    "id" : 60,
+    "student_id" : 15,
+    "title" : "[TEST] K04 - Trắc nghiệm tổng hợp",
+    "type" : "MCQ",
+    "score" : 7.50,
+    "status" : "Hoàn thành"
+  }, {
+    "id" : 59,
+    "student_id" : 14,
+    "title" : "[TEST] K04 - Giá trị lớn nhất của hàm lượng giác 19",
+    "type" : "ESSAY",
+    "score" : 9.50,
+    "status" : "COMPLETED"
+  }, {
+    "id" : 58,
+    "student_id" : 14,
+    "title" : "[TEST] K04 - Giá trị lớn nhất của hàm lượng giác 19",
+    "type" : "ESSAY",
+    "score" : null,
+    "status" : "Đã nộp"
+  }, {
+    "id" : 57,
+    "student_id" : 3,
+    "title" : "[TEST] K03 - Giá trị lớn nhất của hàm lượng giác 19",
+    "type" : "ESSAY",
+    "score" : 7.00,
+    "status" : "COMPLETED"
+  }, {
+    "id" : 56,
+    "student_id" : 3,
+    "title" : "[TEST] K03 - Giá trị lớn nhất của hàm lượng giác 19",
+    "type" : "ESSAY",
+    "score" : null,
+    "status" : "Đã nộp"
+  }, {
+    "id" : 55,
+    "student_id" : 19,
+    "title" : "[TEST] K03 - Giá trị lớn nhất của hàm lượng giác 19",
+    "type" : "ESSAY",
+    "score" : null,
+    "status" : "Đã nộp"
+  }, {
+    "id" : 54,
+    "student_id" : 19,
+    "title" : "[TEST] K03 - Kiểm tra kết hợp tự luận",
+    "type" : "MCQ",
+    "score" : 7.00,
+    "status" : "Hoàn thành"
+  }, {
+    "id" : 53,
+    "student_id" : 19,
+    "title" : "[TEST] K03 - Trắc nghiệm tổng hợp",
+    "type" : "MCQ",
+    "score" : 7.50,
+    "status" : "Hoàn thành"
+  }, {
+    "id" : 52,
+    "student_id" : 18,
+    "title" : "[TEST] K03 - Giá trị lớn nhất của hàm lượng giác 19",
+    "type" : "ESSAY",
+    "score" : 7.00,
+    "status" : "COMPLETED"
+  }, {
+    "id" : 51,
+    "student_id" : 18,
+    "title" : "[TEST] K03 - Giá trị lớn nhất của hàm lượng giác 19",
+    "type" : "ESSAY",
+    "score" : null,
+    "status" : "Đã nộp"
+  }, {
+    "id" : 50,
+    "student_id" : 18,
+    "title" : "[TEST] K03 - Kiểm tra kết hợp tự luận",
+    "type" : "MCQ",
+    "score" : 8.00,
+    "status" : "Hoàn thành"
+  }, {
+    "id" : 49,
+    "student_id" : 18,
+    "title" : "[TEST] K03 - Trắc nghiệm tổng hợp",
+    "type" : "MCQ",
+    "score" : 7.50,
+    "status" : "Hoàn thành"
+  }, {
+    "id" : 48,
+    "student_id" : 17,
+    "title" : "[TEST] K03 - Giá trị lớn nhất của hàm lượng giác 19",
+    "type" : "ESSAY",
+    "score" : null,
+    "status" : "Đã nộp"
+  }, {
+    "id" : 47,
+    "student_id" : 17,
+    "title" : "[TEST] K03 - Kiểm tra kết hợp tự luận",
+    "type" : "MCQ",
+    "score" : 7.00,
+    "status" : "Hoàn thành"
+  }, {
+    "id" : 46,
+    "student_id" : 17,
+    "title" : "[TEST] K03 - Trắc nghiệm tổng hợp",
+    "type" : "MCQ",
+    "score" : 7.50,
+    "status" : "Hoàn thành"
+  }, {
+    "id" : 45,
+    "student_id" : 16,
+    "title" : "[TEST] K03 - Giá trị lớn nhất của hàm lượng giác 19",
+    "type" : "ESSAY",
+    "score" : 7.00,
+    "status" : "COMPLETED"
+  }, {
+    "id" : 44,
+    "student_id" : 16,
+    "title" : "[TEST] K03 - Giá trị lớn nhất của hàm lượng giác 19",
+    "type" : "ESSAY",
+    "score" : null,
+    "status" : "Đã nộp"
+  }, {
+    "id" : 43,
+    "student_id" : 16,
+    "title" : "[TEST] K03 - Trắc nghiệm tổng hợp",
+    "type" : "MCQ",
+    "score" : 7.50,
+    "status" : "Hoàn thành"
+  }, {
+    "id" : 42,
+    "student_id" : 15,
+    "title" : "[TEST] K03 - Giá trị lớn nhất của hàm lượng giác 19",
+    "type" : "ESSAY",
+    "score" : null,
+    "status" : "Đã nộp"
+  }, {
+    "id" : 41,
+    "student_id" : 15,
+    "title" : "[TEST] K03 - Trắc nghiệm tổng hợp",
+    "type" : "MCQ",
+    "score" : 7.50,
+    "status" : "Hoàn thành"
+  }, {
+    "id" : 40,
+    "student_id" : 14,
+    "title" : "[TEST] K03 - Giá trị lớn nhất của hàm lượng giác 19",
+    "type" : "ESSAY",
+    "score" : 9.50,
+    "status" : "COMPLETED"
+  }, {
+    "id" : 39,
+    "student_id" : 14,
+    "title" : "[TEST] K03 - Giá trị lớn nhất của hàm lượng giác 19",
+    "type" : "ESSAY",
+    "score" : null,
+    "status" : "Đã nộp"
+  }, {
+    "id" : 38,
+    "student_id" : 3,
+    "title" : "[TEST] K02 - Giá trị lớn nhất của hàm lượng giác 19",
+    "type" : "ESSAY",
+    "score" : 7.00,
+    "status" : "COMPLETED"
+  }, {
+    "id" : 37,
+    "student_id" : 3,
+    "title" : "[TEST] K02 - Giá trị lớn nhất của hàm lượng giác 19",
+    "type" : "ESSAY",
+    "score" : null,
+    "status" : "Đã nộp"
+  }, {
+    "id" : 36,
+    "student_id" : 13,
+    "title" : "[TEST] K02 - Giá trị lớn nhất của hàm lượng giác 19",
+    "type" : "ESSAY",
+    "score" : null,
+    "status" : "Đã nộp"
+  }, {
+    "id" : 35,
+    "student_id" : 13,
+    "title" : "[TEST] K02 - Kiểm tra kết hợp tự luận",
+    "type" : "MCQ",
+    "score" : 7.00,
+    "status" : "Hoàn thành"
+  }, {
+    "id" : 34,
+    "student_id" : 13,
+    "title" : "[TEST] K02 - Trắc nghiệm tổng hợp",
+    "type" : "MCQ",
+    "score" : 7.50,
+    "status" : "Hoàn thành"
+  }, {
+    "id" : 33,
+    "student_id" : 12,
+    "title" : "[TEST] K02 - Giá trị lớn nhất của hàm lượng giác 19",
+    "type" : "ESSAY",
+    "score" : 7.00,
+    "status" : "COMPLETED"
+  }, {
+    "id" : 32,
+    "student_id" : 12,
+    "title" : "[TEST] K02 - Giá trị lớn nhất của hàm lượng giác 19",
+    "type" : "ESSAY",
+    "score" : null,
+    "status" : "Đã nộp"
+  }, {
+    "id" : 31,
+    "student_id" : 12,
+    "title" : "[TEST] K02 - Kiểm tra kết hợp tự luận",
+    "type" : "MCQ",
+    "score" : 8.00,
+    "status" : "Hoàn thành"
+  }, {
+    "id" : 30,
+    "student_id" : 12,
+    "title" : "[TEST] K02 - Trắc nghiệm tổng hợp",
+    "type" : "MCQ",
+    "score" : 7.50,
+    "status" : "Hoàn thành"
+  }, {
+    "id" : 29,
+    "student_id" : 11,
+    "title" : "[TEST] K02 - Giá trị lớn nhất của hàm lượng giác 19",
+    "type" : "ESSAY",
+    "score" : null,
+    "status" : "Đã nộp"
+  }, {
+    "id" : 28,
+    "student_id" : 11,
+    "title" : "[TEST] K02 - Kiểm tra kết hợp tự luận",
+    "type" : "MCQ",
+    "score" : 7.00,
+    "status" : "Hoàn thành"
+  }, {
+    "id" : 27,
+    "student_id" : 11,
+    "title" : "[TEST] K02 - Trắc nghiệm tổng hợp",
+    "type" : "MCQ",
+    "score" : 7.50,
+    "status" : "Hoàn thành"
+  }, {
+    "id" : 26,
+    "student_id" : 10,
+    "title" : "[TEST] K02 - Giá trị lớn nhất của hàm lượng giác 19",
+    "type" : "ESSAY",
+    "score" : 7.00,
+    "status" : "COMPLETED"
+  }, {
+    "id" : 25,
+    "student_id" : 10,
+    "title" : "[TEST] K02 - Giá trị lớn nhất của hàm lượng giác 19",
+    "type" : "ESSAY",
+    "score" : null,
+    "status" : "Đã nộp"
+  }, {
+    "id" : 24,
+    "student_id" : 10,
+    "title" : "[TEST] K02 - Trắc nghiệm tổng hợp",
+    "type" : "MCQ",
+    "score" : 7.50,
+    "status" : "Hoàn thành"
+  }, {
+    "id" : 23,
+    "student_id" : 9,
+    "title" : "[TEST] K02 - Giá trị lớn nhất của hàm lượng giác 19",
+    "type" : "ESSAY",
+    "score" : null,
+    "status" : "Đã nộp"
+  }, {
+    "id" : 22,
+    "student_id" : 9,
+    "title" : "[TEST] K02 - Trắc nghiệm tổng hợp",
+    "type" : "MCQ",
+    "score" : 7.50,
+    "status" : "Hoàn thành"
+  }, {
+    "id" : 21,
+    "student_id" : 8,
+    "title" : "[TEST] K02 - Giá trị lớn nhất của hàm lượng giác 19",
+    "type" : "ESSAY",
+    "score" : 9.50,
+    "status" : "COMPLETED"
+  }, {
+    "id" : 20,
+    "student_id" : 8,
+    "title" : "[TEST] K02 - Giá trị lớn nhất của hàm lượng giác 19",
+    "type" : "ESSAY",
+    "score" : null,
+    "status" : "Đã nộp"
+  }, {
+    "id" : 19,
+    "student_id" : 3,
+    "title" : "[TEST] K01 - Giá trị lớn nhất của hàm lượng giác 19",
+    "type" : "ESSAY",
+    "score" : 7.00,
+    "status" : "COMPLETED"
+  }, {
+    "id" : 18,
+    "student_id" : 3,
+    "title" : "[TEST] K01 - Giá trị lớn nhất của hàm lượng giác 19",
+    "type" : "ESSAY",
+    "score" : null,
+    "status" : "Đã nộp"
+  }, {
+    "id" : 17,
+    "student_id" : 13,
+    "title" : "[TEST] K01 - Giá trị lớn nhất của hàm lượng giác 19",
+    "type" : "ESSAY",
+    "score" : null,
+    "status" : "Đã nộp"
+  }, {
+    "id" : 16,
+    "student_id" : 13,
+    "title" : "[TEST] K01 - Kiểm tra kết hợp tự luận",
+    "type" : "MCQ",
+    "score" : 7.00,
+    "status" : "Hoàn thành"
+  }, {
+    "id" : 15,
+    "student_id" : 13,
+    "title" : "[TEST] K01 - Trắc nghiệm tổng hợp",
+    "type" : "MCQ",
+    "score" : 7.50,
+    "status" : "Hoàn thành"
+  } ],
+  "exam_attempts" : [ {
+    "id" : 84,
+    "exam_id" : 21,
+    "student_id" : 3,
+    "status" : "PENDING_GRADING"
+  }, {
+    "id" : 83,
+    "exam_id" : 20,
+    "student_id" : 3,
+    "status" : "IN_PROGRESS"
+  }, {
+    "id" : 82,
+    "exam_id" : 21,
+    "student_id" : 13,
+    "status" : "GRADED"
+  }, {
+    "id" : 81,
+    "exam_id" : 20,
+    "student_id" : 13,
+    "status" : "SUBMITTED"
+  }, {
+    "id" : 80,
+    "exam_id" : 21,
+    "student_id" : 12,
+    "status" : "GRADED"
+  }, {
+    "id" : 79,
+    "exam_id" : 20,
+    "student_id" : 12,
+    "status" : "SUBMITTED"
+  }, {
+    "id" : 78,
+    "exam_id" : 21,
+    "student_id" : 11,
+    "status" : "GRADED"
+  }, {
+    "id" : 77,
+    "exam_id" : 20,
+    "student_id" : 11,
+    "status" : "SUBMITTED"
+  }, {
+    "id" : 76,
+    "exam_id" : 21,
+    "student_id" : 10,
+    "status" : "PENDING_GRADING"
+  }, {
+    "id" : 75,
+    "exam_id" : 20,
+    "student_id" : 10,
+    "status" : "SUBMITTED"
+  }, {
+    "id" : 74,
+    "exam_id" : 21,
+    "student_id" : 9,
+    "status" : "PENDING_GRADING"
+  }, {
+    "id" : 73,
+    "exam_id" : 20,
+    "student_id" : 9,
+    "status" : "SUBMITTED"
+  }, {
+    "id" : 72,
+    "exam_id" : 21,
+    "student_id" : 8,
+    "status" : "IN_PROGRESS"
+  }, {
+    "id" : 71,
+    "exam_id" : 20,
+    "student_id" : 8,
+    "status" : "IN_PROGRESS"
+  }, {
+    "id" : 70,
+    "exam_id" : 15,
+    "student_id" : 3,
+    "status" : "PENDING_GRADING"
+  }, {
+    "id" : 69,
+    "exam_id" : 14,
+    "student_id" : 3,
+    "status" : "IN_PROGRESS"
+  }, {
+    "id" : 68,
+    "exam_id" : 15,
+    "student_id" : 25,
+    "status" : "GRADED"
+  }, {
+    "id" : 67,
+    "exam_id" : 14,
+    "student_id" : 25,
+    "status" : "SUBMITTED"
+  }, {
+    "id" : 66,
+    "exam_id" : 15,
+    "student_id" : 24,
+    "status" : "GRADED"
+  }, {
+    "id" : 65,
+    "exam_id" : 14,
+    "student_id" : 24,
+    "status" : "SUBMITTED"
+  }, {
+    "id" : 64,
+    "exam_id" : 15,
+    "student_id" : 23,
+    "status" : "GRADED"
+  }, {
+    "id" : 63,
+    "exam_id" : 14,
+    "student_id" : 23,
+    "status" : "SUBMITTED"
+  }, {
+    "id" : 62,
+    "exam_id" : 15,
+    "student_id" : 22,
+    "status" : "PENDING_GRADING"
+  }, {
+    "id" : 61,
+    "exam_id" : 14,
+    "student_id" : 22,
+    "status" : "SUBMITTED"
+  }, {
+    "id" : 60,
+    "exam_id" : 15,
+    "student_id" : 21,
+    "status" : "PENDING_GRADING"
+  }, {
+    "id" : 59,
+    "exam_id" : 14,
+    "student_id" : 21,
+    "status" : "SUBMITTED"
+  }, {
+    "id" : 58,
+    "exam_id" : 15,
+    "student_id" : 20,
+    "status" : "IN_PROGRESS"
+  }, {
+    "id" : 57,
+    "exam_id" : 14,
+    "student_id" : 20,
+    "status" : "IN_PROGRESS"
+  }, {
+    "id" : 56,
+    "exam_id" : 12,
+    "student_id" : 3,
+    "status" : "PENDING_GRADING"
+  }, {
+    "id" : 55,
+    "exam_id" : 11,
+    "student_id" : 3,
+    "status" : "IN_PROGRESS"
+  }, {
+    "id" : 54,
+    "exam_id" : 12,
+    "student_id" : 19,
+    "status" : "GRADED"
+  }, {
+    "id" : 53,
+    "exam_id" : 11,
+    "student_id" : 19,
+    "status" : "SUBMITTED"
+  }, {
+    "id" : 52,
+    "exam_id" : 12,
+    "student_id" : 18,
+    "status" : "GRADED"
+  }, {
+    "id" : 51,
+    "exam_id" : 11,
+    "student_id" : 18,
+    "status" : "SUBMITTED"
+  }, {
+    "id" : 50,
+    "exam_id" : 12,
+    "student_id" : 17,
+    "status" : "GRADED"
+  }, {
+    "id" : 49,
+    "exam_id" : 11,
+    "student_id" : 17,
+    "status" : "SUBMITTED"
+  }, {
+    "id" : 48,
+    "exam_id" : 12,
+    "student_id" : 16,
+    "status" : "PENDING_GRADING"
+  }, {
+    "id" : 47,
+    "exam_id" : 11,
+    "student_id" : 16,
+    "status" : "SUBMITTED"
+  }, {
+    "id" : 46,
+    "exam_id" : 12,
+    "student_id" : 15,
+    "status" : "PENDING_GRADING"
+  }, {
+    "id" : 45,
+    "exam_id" : 11,
+    "student_id" : 15,
+    "status" : "SUBMITTED"
+  }, {
+    "id" : 44,
+    "exam_id" : 12,
+    "student_id" : 14,
+    "status" : "IN_PROGRESS"
+  }, {
+    "id" : 43,
+    "exam_id" : 11,
+    "student_id" : 14,
+    "status" : "IN_PROGRESS"
+  }, {
+    "id" : 42,
+    "exam_id" : 9,
+    "student_id" : 3,
+    "status" : "PENDING_GRADING"
+  }, {
+    "id" : 41,
+    "exam_id" : 8,
+    "student_id" : 3,
+    "status" : "IN_PROGRESS"
+  }, {
+    "id" : 40,
+    "exam_id" : 9,
+    "student_id" : 19,
+    "status" : "GRADED"
+  }, {
+    "id" : 39,
+    "exam_id" : 8,
+    "student_id" : 19,
+    "status" : "SUBMITTED"
+  }, {
+    "id" : 38,
+    "exam_id" : 9,
+    "student_id" : 18,
+    "status" : "GRADED"
+  }, {
+    "id" : 37,
+    "exam_id" : 8,
+    "student_id" : 18,
+    "status" : "SUBMITTED"
+  }, {
+    "id" : 36,
+    "exam_id" : 9,
+    "student_id" : 17,
+    "status" : "GRADED"
+  }, {
+    "id" : 35,
+    "exam_id" : 8,
+    "student_id" : 17,
+    "status" : "SUBMITTED"
+  }, {
+    "id" : 34,
+    "exam_id" : 9,
+    "student_id" : 16,
+    "status" : "PENDING_GRADING"
+  }, {
+    "id" : 33,
+    "exam_id" : 8,
+    "student_id" : 16,
+    "status" : "SUBMITTED"
+  }, {
+    "id" : 32,
+    "exam_id" : 9,
+    "student_id" : 15,
+    "status" : "PENDING_GRADING"
+  }, {
+    "id" : 31,
+    "exam_id" : 8,
+    "student_id" : 15,
+    "status" : "SUBMITTED"
+  }, {
+    "id" : 30,
+    "exam_id" : 9,
+    "student_id" : 14,
+    "status" : "IN_PROGRESS"
+  }, {
+    "id" : 29,
+    "exam_id" : 8,
+    "student_id" : 14,
+    "status" : "IN_PROGRESS"
+  }, {
+    "id" : 28,
+    "exam_id" : 6,
+    "student_id" : 3,
+    "status" : "PENDING_GRADING"
+  }, {
+    "id" : 27,
+    "exam_id" : 5,
+    "student_id" : 3,
+    "status" : "IN_PROGRESS"
+  }, {
+    "id" : 26,
+    "exam_id" : 6,
+    "student_id" : 13,
+    "status" : "GRADED"
+  }, {
+    "id" : 25,
+    "exam_id" : 5,
+    "student_id" : 13,
+    "status" : "SUBMITTED"
+  }, {
+    "id" : 24,
+    "exam_id" : 6,
+    "student_id" : 12,
+    "status" : "GRADED"
+  }, {
+    "id" : 23,
+    "exam_id" : 5,
+    "student_id" : 12,
+    "status" : "SUBMITTED"
+  }, {
+    "id" : 22,
+    "exam_id" : 6,
+    "student_id" : 11,
+    "status" : "GRADED"
+  }, {
+    "id" : 21,
+    "exam_id" : 5,
+    "student_id" : 11,
+    "status" : "SUBMITTED"
+  }, {
+    "id" : 20,
+    "exam_id" : 6,
+    "student_id" : 10,
+    "status" : "PENDING_GRADING"
+  }, {
+    "id" : 19,
+    "exam_id" : 5,
+    "student_id" : 10,
+    "status" : "SUBMITTED"
+  }, {
+    "id" : 18,
+    "exam_id" : 6,
+    "student_id" : 9,
+    "status" : "PENDING_GRADING"
+  }, {
+    "id" : 17,
+    "exam_id" : 5,
+    "student_id" : 9,
+    "status" : "SUBMITTED"
+  }, {
+    "id" : 16,
+    "exam_id" : 6,
+    "student_id" : 8,
+    "status" : "IN_PROGRESS"
+  }, {
+    "id" : 15,
+    "exam_id" : 5,
+    "student_id" : 8,
+    "status" : "IN_PROGRESS"
+  }, {
+    "id" : 14,
+    "exam_id" : 3,
+    "student_id" : 3,
+    "status" : "PENDING_GRADING"
+  }, {
+    "id" : 13,
+    "exam_id" : 2,
+    "student_id" : 3,
+    "status" : "IN_PROGRESS"
+  }, {
+    "id" : 12,
+    "exam_id" : 3,
+    "student_id" : 13,
+    "status" : "GRADED"
+  }, {
+    "id" : 11,
+    "exam_id" : 2,
+    "student_id" : 13,
+    "status" : "SUBMITTED"
+  }, {
+    "id" : 10,
+    "exam_id" : 3,
+    "student_id" : 12,
+    "status" : "GRADED"
+  }, {
+    "id" : 9,
+    "exam_id" : 2,
+    "student_id" : 12,
+    "status" : "SUBMITTED"
+  }, {
+    "id" : 8,
+    "exam_id" : 3,
+    "student_id" : 11,
+    "status" : "GRADED"
+  }, {
+    "id" : 7,
+    "exam_id" : 2,
+    "student_id" : 11,
+    "status" : "SUBMITTED"
+  }, {
+    "id" : 6,
+    "exam_id" : 3,
+    "student_id" : 10,
+    "status" : "PENDING_GRADING"
+  }, {
+    "id" : 5,
+    "exam_id" : 2,
+    "student_id" : 10,
+    "status" : "SUBMITTED"
+  }, {
+    "id" : 4,
+    "exam_id" : 3,
+    "student_id" : 9,
+    "status" : "PENDING_GRADING"
+  }, {
+    "id" : 3,
+    "exam_id" : 2,
+    "student_id" : 9,
+    "status" : "SUBMITTED"
+  }, {
+    "id" : 2,
+    "exam_id" : 3,
+    "student_id" : 8,
+    "status" : "IN_PROGRESS"
+  }, {
+    "id" : 1,
+    "exam_id" : 2,
+    "student_id" : 8,
+    "status" : "IN_PROGRESS"
+  } ],
+  "essay_submissions" : [ {
+    "id" : 42,
+    "student_id" : 3,
+    "question_id" : 170,
+    "status" : "COMPLETED",
+    "course_id" : 8
+  }, {
+    "id" : 41,
+    "student_id" : 13,
+    "question_id" : 170,
+    "status" : "SUBMITTED",
+    "course_id" : 8
+  }, {
+    "id" : 40,
+    "student_id" : 12,
+    "question_id" : 170,
+    "status" : "COMPLETED",
+    "course_id" : 8
+  }, {
+    "id" : 39,
+    "student_id" : 11,
+    "question_id" : 170,
+    "status" : "SUBMITTED",
+    "course_id" : 8
+  }, {
+    "id" : 38,
+    "student_id" : 10,
+    "question_id" : 170,
+    "status" : "COMPLETED",
+    "course_id" : 8
+  }, {
+    "id" : 37,
+    "student_id" : 9,
+    "question_id" : 170,
+    "status" : "SUBMITTED",
+    "course_id" : 8
+  }, {
+    "id" : 36,
+    "student_id" : 8,
+    "question_id" : 170,
+    "status" : "COMPLETED",
+    "course_id" : 8
+  }, {
+    "id" : 35,
+    "student_id" : 3,
+    "question_id" : 122,
+    "status" : "COMPLETED",
+    "course_id" : 6
+  }, {
+    "id" : 34,
+    "student_id" : 25,
+    "question_id" : 122,
+    "status" : "SUBMITTED",
+    "course_id" : 6
+  }, {
+    "id" : 33,
+    "student_id" : 24,
+    "question_id" : 122,
+    "status" : "COMPLETED",
+    "course_id" : 6
+  }, {
+    "id" : 32,
+    "student_id" : 23,
+    "question_id" : 122,
+    "status" : "SUBMITTED",
+    "course_id" : 6
+  }, {
+    "id" : 31,
+    "student_id" : 22,
+    "question_id" : 122,
+    "status" : "COMPLETED",
+    "course_id" : 6
+  }, {
+    "id" : 30,
+    "student_id" : 21,
+    "question_id" : 122,
+    "status" : "SUBMITTED",
+    "course_id" : 6
+  }, {
+    "id" : 29,
+    "student_id" : 20,
+    "question_id" : 122,
+    "status" : "COMPLETED",
+    "course_id" : 6
+  }, {
+    "id" : 28,
+    "student_id" : 3,
+    "question_id" : 98,
+    "status" : "COMPLETED",
+    "course_id" : 5
+  }, {
+    "id" : 27,
+    "student_id" : 19,
+    "question_id" : 98,
+    "status" : "SUBMITTED",
+    "course_id" : 5
+  }, {
+    "id" : 26,
+    "student_id" : 18,
+    "question_id" : 98,
+    "status" : "COMPLETED",
+    "course_id" : 5
+  }, {
+    "id" : 25,
+    "student_id" : 17,
+    "question_id" : 98,
+    "status" : "SUBMITTED",
+    "course_id" : 5
+  }, {
+    "id" : 24,
+    "student_id" : 16,
+    "question_id" : 98,
+    "status" : "COMPLETED",
+    "course_id" : 5
+  }, {
+    "id" : 23,
+    "student_id" : 15,
+    "question_id" : 98,
+    "status" : "SUBMITTED",
+    "course_id" : 5
+  }, {
+    "id" : 22,
+    "student_id" : 14,
+    "question_id" : 98,
+    "status" : "COMPLETED",
+    "course_id" : 5
+  }, {
+    "id" : 21,
+    "student_id" : 3,
+    "question_id" : 74,
+    "status" : "COMPLETED",
+    "course_id" : 4
+  }, {
+    "id" : 20,
+    "student_id" : 19,
+    "question_id" : 74,
+    "status" : "SUBMITTED",
+    "course_id" : 4
+  }, {
+    "id" : 19,
+    "student_id" : 18,
+    "question_id" : 74,
+    "status" : "COMPLETED",
+    "course_id" : 4
+  }, {
+    "id" : 18,
+    "student_id" : 17,
+    "question_id" : 74,
+    "status" : "SUBMITTED",
+    "course_id" : 4
+  }, {
+    "id" : 17,
+    "student_id" : 16,
+    "question_id" : 74,
+    "status" : "COMPLETED",
+    "course_id" : 4
+  }, {
+    "id" : 16,
+    "student_id" : 15,
+    "question_id" : 74,
+    "status" : "SUBMITTED",
+    "course_id" : 4
+  }, {
+    "id" : 15,
+    "student_id" : 14,
+    "question_id" : 74,
+    "status" : "COMPLETED",
+    "course_id" : 4
+  }, {
+    "id" : 14,
+    "student_id" : 3,
+    "question_id" : 50,
+    "status" : "COMPLETED",
+    "course_id" : 3
+  }, {
+    "id" : 13,
+    "student_id" : 13,
+    "question_id" : 50,
+    "status" : "SUBMITTED",
+    "course_id" : 3
+  }, {
+    "id" : 12,
+    "student_id" : 12,
+    "question_id" : 50,
+    "status" : "COMPLETED",
+    "course_id" : 3
+  }, {
+    "id" : 11,
+    "student_id" : 11,
+    "question_id" : 50,
+    "status" : "SUBMITTED",
+    "course_id" : 3
+  }, {
+    "id" : 10,
+    "student_id" : 10,
+    "question_id" : 50,
+    "status" : "COMPLETED",
+    "course_id" : 3
+  }, {
+    "id" : 9,
+    "student_id" : 9,
+    "question_id" : 50,
+    "status" : "SUBMITTED",
+    "course_id" : 3
+  }, {
+    "id" : 8,
+    "student_id" : 8,
+    "question_id" : 50,
+    "status" : "COMPLETED",
+    "course_id" : 3
+  }, {
+    "id" : 7,
+    "student_id" : 3,
+    "question_id" : 26,
+    "status" : "COMPLETED",
+    "course_id" : 2
+  }, {
+    "id" : 6,
+    "student_id" : 13,
+    "question_id" : 26,
+    "status" : "SUBMITTED",
+    "course_id" : 2
+  }, {
+    "id" : 5,
+    "student_id" : 12,
+    "question_id" : 26,
+    "status" : "COMPLETED",
+    "course_id" : 2
+  }, {
+    "id" : 4,
+    "student_id" : 11,
+    "question_id" : 26,
+    "status" : "SUBMITTED",
+    "course_id" : 2
+  }, {
+    "id" : 3,
+    "student_id" : 10,
+    "question_id" : 26,
+    "status" : "COMPLETED",
+    "course_id" : 2
+  }, {
+    "id" : 2,
+    "student_id" : 9,
+    "question_id" : 26,
+    "status" : "SUBMITTED",
+    "course_id" : 2
+  }, {
+    "id" : 1,
+    "student_id" : 8,
+    "question_id" : 26,
+    "status" : "COMPLETED",
+    "course_id" : 2
+  } ],
+  "notifications" : [ {
+    "id" : 474,
+    "user_id" : 3,
+    "content" : "[TEST] Khóa học #8 có bài tập và đề thi mới. Hãy xem mục Luyện tập và Kiểm tra.",
+    "is_read" : true
+  }, {
+    "id" : 473,
+    "user_id" : 13,
+    "content" : "[TEST] Khóa học #8 có bài tập và đề thi mới. Hãy xem mục Luyện tập và Kiểm tra.",
+    "is_read" : false
+  }, {
+    "id" : 472,
+    "user_id" : 13,
+    "content" : "Bài kiểm tra đã được chấm. Xem lịch sử học tập để xem điểm.",
+    "is_read" : false
+  }, {
+    "id" : 471,
+    "user_id" : 13,
+    "content" : "Bài kiểm tra đã được chấm. Xem lịch sử học tập để xem điểm.",
+    "is_read" : false
+  }, {
+    "id" : 470,
+    "user_id" : 12,
+    "content" : "[TEST] Khóa học #8 có bài tập và đề thi mới. Hãy xem mục Luyện tập và Kiểm tra.",
+    "is_read" : true
+  }, {
+    "id" : 469,
+    "user_id" : 12,
+    "content" : "Bài kiểm tra đã được chấm. Xem lịch sử học tập để xem điểm.",
+    "is_read" : false
+  }, {
+    "id" : 468,
+    "user_id" : 12,
+    "content" : "Bài kiểm tra đã được chấm. Xem lịch sử học tập để xem điểm.",
+    "is_read" : false
+  }, {
+    "id" : 467,
+    "user_id" : 11,
+    "content" : "[TEST] Khóa học #8 có bài tập và đề thi mới. Hãy xem mục Luyện tập và Kiểm tra.",
+    "is_read" : false
+  }, {
+    "id" : 466,
+    "user_id" : 11,
+    "content" : "Bài kiểm tra đã được chấm. Xem lịch sử học tập để xem điểm.",
+    "is_read" : false
+  }, {
+    "id" : 465,
+    "user_id" : 11,
+    "content" : "Bài kiểm tra đã được chấm. Xem lịch sử học tập để xem điểm.",
+    "is_read" : false
+  }, {
+    "id" : 464,
+    "user_id" : 10,
+    "content" : "[TEST] Khóa học #8 có bài tập và đề thi mới. Hãy xem mục Luyện tập và Kiểm tra.",
+    "is_read" : true
+  }, {
+    "id" : 463,
+    "user_id" : 10,
+    "content" : "Bài kiểm tra đã được chấm. Xem lịch sử học tập để xem điểm.",
+    "is_read" : false
+  }, {
+    "id" : 462,
+    "user_id" : 9,
+    "content" : "[TEST] Khóa học #8 có bài tập và đề thi mới. Hãy xem mục Luyện tập và Kiểm tra.",
+    "is_read" : false
+  }, {
+    "id" : 461,
+    "user_id" : 9,
+    "content" : "Bài kiểm tra đã được chấm. Xem lịch sử học tập để xem điểm.",
+    "is_read" : false
+  }, {
+    "id" : 460,
+    "user_id" : 8,
+    "content" : "[TEST] Khóa học #8 có bài tập và đề thi mới. Hãy xem mục Luyện tập và Kiểm tra.",
+    "is_read" : true
+  }, {
+    "id" : 459,
+    "user_id" : 13,
+    "content" : "Bài giảng đã xuất bản/cập nhật: [TEST] K07 - Chương 3 – Giới hạn - Luyện tập",
+    "is_read" : false
+  }, {
+    "id" : 458,
+    "user_id" : 12,
+    "content" : "Bài giảng đã xuất bản/cập nhật: [TEST] K07 - Chương 3 – Giới hạn - Luyện tập",
+    "is_read" : false
+  }, {
+    "id" : 457,
+    "user_id" : 11,
+    "content" : "Bài giảng đã xuất bản/cập nhật: [TEST] K07 - Chương 3 – Giới hạn - Luyện tập",
+    "is_read" : false
+  }, {
+    "id" : 456,
+    "user_id" : 10,
+    "content" : "Bài giảng đã xuất bản/cập nhật: [TEST] K07 - Chương 3 – Giới hạn - Luyện tập",
+    "is_read" : false
+  }, {
+    "id" : 455,
+    "user_id" : 9,
+    "content" : "Bài giảng đã xuất bản/cập nhật: [TEST] K07 - Chương 3 – Giới hạn - Luyện tập",
+    "is_read" : false
+  }, {
+    "id" : 454,
+    "user_id" : 8,
+    "content" : "Bài giảng đã xuất bản/cập nhật: [TEST] K07 - Chương 3 – Giới hạn - Luyện tập",
+    "is_read" : false
+  }, {
+    "id" : 453,
+    "user_id" : 3,
+    "content" : "Bài giảng đã xuất bản/cập nhật: [TEST] K07 - Chương 3 – Giới hạn - Luyện tập",
+    "is_read" : false
+  }, {
+    "id" : 452,
+    "user_id" : 13,
+    "content" : "Bài giảng đã xuất bản/cập nhật: [TEST] K07 - Chương 2 – Dãy số - Luyện tập",
+    "is_read" : false
+  }, {
+    "id" : 451,
+    "user_id" : 12,
+    "content" : "Bài giảng đã xuất bản/cập nhật: [TEST] K07 - Chương 2 – Dãy số - Luyện tập",
+    "is_read" : false
+  }, {
+    "id" : 450,
+    "user_id" : 11,
+    "content" : "Bài giảng đã xuất bản/cập nhật: [TEST] K07 - Chương 2 – Dãy số - Luyện tập",
+    "is_read" : false
+  }, {
+    "id" : 449,
+    "user_id" : 10,
+    "content" : "Bài giảng đã xuất bản/cập nhật: [TEST] K07 - Chương 2 – Dãy số - Luyện tập",
+    "is_read" : false
+  }, {
+    "id" : 448,
+    "user_id" : 9,
+    "content" : "Bài giảng đã xuất bản/cập nhật: [TEST] K07 - Chương 2 – Dãy số - Luyện tập",
+    "is_read" : false
+  }, {
+    "id" : 447,
+    "user_id" : 8,
+    "content" : "Bài giảng đã xuất bản/cập nhật: [TEST] K07 - Chương 2 – Dãy số - Luyện tập",
+    "is_read" : false
+  }, {
+    "id" : 446,
+    "user_id" : 3,
+    "content" : "Bài giảng đã xuất bản/cập nhật: [TEST] K07 - Chương 2 – Dãy số - Luyện tập",
+    "is_read" : false
+  }, {
+    "id" : 445,
+    "user_id" : 13,
+    "content" : "Bài giảng đã xuất bản/cập nhật: [TEST] K07 - Chương 1 – Hàm số lượng giác - Luyện tập",
+    "is_read" : false
+  }, {
+    "id" : 444,
+    "user_id" : 12,
+    "content" : "Bài giảng đã xuất bản/cập nhật: [TEST] K07 - Chương 1 – Hàm số lượng giác - Luyện tập",
+    "is_read" : false
+  }, {
+    "id" : 443,
+    "user_id" : 11,
+    "content" : "Bài giảng đã xuất bản/cập nhật: [TEST] K07 - Chương 1 – Hàm số lượng giác - Luyện tập",
+    "is_read" : false
+  }, {
+    "id" : 442,
+    "user_id" : 10,
+    "content" : "Bài giảng đã xuất bản/cập nhật: [TEST] K07 - Chương 1 – Hàm số lượng giác - Luyện tập",
+    "is_read" : false
+  }, {
+    "id" : 441,
+    "user_id" : 9,
+    "content" : "Bài giảng đã xuất bản/cập nhật: [TEST] K07 - Chương 1 – Hàm số lượng giác - Luyện tập",
+    "is_read" : false
+  }, {
+    "id" : 440,
+    "user_id" : 8,
+    "content" : "Bài giảng đã xuất bản/cập nhật: [TEST] K07 - Chương 1 – Hàm số lượng giác - Luyện tập",
+    "is_read" : false
+  }, {
+    "id" : 439,
+    "user_id" : 3,
+    "content" : "Bài giảng đã xuất bản/cập nhật: [TEST] K07 - Chương 1 – Hàm số lượng giác - Luyện tập",
+    "is_read" : false
+  }, {
+    "id" : 438,
+    "user_id" : 13,
+    "content" : "Bài giảng đã xuất bản/cập nhật: [TEST] K07 - Chương 5 – Quan hệ song song - Lý thuyết",
+    "is_read" : false
+  }, {
+    "id" : 437,
+    "user_id" : 12,
+    "content" : "Bài giảng đã xuất bản/cập nhật: [TEST] K07 - Chương 5 – Quan hệ song song - Lý thuyết",
+    "is_read" : false
+  }, {
+    "id" : 436,
+    "user_id" : 11,
+    "content" : "Bài giảng đã xuất bản/cập nhật: [TEST] K07 - Chương 5 – Quan hệ song song - Lý thuyết",
+    "is_read" : false
+  }, {
+    "id" : 435,
+    "user_id" : 10,
+    "content" : "Bài giảng đã xuất bản/cập nhật: [TEST] K07 - Chương 5 – Quan hệ song song - Lý thuyết",
+    "is_read" : false
+  }, {
+    "id" : 434,
+    "user_id" : 9,
+    "content" : "Bài giảng đã xuất bản/cập nhật: [TEST] K07 - Chương 5 – Quan hệ song song - Lý thuyết",
+    "is_read" : false
+  }, {
+    "id" : 433,
+    "user_id" : 8,
+    "content" : "Bài giảng đã xuất bản/cập nhật: [TEST] K07 - Chương 5 – Quan hệ song song - Lý thuyết",
+    "is_read" : false
+  }, {
+    "id" : 432,
+    "user_id" : 3,
+    "content" : "Bài giảng đã xuất bản/cập nhật: [TEST] K07 - Chương 5 – Quan hệ song song - Lý thuyết",
+    "is_read" : false
+  }, {
+    "id" : 431,
+    "user_id" : 13,
+    "content" : "Bài giảng đã xuất bản/cập nhật: [TEST] K07 - Chương 4 – Đường thẳng và mặt phẳng - Lý thuyết",
+    "is_read" : false
+  }, {
+    "id" : 430,
+    "user_id" : 12,
+    "content" : "Bài giảng đã xuất bản/cập nhật: [TEST] K07 - Chương 4 – Đường thẳng và mặt phẳng - Lý thuyết",
+    "is_read" : false
+  }, {
+    "id" : 429,
+    "user_id" : 11,
+    "content" : "Bài giảng đã xuất bản/cập nhật: [TEST] K07 - Chương 4 – Đường thẳng và mặt phẳng - Lý thuyết",
+    "is_read" : false
+  }, {
+    "id" : 428,
+    "user_id" : 10,
+    "content" : "Bài giảng đã xuất bản/cập nhật: [TEST] K07 - Chương 4 – Đường thẳng và mặt phẳng - Lý thuyết",
+    "is_read" : false
+  }, {
+    "id" : 427,
+    "user_id" : 9,
+    "content" : "Bài giảng đã xuất bản/cập nhật: [TEST] K07 - Chương 4 – Đường thẳng và mặt phẳng - Lý thuyết",
+    "is_read" : false
+  }, {
+    "id" : 426,
+    "user_id" : 8,
+    "content" : "Bài giảng đã xuất bản/cập nhật: [TEST] K07 - Chương 4 – Đường thẳng và mặt phẳng - Lý thuyết",
+    "is_read" : false
+  }, {
+    "id" : 425,
+    "user_id" : 3,
+    "content" : "Bài giảng đã xuất bản/cập nhật: [TEST] K07 - Chương 4 – Đường thẳng và mặt phẳng - Lý thuyết",
+    "is_read" : false
+  }, {
+    "id" : 424,
+    "user_id" : 13,
+    "content" : "Bài giảng đã xuất bản/cập nhật: [TEST] K07 - Chương 3 – Giới hạn - Lý thuyết",
+    "is_read" : false
+  }, {
+    "id" : 423,
+    "user_id" : 12,
+    "content" : "Bài giảng đã xuất bản/cập nhật: [TEST] K07 - Chương 3 – Giới hạn - Lý thuyết",
+    "is_read" : false
+  }, {
+    "id" : 422,
+    "user_id" : 11,
+    "content" : "Bài giảng đã xuất bản/cập nhật: [TEST] K07 - Chương 3 – Giới hạn - Lý thuyết",
+    "is_read" : false
+  }, {
+    "id" : 421,
+    "user_id" : 10,
+    "content" : "Bài giảng đã xuất bản/cập nhật: [TEST] K07 - Chương 3 – Giới hạn - Lý thuyết",
+    "is_read" : false
+  }, {
+    "id" : 420,
+    "user_id" : 9,
+    "content" : "Bài giảng đã xuất bản/cập nhật: [TEST] K07 - Chương 3 – Giới hạn - Lý thuyết",
+    "is_read" : false
+  }, {
+    "id" : 419,
+    "user_id" : 8,
+    "content" : "Bài giảng đã xuất bản/cập nhật: [TEST] K07 - Chương 3 – Giới hạn - Lý thuyết",
+    "is_read" : false
+  }, {
+    "id" : 418,
+    "user_id" : 3,
+    "content" : "Bài giảng đã xuất bản/cập nhật: [TEST] K07 - Chương 3 – Giới hạn - Lý thuyết",
+    "is_read" : false
+  }, {
+    "id" : 417,
+    "user_id" : 13,
+    "content" : "Bài giảng đã xuất bản/cập nhật: [TEST] K07 - Chương 2 – Dãy số - Lý thuyết",
+    "is_read" : false
+  }, {
+    "id" : 416,
+    "user_id" : 12,
+    "content" : "Bài giảng đã xuất bản/cập nhật: [TEST] K07 - Chương 2 – Dãy số - Lý thuyết",
+    "is_read" : false
+  }, {
+    "id" : 415,
+    "user_id" : 11,
+    "content" : "Bài giảng đã xuất bản/cập nhật: [TEST] K07 - Chương 2 – Dãy số - Lý thuyết",
+    "is_read" : false
+  }, {
+    "id" : 414,
+    "user_id" : 10,
+    "content" : "Bài giảng đã xuất bản/cập nhật: [TEST] K07 - Chương 2 – Dãy số - Lý thuyết",
+    "is_read" : false
+  }, {
+    "id" : 413,
+    "user_id" : 9,
+    "content" : "Bài giảng đã xuất bản/cập nhật: [TEST] K07 - Chương 2 – Dãy số - Lý thuyết",
+    "is_read" : false
+  }, {
+    "id" : 412,
+    "user_id" : 8,
+    "content" : "Bài giảng đã xuất bản/cập nhật: [TEST] K07 - Chương 2 – Dãy số - Lý thuyết",
+    "is_read" : false
+  }, {
+    "id" : 411,
+    "user_id" : 3,
+    "content" : "Bài giảng đã xuất bản/cập nhật: [TEST] K07 - Chương 2 – Dãy số - Lý thuyết",
+    "is_read" : false
+  }, {
+    "id" : 410,
+    "user_id" : 13,
+    "content" : "Bài giảng đã xuất bản/cập nhật: [TEST] K07 - Chương 1 – Hàm số lượng giác - Lý thuyết",
+    "is_read" : false
+  }, {
+    "id" : 409,
+    "user_id" : 12,
+    "content" : "Bài giảng đã xuất bản/cập nhật: [TEST] K07 - Chương 1 – Hàm số lượng giác - Lý thuyết",
+    "is_read" : false
+  }, {
+    "id" : 408,
+    "user_id" : 11,
+    "content" : "Bài giảng đã xuất bản/cập nhật: [TEST] K07 - Chương 1 – Hàm số lượng giác - Lý thuyết",
+    "is_read" : false
+  }, {
+    "id" : 407,
+    "user_id" : 10,
+    "content" : "Bài giảng đã xuất bản/cập nhật: [TEST] K07 - Chương 1 – Hàm số lượng giác - Lý thuyết",
+    "is_read" : false
+  }, {
+    "id" : 406,
+    "user_id" : 9,
+    "content" : "Bài giảng đã xuất bản/cập nhật: [TEST] K07 - Chương 1 – Hàm số lượng giác - Lý thuyết",
+    "is_read" : false
+  }, {
+    "id" : 405,
+    "user_id" : 8,
+    "content" : "Bài giảng đã xuất bản/cập nhật: [TEST] K07 - Chương 1 – Hàm số lượng giác - Lý thuyết",
+    "is_read" : false
+  }, {
+    "id" : 404,
+    "user_id" : 3,
+    "content" : "Bài giảng đã xuất bản/cập nhật: [TEST] K07 - Chương 1 – Hàm số lượng giác - Lý thuyết",
+    "is_read" : false
+  }, {
+    "id" : 403,
+    "user_id" : 25,
+    "content" : "Bài giảng đã xuất bản/cập nhật: [TEST] K06 - Chương 3 – Giới hạn - Luyện tập",
+    "is_read" : false
+  }, {
+    "id" : 402,
+    "user_id" : 24,
+    "content" : "Bài giảng đã xuất bản/cập nhật: [TEST] K06 - Chương 3 – Giới hạn - Luyện tập",
+    "is_read" : false
+  }, {
+    "id" : 401,
+    "user_id" : 23,
+    "content" : "Bài giảng đã xuất bản/cập nhật: [TEST] K06 - Chương 3 – Giới hạn - Luyện tập",
+    "is_read" : false
+  }, {
+    "id" : 400,
+    "user_id" : 22,
+    "content" : "Bài giảng đã xuất bản/cập nhật: [TEST] K06 - Chương 3 – Giới hạn - Luyện tập",
+    "is_read" : false
+  }, {
+    "id" : 399,
+    "user_id" : 21,
+    "content" : "Bài giảng đã xuất bản/cập nhật: [TEST] K06 - Chương 3 – Giới hạn - Luyện tập",
+    "is_read" : false
+  }, {
+    "id" : 398,
+    "user_id" : 20,
+    "content" : "Bài giảng đã xuất bản/cập nhật: [TEST] K06 - Chương 3 – Giới hạn - Luyện tập",
+    "is_read" : false
+  }, {
+    "id" : 397,
+    "user_id" : 25,
+    "content" : "Bài giảng đã xuất bản/cập nhật: [TEST] K06 - Chương 2 – Dãy số - Luyện tập",
+    "is_read" : false
+  }, {
+    "id" : 396,
+    "user_id" : 24,
+    "content" : "Bài giảng đã xuất bản/cập nhật: [TEST] K06 - Chương 2 – Dãy số - Luyện tập",
+    "is_read" : false
+  }, {
+    "id" : 395,
+    "user_id" : 23,
+    "content" : "Bài giảng đã xuất bản/cập nhật: [TEST] K06 - Chương 2 – Dãy số - Luyện tập",
+    "is_read" : false
+  }, {
+    "id" : 394,
+    "user_id" : 22,
+    "content" : "Bài giảng đã xuất bản/cập nhật: [TEST] K06 - Chương 2 – Dãy số - Luyện tập",
+    "is_read" : false
+  }, {
+    "id" : 393,
+    "user_id" : 21,
+    "content" : "Bài giảng đã xuất bản/cập nhật: [TEST] K06 - Chương 2 – Dãy số - Luyện tập",
+    "is_read" : false
+  }, {
+    "id" : 392,
+    "user_id" : 20,
+    "content" : "Bài giảng đã xuất bản/cập nhật: [TEST] K06 - Chương 2 – Dãy số - Luyện tập",
+    "is_read" : false
+  }, {
+    "id" : 391,
+    "user_id" : 25,
+    "content" : "Bài giảng đã xuất bản/cập nhật: [TEST] K06 - Chương 1 – Hàm số lượng giác - Luyện tập",
+    "is_read" : false
+  }, {
+    "id" : 390,
+    "user_id" : 24,
+    "content" : "Bài giảng đã xuất bản/cập nhật: [TEST] K06 - Chương 1 – Hàm số lượng giác - Luyện tập",
+    "is_read" : false
+  }, {
+    "id" : 389,
+    "user_id" : 23,
+    "content" : "Bài giảng đã xuất bản/cập nhật: [TEST] K06 - Chương 1 – Hàm số lượng giác - Luyện tập",
+    "is_read" : false
+  }, {
+    "id" : 388,
+    "user_id" : 22,
+    "content" : "Bài giảng đã xuất bản/cập nhật: [TEST] K06 - Chương 1 – Hàm số lượng giác - Luyện tập",
+    "is_read" : false
+  }, {
+    "id" : 387,
+    "user_id" : 21,
+    "content" : "Bài giảng đã xuất bản/cập nhật: [TEST] K06 - Chương 1 – Hàm số lượng giác - Luyện tập",
+    "is_read" : false
+  }, {
+    "id" : 386,
+    "user_id" : 20,
+    "content" : "Bài giảng đã xuất bản/cập nhật: [TEST] K06 - Chương 1 – Hàm số lượng giác - Luyện tập",
+    "is_read" : false
+  }, {
+    "id" : 385,
+    "user_id" : 25,
+    "content" : "Bài giảng đã xuất bản/cập nhật: [TEST] K06 - Chương 5 – Quan hệ song song - Lý thuyết",
+    "is_read" : false
+  }, {
+    "id" : 384,
+    "user_id" : 24,
+    "content" : "Bài giảng đã xuất bản/cập nhật: [TEST] K06 - Chương 5 – Quan hệ song song - Lý thuyết",
+    "is_read" : false
+  }, {
+    "id" : 383,
+    "user_id" : 23,
+    "content" : "Bài giảng đã xuất bản/cập nhật: [TEST] K06 - Chương 5 – Quan hệ song song - Lý thuyết",
+    "is_read" : false
+  }, {
+    "id" : 382,
+    "user_id" : 22,
+    "content" : "Bài giảng đã xuất bản/cập nhật: [TEST] K06 - Chương 5 – Quan hệ song song - Lý thuyết",
+    "is_read" : false
+  }, {
+    "id" : 381,
+    "user_id" : 21,
+    "content" : "Bài giảng đã xuất bản/cập nhật: [TEST] K06 - Chương 5 – Quan hệ song song - Lý thuyết",
+    "is_read" : false
+  }, {
+    "id" : 380,
+    "user_id" : 20,
+    "content" : "Bài giảng đã xuất bản/cập nhật: [TEST] K06 - Chương 5 – Quan hệ song song - Lý thuyết",
+    "is_read" : false
+  }, {
+    "id" : 379,
+    "user_id" : 25,
+    "content" : "Bài giảng đã xuất bản/cập nhật: [TEST] K06 - Chương 4 – Đường thẳng và mặt phẳng - Lý thuyết",
+    "is_read" : false
+  }, {
+    "id" : 378,
+    "user_id" : 24,
+    "content" : "Bài giảng đã xuất bản/cập nhật: [TEST] K06 - Chương 4 – Đường thẳng và mặt phẳng - Lý thuyết",
+    "is_read" : false
+  }, {
+    "id" : 377,
+    "user_id" : 23,
+    "content" : "Bài giảng đã xuất bản/cập nhật: [TEST] K06 - Chương 4 – Đường thẳng và mặt phẳng - Lý thuyết",
+    "is_read" : false
+  }, {
+    "id" : 376,
+    "user_id" : 22,
+    "content" : "Bài giảng đã xuất bản/cập nhật: [TEST] K06 - Chương 4 – Đường thẳng và mặt phẳng - Lý thuyết",
+    "is_read" : false
+  }, {
+    "id" : 375,
+    "user_id" : 21,
+    "content" : "Bài giảng đã xuất bản/cập nhật: [TEST] K06 - Chương 4 – Đường thẳng và mặt phẳng - Lý thuyết",
+    "is_read" : false
+  } ],
+  "audit_logs" : [ {
+    "id" : 545,
+    "actor_id" : 4,
+    "action" : "QA_SEED_20261028_V1",
+    "resource_id" : null
+  }, {
+    "id" : 544,
+    "actor_id" : 2,
+    "action" : "ESSAY_MANUALLY_GRADED",
+    "resource_id" : 42
+  }, {
+    "id" : 543,
+    "actor_id" : 3,
+    "action" : "ESSAY_SUBMITTED",
+    "resource_id" : 42
+  }, {
+    "id" : 542,
+    "actor_id" : 3,
+    "action" : "EXAM_SUBMITTED_PENDING_GRADING",
+    "resource_id" : 84
+  }, {
+    "id" : 541,
+    "actor_id" : 3,
+    "action" : "EXAM_ATTEMPT_STARTED",
+    "resource_id" : 84
+  }, {
+    "id" : 540,
+    "actor_id" : 3,
+    "action" : "EXAM_ATTEMPT_STARTED",
+    "resource_id" : 83
+  }, {
+    "id" : 539,
+    "actor_id" : 13,
+    "action" : "ESSAY_SUBMITTED",
+    "resource_id" : 41
+  }, {
+    "id" : 538,
+    "actor_id" : 2,
+    "action" : "EXAM_ESSAY_GRADED",
+    "resource_id" : 82
+  }, {
+    "id" : 537,
+    "actor_id" : 2,
+    "action" : "EXAM_ESSAY_GRADED",
+    "resource_id" : 82
+  }, {
+    "id" : 536,
+    "actor_id" : 13,
+    "action" : "EXAM_SUBMITTED_PENDING_GRADING",
+    "resource_id" : 82
+  }, {
+    "id" : 535,
+    "actor_id" : 13,
+    "action" : "EXAM_ATTEMPT_STARTED",
+    "resource_id" : 82
+  }, {
+    "id" : 534,
+    "actor_id" : 13,
+    "action" : "EXAM_ATTEMPT_SUBMITTED",
+    "resource_id" : 81
+  }, {
+    "id" : 533,
+    "actor_id" : 13,
+    "action" : "EXAM_ATTEMPT_STARTED",
+    "resource_id" : 81
+  }, {
+    "id" : 532,
+    "actor_id" : 2,
+    "action" : "ESSAY_MANUALLY_GRADED",
+    "resource_id" : 40
+  }, {
+    "id" : 531,
+    "actor_id" : 12,
+    "action" : "ESSAY_SUBMITTED",
+    "resource_id" : 40
+  }, {
+    "id" : 530,
+    "actor_id" : 2,
+    "action" : "EXAM_ESSAY_GRADED",
+    "resource_id" : 80
+  }, {
+    "id" : 529,
+    "actor_id" : 2,
+    "action" : "EXAM_ESSAY_GRADED",
+    "resource_id" : 80
+  }, {
+    "id" : 528,
+    "actor_id" : 12,
+    "action" : "EXAM_SUBMITTED_PENDING_GRADING",
+    "resource_id" : 80
+  }, {
+    "id" : 527,
+    "actor_id" : 12,
+    "action" : "EXAM_ATTEMPT_STARTED",
+    "resource_id" : 80
+  }, {
+    "id" : 526,
+    "actor_id" : 12,
+    "action" : "EXAM_ATTEMPT_SUBMITTED",
+    "resource_id" : 79
+  } ],
+  "schema_versions" : [ {
+    "version" : 2
+  } ]
+}
