@@ -17,6 +17,7 @@ test-results-api/
 playwright-report/
 !**/.env.example
 !.env.test
+!.env.dev
 backend/target/
 backend/.m2/
 backend/private-storage/

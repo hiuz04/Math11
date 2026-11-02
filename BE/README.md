@@ -1,5 +1,7 @@
 # Math11 backend — NetBeans, Java 17, Tomcat 10.1
 
+Chạy local bằng profile `dev`: xem [hướng dẫn tại thư mục gốc](../README.md). Script hỗ trợ `-Profile dev` để đọc `BE/.env.dev` riêng và `-Offline` để build từ Maven cache.
+
 Backend đã tách khỏi frontend tại `D:\PRJ\ProjectPRJ\BE`. Dự án giữ cấu hình **NetBeans Web Application (Ant)** hiện có, đồng thời hỗ trợ Maven và JUnit 5.
 
 ## Mở và chạy trong NetBeans

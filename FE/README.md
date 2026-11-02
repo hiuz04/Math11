@@ -1,5 +1,7 @@
 # Math11: tích hợp Frontend–Backend và Vercel
 
+Chạy local bằng `npm run dev:local` với Vite mode `dev`, proxy đến Tomcat `localhost:9999/Math11`. Cấu hình và lệnh backend: [hướng dẫn profile dev](../README.md).
+
 ## Kiến trúc và nguyên nhân đã xác minh
 
 Browser gọi `/api/*` cùng domain frontend. Local dùng Vite proxy; production dùng Vercel rewrite đến Render. `ROOT.war` có context `/`, nhưng servlet vẫn nằm dưới `/api`. Local WAR `/Math11` được Vite bổ sung qua `BACKEND_CONTEXT`. Không đổi router, UI hoặc backend source trong bản sửa này.

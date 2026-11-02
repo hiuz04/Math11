@@ -4,7 +4,7 @@ import tailwindcss from '@tailwindcss/vite'
 import path from 'node:path'
 
 export default defineConfig(({ mode }) => {
-  const emitSourcemaps = mode === 'development'
+  const emitSourcemaps = ['development', 'dev'].includes(mode)
   const configEnv = loadEnv(mode, process.cwd(), '')
   const backendContext = (process.env.BACKEND_CONTEXT ?? configEnv.BACKEND_CONTEXT ?? '/Math11').replace(/\/$/, '')
 
@@ -29,12 +29,12 @@ export default defineConfig(({ mode }) => {
         },
       },
       host: '0.0.0.0',
-      port: parseInt(process.env.PORT || '8443'),
+      port: parseInt(process.env.PORT || configEnv.PORT || '8443'),
       strictPort: true,
     },
     preview: {
       host: '0.0.0.0',
-      port: parseInt(process.env.PORT || '8443'),
+      port: parseInt(process.env.PORT || configEnv.PORT || '8443'),
     },
   }
 })
