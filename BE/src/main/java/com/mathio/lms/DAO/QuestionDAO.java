@@ -317,6 +317,23 @@ public class QuestionDAO {
         return id;
     }
 
+    public static String reviewHash(JsonNode input) {
+        try {
+            byte[] hash = java.security.MessageDigest.getInstance("SHA-256")
+                .digest(Json.stringify(validateQuestion(input)).getBytes(java.nio.charset.StandardCharsets.UTF_8));
+            return java.util.HexFormat.of().formatHex(hash);
+        } catch (java.security.NoSuchAlgorithmException e) { throw new IllegalStateException(e); }
+    }
+
+    public Object reviewQuestion(Actor actor, JsonNode input) {
+        actor.requireStaff();
+        String hash = reviewHash(input);
+        return database.transaction(c -> {
+            AccessDAO.resolveCourse(c, actor, input);
+            Database.update(c, "IF NOT EXISTS (SELECT 1 FROM question_reviews WITH(UPDLOCK,HOLDLOCK) WHERE reviewer_id=? AND content_hash=?) INSERT question_reviews(reviewer_id,content_hash) VALUES(?,?)", actor.getId(), hash, actor.getId(), hash);
+            return Map.of("reviewed", true);
+        });
+    }
     public Object saveQuestions(Actor currentUser, JsonNode input) {
         currentUser.requireStaff();
         var list = input.path("questions");

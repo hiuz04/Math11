@@ -124,6 +124,11 @@ public class ExamService {
                     int i = 0;
                     Set<Long> ids = new HashSet<>();
                     for (var question : input.path("questions")) {
+                        if (input.path("published").asBoolean(false))
+                            ApiException.require(Database.one(connection,
+                                "SELECT reviewer_id FROM question_reviews WHERE reviewer_id=? AND content_hash=?",
+                                currentUser.getId(), QuestionDAO.reviewHash(question)) != null,
+                                409, "Hãy chấp nhận từng câu hỏi trước khi xuất bản. Nội dung sửa cần duyệt lại.");
                         long questionId =
                                 questionDAO.saveQuestion(connection, currentUser, question);
                         ApiException.require(

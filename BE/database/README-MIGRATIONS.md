@@ -41,3 +41,6 @@ Before applying manually in SSMS:
 3. Stop catalog writes, select that database explicitly, and execute V003. Verify the column, default constraint and version row, then test topic create/edit/reorder on a dedicated test database first.
 
 Rollback requires a backup and a pause in catalog writes. The commented rollback statements at the end of V003 remove only its default constraint, column and version row. Export any new topic ordering first: removing the column loses that ordering. Existing catalog data and relationships remain. Use the older application compatibility path (position 0) after rollback. This task did not execute the migration or any SQL against a user database.
+
+## V004 — question review
+Run migrations/V004__question_reviews.sql manually on the selected local SQL Server database before using question review or publishing exams. Adds question_reviews keyed by reviewer and validated content hash; no existing data is deleted. Each question must be explicitly accepted before publication; editing content invalidates its prior review. Existing published exams remain readable. This migration has not been executed in this session.

@@ -36,6 +36,7 @@ public class QuestionController extends ApiController {
             showQuestionList(request, response);
             return;
         }
+        if (path.equals("/questions/review") && method.equals("POST")) { writeJson(response, application(request).questionDAO.reviewQuestion(currentUser(request), requestBody(request))); return; }
         if (path.equals("/questions/bulk") && method.equals("POST")) {
             createQuestions(request, response);
             return;

@@ -159,22 +159,34 @@ public class AiService {
                 total += v.asInt();
             }
         ApiException.require(total > 0 && total <= 100, 400, "Tổng số câu phải từ 1 đến 100.");
-        for (String level : List.of("KNOWLEDGE", "UNDERSTANDING", "APPLICATION"))
-            for (String type : List.of("MCQ", "ESSAY")) {
-                int count = input.path("matrix").path(level).path(type).asInt();
-                if (count > 0) {
-                    ObjectNode request = (ObjectNode) input.deepCopy();
-                    request.put("count", count);
-                    request.put("cognitiveLevel", level);
-                    request.put("questionType", type);
-                    request.put("difficulty", "MEDIUM");
-                    for (var q : generateQuestions(currentUser, request)) {
-                        ((ObjectNode) q).put("id", -1 - questions.size());
-                        questions.add(q);
-                    }
-                }
-            }
-        ExamService.validateMatrix(input.path("matrix"), questions);
+        Json.text(input, "chapter", 200);
+        Json.text(input, "topic", 200);
+        database.read(connection -> {
+            AccessDAO.resolveCourse(connection, currentUser, input);
+            ApiException.require(aiDAO.getTopic(connection, input.path("chapter").asText(), input.path("topic").asText()) != null,
+                400, "Chương/chủ đề không hợp lệ.");
+            return null;
+        });
+        JsonNode response = generateResponse(currentUser, "questions",
+            "Generate a complete grade 11 math exam in Vietnamese in ONE response. Return JSON "
+            + "{questions:[{title,content,chapter,topic,type,difficulty,cognitiveLevel,answer,options?}]}. "
+            + "Exactly match every MCQ/ESSAY count in the matrix. difficulty must be MEDIUM. "
+            + "MCQ answer must equal an option. All questions must be distinct. Request: " + Json.stringify(input), null);
+        var list = response.path("questions");
+        ApiException.require(list.isArray() && list.size() == total, 502, "AI trả số câu không khớp ma trận. Hãy thử lại.");
+        Set<String> contents = new HashSet<>();
+        for (var item : list) {
+            ObjectNode valid;
+            try { valid = QuestionDAO.validateQuestion(item); }
+            catch (ApiException e) { throw new ApiException(502, "Câu hỏi AI không đúng cấu trúc."); }
+            ApiException.require(valid.path("chapter").equals(input.path("chapter"))
+                && valid.path("topic").equals(input.path("topic"))
+                && valid.path("difficulty").asText().equals("MEDIUM")
+                && contents.add(valid.path("content").asText()), 502, "AI trả metadata sai hoặc câu hỏi trùng.");
+            valid.put("id", -1 - questions.size());
+            questions.add(valid);
+        }
+        try { ExamService.validateMatrix(input.path("matrix"), questions); } catch (ApiException e) { throw new ApiException(502, "AI trả ma trận không đúng yêu cầu."); }
         return Map.of(
                 "id",
                 -1,

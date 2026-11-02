@@ -32,6 +32,7 @@ function sample(r: GenerationRequest, i: number): Question {
   return { id: createMockId(), title: `${r.topic} · Câu ${i + 1}`, content, answer, options, chapter: r.chapter, topic: r.topic, type: r.questionType, cognitiveLevel: r.cognitiveLevel, difficulty: r.difficulty };
 }
 export const questionService = {
+  async review(question: Question): Promise<void> { if (!useMockApi) await postApi("questions/review", question); },
   async get(id: number): Promise<Question> { if (!useMockApi) return apiRequest(`questions/${id}`); const question = (await this.list()).find(q => q.id === id); if (!question) throw new Error("Không tìm thấy câu hỏi."); return question; },
   async list(): Promise<Question[]> { return useMockApi ? readSetting("questions", seed) : allPages<Question>("questions"); },
   async save(questions: Question[]): Promise<void> {
