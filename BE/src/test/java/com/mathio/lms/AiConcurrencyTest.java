@@ -305,6 +305,18 @@ class AiConcurrencyTest {
     }
 
     @Test
+    void repeatedUnknownOffersRevisionWithoutUnlockingOrAssigningScore() throws Exception {
+        Fixture f=new Fixture("NEEDS_TUTOR");f.release.countDown();
+        f.invoke(()->f.tutor.startTutor(f.student,5));
+        com.fasterxml.jackson.databind.JsonNode state=null;
+        for(int i=0;i<3;i++)state=Json.MAPPER.valueToTree(f.invoke(()->f.tutor.checkTutorStep(f.student,5,Json.object().put("stepNumber",1).put("answer","sin(x)"))));
+        assertEquals("NEEDS_REVISION",state.path("status").asText());
+        assertTrue(state.path("aiSteps").path(0).path("correct").isNull());
+        assertFalse(state.has("finalResult"));
+        assertFalse(state.toString().contains("expectedAnswer"));
+    }
+
+    @Test
     void referencesAreFrozenAtSubmissionAndUncertainEvaluationHasNoScore() throws Exception {
         Fixture f = new Fixture("SUBMITTED");
         f.row.put(

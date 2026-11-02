@@ -22,6 +22,10 @@ public class UserDAO {
     }
 
     public Object getUsers(Actor currentUser, int offset, int limit) {
+        return getUsers(currentUser, offset, limit, "", "", "");
+    }
+
+    public Object getUsers(Actor currentUser, int offset, int limit, String query, String role, String active) {
         currentUser.requireStaff();
         return database.read(
                 connection ->
@@ -39,11 +43,13 @@ public class UserDAO {
     FROM course_enrollments e
     JOIN courses c ON c.id=e.course_id
     WHERE e.student_id=u.id AND c.teacher_id=? AND c.deleted=0))
+    AND (?='' OR CHARINDEX(?,u.name+N' '+u.email)>0)
+    AND (?='' OR u.role=?) AND (?='' OR u.active=CASE WHEN ?='true' THEN 1 ELSE 0 END)
     ORDER BY u.id OFFSET ? ROWS FETCH NEXT ? ROWS ONLY
 """,
                                 currentUser.isAdmin(),
                                 currentUser.getId(),
-                                offset,
+                                query, query, role, role, active, active, offset,
                                 limit));
     }
 

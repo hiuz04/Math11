@@ -21,7 +21,9 @@ public class CatalogDAO {
         return getCourses(currentUser, 0, 100);
     }
 
-    public Object getCourses(Actor currentUser, int offset, int limit) {
+    public Object getCourses(Actor currentUser, int offset, int limit) { return getCourses(currentUser, offset, limit, "", ""); }
+
+    public Object getCourses(Actor currentUser, int offset, int limit, String query, String published) {
         return database.read(
                 connection ->
                         Database.rows(
@@ -37,12 +39,14 @@ public class CatalogDAO {
     WHERE c.deleted=0 AND (?=1 OR c.teacher_id=? OR c.published=1 AND EXISTS(SELECT 1
     FROM course_enrollments e
     WHERE e.course_id=c.id AND e.student_id=?))
+    AND (?='' OR CHARINDEX(?,c.title+N' '+COALESCE(c.description,N''))>0)
+    AND (?='' OR c.published=CASE WHEN ?='true' THEN 1 ELSE 0 END)
     ORDER BY c.id DESC OFFSET ? ROWS FETCH NEXT ? ROWS ONLY
 """,
                                 currentUser.isAdmin(),
                                 currentUser.getId(),
                                 currentUser.getId(),
-                                offset,
+                                query, query, published, published, offset,
                                 limit));
     }
 
@@ -86,25 +90,70 @@ FROM chapters ch ORDER BY ch.position
                 });
     }
 
+    public Object saveCatalog(Actor actor, boolean topic, long catalogId, JsonNode input, boolean delete) {
+        actor.requireAdmin();
+        return database.transaction(c -> {
+            long id = catalogId;
+            String table = topic ? "topics" : "chapters";
+            var old = id > 0 ? Database.one(c, "SELECT * FROM " + table + " WITH(UPDLOCK,HOLDLOCK) WHERE id=?", id) : null;
+            ApiException.require(id == 0 || old != null, 404, "Không tìm thấy danh mục.");
+            if (delete) {
+                ApiException.require(id > 0, 400, "Hãy chọn danh mục.");
+                String reference = topic
+                    ? "SELECT TOP (1) id FROM questions WHERE topic_id=? UNION ALL SELECT TOP (1) id FROM exams WHERE topic=?"
+                    : "SELECT TOP (1) id FROM topics WHERE chapter_id=? UNION ALL SELECT TOP (1) id FROM lessons WHERE chapter_id=? UNION ALL SELECT TOP (1) id FROM questions WHERE chapter_id=? UNION ALL SELECT TOP (1) id FROM exams WHERE chapter=?";
+                var refs = topic ? Database.rows(c, reference, id, old.get("title")) : Database.rows(c, reference, id, id, id, old.get("title"));
+                ApiException.require(refs.isEmpty(),409,"Danh mục đang được sử dụng; không thể xóa.");
+                Database.update(c,"DELETE FROM " + table + " WHERE id=?",id);
+            } else {
+                String title = Json.text(input,"title",200);
+                if (old != null && !title.equals(old.get("title"))) {
+                    ApiException.require(Database.rows(c, "SELECT TOP (1) id FROM exams WHERE " + (topic ? "topic" : "chapter") + "=?", old.get("title")).isEmpty(),409,"Danh mục đã gắn với đề thi; không thể đổi tên làm sai snapshot.");
+                }
+                if (topic) {
+                    long chapter = Json.id(input,"chapterId");
+                    ApiException.require(Database.one(c,"SELECT id FROM chapters WITH(UPDLOCK,HOLDLOCK) WHERE id=?",chapter)!=null,400,"Chương không hợp lệ.");
+                    ApiException.require(old==null || ((Number)old.get("chapter_id")).longValue()==chapter || Database.rows(c,"SELECT TOP (1) id FROM questions WHERE topic_id=? UNION ALL SELECT TOP (1) id FROM exams WHERE topic=?",id,old.get("title")).isEmpty(),409,"Chủ đề đang được sử dụng; không thể chuyển chương.");
+                    ApiException.require(Database.one(c,"SELECT id FROM topics WHERE chapter_id=? AND title=? AND id<>?",chapter,title,id)==null,409,"Tên chủ đề đã tồn tại.");
+                    if(id==0) id=Database.insert(c,"INSERT topics(chapter_id,title) VALUES(?,?)",chapter,title);
+                    else Database.update(c,"UPDATE topics SET chapter_id=?,title=? WHERE id=?",chapter,title,id);
+                    if (input.has("position")) {
+                        ApiException.require(input.path("position").isIntegralNumber() && input.path("position").canConvertToInt() && input.path("position").asInt()>=0,400,"Thứ tự chủ đề không hợp lệ.");
+                        var column=Database.one(c,"SELECT COL_LENGTH('dbo.topics','position') AS length");
+                        boolean supported=column!=null && column.get("length")!=null;
+                        ApiException.require(supported || input.path("position").asInt()==0,409,"Cần áp dụng migration V003 trước khi đặt thứ tự chủ đề.");
+                        if(supported) Database.update(c,"UPDATE topics SET position=? WHERE id=?",input.path("position").asInt(),id);
+                    }
+                } else {
+                    ApiException.require(input.path("position").isIntegralNumber() && input.path("position").canConvertToInt() && input.path("position").asInt()>=0,400,"Thứ tự chương không hợp lệ.");
+                    ApiException.require(Database.one(c,"SELECT id FROM chapters WHERE title=? AND id<>?",title,id)==null,409,"Tên chương đã tồn tại.");
+                    if(id==0) {
+                        var subject=Database.rows(c,"SELECT TOP (2) id FROM subjects ORDER BY id");
+                        ApiException.require(subject.size()==1,409,"Cần đúng một môn học để tạo chương.");
+                        id=Database.insert(c,"INSERT chapters(subject_id,title,position) VALUES(?,?,?)",subject.get(0).get("id"),title,input.path("position").asInt());
+                    } else Database.update(c,"UPDATE chapters SET title=?,position=? WHERE id=?",title,input.path("position").asInt(),id);
+                }
+            }
+            AccessDAO.audit(c,actor,delete?"CATALOG_DELETED":"CATALOG_SAVED",id);
+            return Map.of("id",id,"saved",true);
+        });
+    }
+
     public Object getTopics() {
-        return database.read(
-                connection ->
-                        Database.rows(
-                                connection,
-                                """
-                                    SELECT id,
-                                           chapter_id AS chapterId,
-                                           title
-                                    FROM topics
-                                    ORDER BY id
-                                """));
+        return database.read(c -> {
+            var column=Database.one(c,"SELECT COL_LENGTH('dbo.topics','position') AS length");
+            boolean ordered=column!=null && column.get("length")!=null;
+            return Database.rows(c,"SELECT id,chapter_id AS chapterId,title,"+(ordered?"position":"0 AS position")+" FROM topics ORDER BY "+(ordered?"position,id":"id"));
+        });
     }
 
     public Object getLessons(Actor currentUser, long chapter) {
         return getLessons(currentUser, chapter, 0, 100);
     }
 
-    public Object getLessons(Actor currentUser, long chapter, int offset, int limit) {
+    public Object getLessons(Actor currentUser, long chapter, int offset, int limit) { return getLessons(currentUser, chapter, offset, limit, "", "", "", 0); }
+
+    public Object getLessons(Actor currentUser, long chapter, int offset, int limit, String query, String published, String chapterTitle, long course) {
         return database.read(
                 connection ->
                         Database.rows(
@@ -130,6 +179,9 @@ FROM chapters ch ORDER BY ch.position
     FROM course_enrollments e
     JOIN courses co ON co.id=e.course_id AND co.deleted=0 AND co.published=1
     WHERE e.course_id=l.course_id AND e.student_id=?))
+    AND (?='' OR CHARINDEX(?,l.title+N' '+ch.title)>0)
+    AND (?='' OR l.published=CASE WHEN ?='true' THEN 1 ELSE 0 END)
+    AND (?='' OR ch.title=?) AND (?=0 OR l.course_id=?)
     ORDER BY l.id OFFSET ? ROWS FETCH NEXT ? ROWS ONLY
 """,
                                 currentUser.getId(),
@@ -138,7 +190,7 @@ FROM chapters ch ORDER BY ch.position
                                 currentUser.isAdmin(),
                                 currentUser.getId(),
                                 currentUser.getId(),
-                                offset,
+                                query, query, published, published, chapterTitle, chapterTitle, course, course, offset,
                                 limit));
     }
 

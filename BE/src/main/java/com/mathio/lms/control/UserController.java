@@ -52,9 +52,10 @@ public class UserController extends ApiController {
         Object result = null;
         if (method.equals("GET"))
             result =
-                    paginated(request)
-                            ? app.userDAO.getUsers(currentUser, offset(request), limit(request))
-                            : app.userDAO.getUsers(currentUser);
+                    app.userDAO.getUsers(currentUser, offset(request), limit(request),
+                            java.util.Objects.toString(request.getParameter("q"), ""),
+                            java.util.Objects.toString(request.getParameter("role"), ""),
+                            java.util.Objects.toString(request.getParameter("active"), ""));
         else if (method.equals("POST")) {
             result = app.userDAO.saveUser(currentUser, 0, input);
             response.setStatus(201);

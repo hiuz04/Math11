@@ -57,10 +57,9 @@ public class CourseController extends ApiController {
         Object result = null;
         if (method.equals("GET"))
             result =
-                    paginated(request)
-                            ? app.catalogDAO.getCourses(
-                                    currentUser, offset(request), limit(request))
-                            : app.catalogDAO.getCourses(currentUser);
+                    app.catalogDAO.getCourses(currentUser, offset(request), limit(request),
+                            java.util.Objects.toString(request.getParameter("q"), ""),
+                            java.util.Objects.toString(request.getParameter("published"), ""));
         else if (method.equals("POST")) {
             result = app.catalogDAO.saveCourse(currentUser, 0, input);
             response.setStatus(201);

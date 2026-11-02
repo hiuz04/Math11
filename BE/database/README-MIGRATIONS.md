@@ -29,3 +29,15 @@ Ba test SQL thực thi DAO/service thật. Test gốc và test mixed/security ro
 ## Giới hạn kiểm chứng
 
 ScriptDom parse được cú pháp không chứng minh quyền ALTER, dữ liệu cũ, lock/race, query runtime hay rollback trên SQL Server. Chỉ đánh dấu SQL integration PASS khi các test thực sự kết nối `_test` đã chuẩn bị và chạy thành công.
+
+## V003 — optional topic ordering (02/11/2026)
+
+File: `migrations/V003__topic_order.sql`. This adds only `topics.position` (INT, default 0) and records schema version 3. Existing titles, identifiers, relationships and order by ID are preserved. The application supports an unmigrated schema; setting a nonzero topic position then returns a clear 409.
+
+Before applying manually in SSMS:
+
+1. Confirm the intended database name and existing V002 schema. Inspect the script; do not run setup.sql on an existing database.
+2. Take a full database backup to a separately managed backup location and confirm that it can be restored. Record the existing schema version and topic list/order.
+3. Stop catalog writes, select that database explicitly, and execute V003. Verify the column, default constraint and version row, then test topic create/edit/reorder on a dedicated test database first.
+
+Rollback requires a backup and a pause in catalog writes. The commented rollback statements at the end of V003 remove only its default constraint, column and version row. Export any new topic ordering first: removing the column loses that ordering. Existing catalog data and relationships remain. Use the older application compatibility path (position 0) after rollback. This task did not execute the migration or any SQL against a user database.

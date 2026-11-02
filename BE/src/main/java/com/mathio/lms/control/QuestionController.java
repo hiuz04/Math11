@@ -56,9 +56,7 @@ public class QuestionController extends ApiController {
         Application app = application(request);
         Actor currentUser = currentUser(request);
         Object result =
-                paginated(request)
-                        ? app.questionDAO.getQuestions(currentUser, offset(request), limit(request))
-                        : app.questionDAO.getQuestions(currentUser);
+                app.questionDAO.getQuestions(currentUser,offset(request),limit(request),java.util.Objects.toString(request.getParameter("q"),""),java.util.Objects.toString(request.getParameter("chapter"),""),java.util.Objects.toString(request.getParameter("level"),""));
         writeJson(response, result);
     }
 

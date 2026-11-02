@@ -1,3 +1,4 @@
+import { allPages } from "./pagination";
 import type { Question, GenerationRequest, Exam, ExamMatrix, CognitiveLevel, QuestionType } from "../types/lms";
 import { curriculum, essayQuestions } from "../constants/lms";
 import { readSetting, writeSetting } from "./storage";
@@ -32,7 +33,7 @@ function sample(r: GenerationRequest, i: number): Question {
 }
 export const questionService = {
   async get(id: number): Promise<Question> { if (!useMockApi) return apiRequest(`questions/${id}`); const question = (await this.list()).find(q => q.id === id); if (!question) throw new Error("Không tìm thấy câu hỏi."); return question; },
-  async list(): Promise<Question[]> { return useMockApi ? readSetting("questions", seed) : apiRequest("questions"); },
+  async list(): Promise<Question[]> { return useMockApi ? readSetting("questions", seed) : allPages<Question>("questions"); },
   async save(questions: Question[]): Promise<void> {
     validateQuestions(questions);
     if (!useMockApi) { const body = JSON.stringify({ questions }); await apiOperation("questions/bulk", body, { method: "POST", body }); return; }
@@ -60,12 +61,13 @@ export const questionService = {
     }
     return { id: createMockId(), title: `Đề kiểm tra · ${topic}`, chapter, topic, matrix: structuredClone(matrix), questions, createdAt: new Date().toISOString() };
   },
+  publishResults(id: number) { return apiOperation(`exams/${id}/publish-results`, "publish", { method: "POST", body: "{}" }); },
   async saveExam(exam: Exam): Promise<Exam> {
     validateQuestions(exam.questions);
-    if (!useMockApi) { const body = JSON.stringify(exam); return apiOperation("exams", body, { method: "POST", body }); }
+    if (!useMockApi) { const { resultsPublished: _, ...payload } = exam; const body = JSON.stringify({ ...payload, published: exam.published ?? false }); return apiOperation("exams", body, { method: "POST", body }); }
     writeSetting("exams", [...readSetting<Exam[]>("exams", []).filter(e => e.id !== exam.id), exam]);
     await this.save(exam.questions);
     return exam;
   },
-  async listExams(): Promise<Exam[]> { return useMockApi ? readSetting("exams", []) : apiRequest("exams"); },
+  async listExams(offset = 0, limit = 100): Promise<Exam[]> { return useMockApi ? readSetting<Exam[]>("exams", []).slice(offset,offset+limit) : apiRequest(`exams?offset=${offset}&limit=${limit}`); },
 };

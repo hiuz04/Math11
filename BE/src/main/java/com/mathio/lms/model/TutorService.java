@@ -229,11 +229,18 @@ public class TutorService {
                                     : p.path("hint").asText();
                     if (!correct) attempt.put("hint", hint);
                     step.put("studentAnswer", answer);
-                    step.put("correct", correct);
+                    if (comparison == MathAnswer.Comparison.UNKNOWN) step.putNull("correct");
+                    else step.put("correct", correct);
                     step.put("verification", comparison.name());
                     if (!correct) step.put("hint", hint);
                     else step.remove("hint");
                     ((ArrayNode) step.path("attempts")).add(attempt);
+                    if (comparison == MathAnswer.Comparison.UNKNOWN
+                            && step.path("attempts").findValuesAsText("verification").stream().filter("UNKNOWN"::equals).count() >= 3) {
+                        state.put("status", "NEEDS_REVISION");
+                        state.put("diagnostic", "UNABLE_TO_VERIFY");
+                        state.put("diagnosticMessage", "Không thể xác minh tự động bước này. Em có thể nộp lời giải mới rõ ràng hơn hoặc nhờ giáo viên xem xét.");
+                    }
                     ObjectNode all = attempt.deepCopy();
                     all.put("stepId", step.path("id").asLong());
                     ((ArrayNode) state.path("studentStepAnswers")).add(all);

@@ -1,3 +1,4 @@
+import { allPages } from "./pagination";
 import { apiRequest } from "./api";
 import { postApi, useMockApi } from "./serviceMode";
 import type { Question } from "../types/lms";
@@ -18,9 +19,9 @@ export { selection } from "./routeState";
 export const lmsService = {
   chapters: (signal?: AbortSignal) => apiRequest<CatalogChapter[]>(`chapters${selection.courseId ? `?courseId=${selection.courseId}` : ""}`, { signal }),
   topics: (signal?: AbortSignal) => apiRequest<{ id: number; chapterId: number; title: string }[]>("topics", { signal }),
-  courses: (signal?: AbortSignal) => apiRequest<CourseRecord[]>("courses", { signal }),
-  allLessons: async (signal?: AbortSignal) => (await apiRequest<CatalogLessonWire[]>("lessons", { signal })).map(lessonFromApi),
-  lessons: async (signal?: AbortSignal) => { const course = selection.courseId; const rows = (await apiRequest<CatalogLessonWire[]>(`lessons${selection.chapterId ? `?chapterId=${selection.chapterId}` : ""}`, { signal })).map(lessonFromApi); return course ? rows.filter(l=>l.courseId===course) : rows; },
+  courses: (signal?: AbortSignal) => allPages<CourseRecord>("courses", signal),
+  allLessons: async (signal?: AbortSignal) => (await allPages<CatalogLessonWire>("lessons", signal)).map(lessonFromApi),
+  lessons: async (signal?: AbortSignal) => { const course = selection.courseId; const rows = (await allPages<CatalogLessonWire>(`lessons?${new URLSearchParams({...selection.chapterId ? {chapterId:String(selection.chapterId)} : {}, ...course ? {courseId:String(course)} : {}})}`, signal)).map(lessonFromApi); return course ? rows.filter(l=>l.courseId===course) : rows; },
   lesson: (id: number, signal?: AbortSignal) => apiRequest<CatalogLessonWire>(`lessons/${id}`, { signal }).then(lessonFromApi),
   progress: (id: number, completed: boolean, elapsedSeconds: number) => apiRequest(`lessons/${id}/progress`, { method: "POST", body: JSON.stringify({ completed, elapsedSeconds }), keepalive: true }),
   exercises: (signal?: AbortSignal) => apiRequest<ExerciseRecord[]>("exercises", { signal }),

@@ -279,7 +279,7 @@ test("essay questions inside an exam restore text and submit for server grading"
 test("teacher with multiple courses must explicitly bind new questions to a course", async ({ page }) => {
   await fixture(page);
   await page.route("**/api/auth/me", r => r.fulfill({ json: { user: { ...user, role: "TEACHER" }, csrfToken: "session-csrf" } }));
-  await page.route("**/api/courses", r => r.fulfill({ json: [{id:8,title:"Khóa A"},{id:9,title:"Khóa B"}] }));
+  await page.route("**/api/courses?*", r => r.fulfill({ json: [{id:8,title:"Khóa A"},{id:9,title:"Khóa B"}] }));
   await page.route("**/api/chapters", r => r.fulfill({ json: [{ id: 1, title: "Chương SQL" }] }));
   await page.route("**/api/topics", r => r.fulfill({ json: [{ id: 2, chapterId: 1, title: "Chủ đề SQL" }] }));
   let persisted = false;
@@ -372,7 +372,7 @@ test("search failure remains visible and never shows mock results", async ({ pag
 test("teacher enrolls a permitted student through the existing students action", async ({ page }) => {
   await fixture(page);let enrolled=false;
   await page.route("**/api/auth/me",r=>r.fulfill({json:{user:{...user,role:"TEACHER"},csrfToken:"session-csrf"}}));
-  await page.route("**/api/users",r=>r.fulfill({json:[{...user,active:true,createdAt:new Date().toISOString()}]}));
+  await page.route("**/api/users?*",r=>r.fulfill({json:[{...user,active:true,createdAt:new Date().toISOString()}]}));
   await page.route("**/api/courses/8/enrollments",r=>{expect(r.request().postDataJSON()).toEqual({studentId:17});expect(r.request().headers()["x-csrf-token"]).toBe("session-csrf");enrolled=true;return r.fulfill({json:{saved:true}});});
   await page.goto("/#/students");await expect(page.locator("tbody tr")).toHaveCount(1);
   await page.getByRole("button",{name:"Thêm mới",exact:true}).click();
@@ -395,4 +395,112 @@ test("notification reads update sidebar and topbar without duplicate initial GET
   await expect(page.locator(".notification-popover")).toContainText("0 mới");
   await expect(page.locator(".notification-popover .unread-dot")).toHaveCount(0);
   expect(reads).toBe(2);
+});
+
+test("teacher grades pending essay answers and reloads the server-confirmed result", async ({ page }) => {
+  await fixture(page);
+  await page.route("**/api/auth/me", r=>r.fulfill({json:{user:{...user,role:"TEACHER"},csrfToken:"session-csrf"}}));
+  await page.route("**/api/students/17/statistics",r=>r.fulfill({json:analytics}));
+  await page.route("**/api/learning-history*",r=>r.fulfill({json:[{id:"pending",title:"Bài chờ chấm",attemptId:51,status:"PENDING_GRADING",date:new Date().toISOString()}]}));
+  const essay={...sqlQuestion,id:3,title:"Tự luận cần chấm",type:"ESSAY",options:undefined,answer:"Rubric của giáo viên"};
+  let status="PENDING_GRADING", writes=0;
+  let graded: unknown;
+  await page.route("**/api/quiz-attempts/51**",async r=>{
+    if(r.request().method()==="POST"){
+      expect(r.request().postDataJSON()).toEqual({grades:[{questionId:3,score:8,feedback:"Đúng phương pháp"}]});
+      expect(r.request().headers()["idempotency-key"]).toBeTruthy();writes++;status="GRADED";graded={score:8,feedback:"Đúng phương pháp",gradedBy:17};
+    }
+    return r.fulfill({json:{id:51,examId:8,status,exam:{title:"Đề hỗn hợp",durationSeconds:1800},questions:[sqlQuestion,essay],answers:{2:"2"},mcqScores:{2:10},essayAnswers:{3:{content:{text:"Lời giải của học sinh"},...(graded as object || {})}},...(status==="GRADED"?{result:{score:9,review:[]}}:{})}});
+  });
+  page.on("dialog",dialog=>dialog.accept());
+  await page.goto("/#/student-detail?studentId=17");
+  await page.getByRole("button",{name:"Xem bài làm: Bài chờ chấm",exact:true}).click();
+  const dialog=page.getByRole("dialog");
+  await expect(dialog).toContainText("Lời giải của học sinh");
+  await dialog.getByLabel("Điểm: Tự luận cần chấm",{exact:true}).fill("11");
+  await dialog.getByLabel("Nhận xét",{exact:true}).fill("Đúng phương pháp");
+  await dialog.getByRole("button",{name:"Lưu kết quả chấm",exact:true}).click();
+  await expect(dialog.getByRole("alert")).toContainText("0 đến 10");expect(writes).toBe(0);
+  await dialog.getByLabel("Điểm: Tự luận cần chấm",{exact:true}).fill("8");
+  await dialog.getByRole("button",{name:"Lưu kết quả chấm",exact:true}).click();
+  await expect(dialog).toContainText("GRADED");expect(writes).toBe(1);
+  await page.reload();await page.getByRole("button",{name:"Xem bài làm: Bài chờ chấm",exact:true}).click();
+  await expect(page.getByLabel("Điểm: Tự luận cần chấm",{exact:true})).toHaveValue("8");
+  await expect(page.getByLabel("Điểm: Tự luận cần chấm",{exact:true})).toBeDisabled();
+});
+
+test("exam draft duration, explicit publication and result publication use distinct API fields", async ({ page }) => {
+  await fixture(page);
+  await page.route("**/api/auth/me",r=>r.fulfill({json:{user:{...user,role:"TEACHER"},csrfToken:"session-csrf"}}));
+  await page.route("**/api/chapters",r=>r.fulfill({json:[{id:1,title:"Toán",position:1}]}));
+  await page.route("**/api/topics",r=>r.fulfill({json:[{id:2,chapterId:1,title:"Ôn tập"}]}));
+  let exam={id:9,title:"Đề nháp",chapter:"Toán",topic:"Ôn tập",courseId:8,published:false,resultsPublished:false,durationSeconds:1800,matrix:{KNOWLEDGE:{MCQ:1,ESSAY:0},UNDERSTANDING:{MCQ:0,ESSAY:0},APPLICATION:{MCQ:0,ESSAY:0}},questions:[{...sqlQuestion,answer:"2"}],createdAt:new Date().toISOString()};
+  const saves:boolean[]=[];let publication=0;
+  await page.route("**/api/exams**",async r=>{
+    const path=new URL(r.request().url()).pathname;
+    if(path.endsWith("publish-results")){publication++;exam.resultsPublished=true;return r.fulfill({json:{published:true}});}
+    if(r.request().method()==="POST"){const body=r.request().postDataJSON();expect(body).not.toHaveProperty("resultsPublished");expect(body.durationSeconds).toBe(2700);saves.push(body.published);exam={...exam,...body};return r.fulfill({json:exam});}
+    return r.fulfill({json:[exam]});
+  });
+  page.on("dialog",d=>d.accept());
+  await page.goto("/#/exam-generator");
+  await page.getByRole("button",{name:/Đề nháp · 1 câu/}).click();
+  await page.getByLabel("Thời gian làm bài (phút)",{exact:true}).fill("45");
+  await page.getByRole("button",{name:"Lưu nháp",exact:true}).click();await expect.poll(()=>saves.length).toBe(1);expect(saves[0]).toBe(false);
+  await expect(page.getByRole("button",{name:"Xuất bản",exact:true})).toBeEnabled();
+  await page.getByRole("button",{name:"Xuất bản",exact:true}).click();await expect.poll(()=>saves.length).toBe(2);expect(saves[1]).toBe(true);
+  await expect(page.getByRole("button",{name:"Công bố kết quả",exact:true})).toBeEnabled();
+  await page.getByRole("button",{name:"Công bố kết quả",exact:true}).click();await expect(page.getByText("Đã công bố kết quả",{exact:true})).toBeVisible();expect(publication).toBe(1);
+});
+
+test("admin pagination filters the whole server dataset and survives refresh", async ({ page }) => {
+  await fixture(page);
+  await page.route("**/api/auth/me",r=>r.fulfill({json:{user:{...user,role:"ADMIN"},csrfToken:"session-csrf"}}));
+  const users=Array.from({length:125},(_,i)=>({id:i+1,name:`User ${i+1}`,email:`user${i+1}@example.vn`,role:"STUDENT",active:true}));
+  const offsets:number[]=[];
+  await page.route("**/api/users?*",r=>{const q=new URL(r.request().url()).searchParams;const offset=Number(q.get("offset"));offsets.push(offset);const rows=users.filter(u=>(u.name+u.email).includes(q.get("q") || ""));return r.fulfill({json:rows.slice(offset,offset+Number(q.get("limit")))});});
+  await page.goto("/#/users");await expect(page.locator("tbody tr")).toHaveCount(20);
+  await page.locator(".pagination button").last().click();await expect(page.locator("tbody tr").first()).toContainText("User 21");expect(offsets).toContain(20);
+  await page.getByPlaceholder("Tìm theo tên hoặc email...").fill("user125@");await expect(page.locator("tbody tr")).toHaveCount(1);await expect(page.locator("tbody tr")).toContainText("User 125");
+  await page.reload();await expect(page.getByPlaceholder("Tìm theo tên hoặc email...")).toHaveValue("user125@");await expect(page.locator("tbody tr")).toHaveCount(1);
+});
+
+test("teacher grades a standalone essay separately from quiz grading", async ({page})=>{
+  await fixture(page);
+  await page.route("**/api/auth/me",r=>r.fulfill({json:{user:{...user,role:"TEACHER"},csrfToken:"session-csrf"}}));
+  await page.route("**/api/students/17/statistics",r=>r.fulfill({json:analytics}));
+  await page.route("**/api/learning-history*",r=>r.fulfill({json:[{id:"essay",title:"Tự luận độc lập",submissionId:71,status:"SUBMITTED",date:new Date().toISOString()}]}));
+  let result:unknown,writes=0;
+  await page.route("**/api/essays/71**",r=>{
+    if(r.request().method()==="POST"){expect(r.request().postDataJSON()).toEqual({score:7,feedback:"Cần giải thích thêm"});writes++;result={score:7,feedback:"Cần giải thích thêm",correct:true,gradedBy:17};}
+    return r.fulfill({json:{id:71,studentId:17,questionId:3,question:{...sqlQuestion,type:"ESSAY",title:"Bài độc lập"},originalSubmission:{text:"Lời giải gốc"},originalFeedback:"Feedback AI đã lưu",status:result?"COMPLETED":"SUBMITTED",aiSteps:[],studentStepAnswers:[],retrySubmissions:[],totalSteps:0,currentStep:0,startedAt:new Date().toISOString(),updatedAt:new Date().toISOString(),elapsedSeconds:120,finalResult:result}});
+  });
+  page.on("dialog",d=>d.accept());await page.goto("/#/student-detail?studentId=17");await page.getByRole("button",{name:"Xem bài làm: Tự luận độc lập",exact:true}).click();
+  const dialog=page.getByRole("dialog");await expect(dialog).toContainText("Lời giải gốc");await expect(dialog).toContainText("Feedback AI đã lưu");await dialog.getByLabel("Điểm: Bài độc lập",{exact:true}).fill("7");await dialog.getByLabel("Nhận xét",{exact:true}).fill("Cần giải thích thêm");await dialog.getByRole("button",{name:"Lưu kết quả chấm",exact:true}).click();await expect(dialog).toContainText("Điểm: 7/10");expect(writes).toBe(1);await expect(dialog.getByRole("button",{name:"Lưu kết quả chấm",exact:true})).toHaveCount(0);
+});
+
+test("offline essay draft survives reload and revision conflict preserves text until explicit reload",async({page})=>{
+  await fixture(page);let conflict=false,writes=0;
+  const attempt=()=>({id:51,examId:8,revision:conflict?"v2":"v1",status:"IN_PROGRESS",startedAt:new Date().toISOString(),serverTime:new Date().toISOString(),elapsedSeconds:0,exam:{title:"Đề nháp offline",durationSeconds:1800},questions:[{...sqlQuestion,type:"ESSAY"}],answers:{},essayAnswers:{2:{content:{text:conflict?"Lời giải từ tab khác":""}}}});
+  await page.route("**/api/quiz-attempts/51**",r=>{
+    if(r.request().method()==="POST"){writes++;if(!conflict)return r.abort("connectionfailed");return r.fulfill({status:409,json:{error:{message:"Bài làm đã thay đổi ở tab khác."}}});}
+    return r.fulfill({json:attempt()});
+  });
+  await page.goto("/#/quiz?examId=8&attemptId=51");const text=page.getByRole("textbox",{name:"Bài làm",exact:true});await text.fill("Lời giải chưa lưu");await expect(page.getByRole("alert")).toContainText("Bài làm vẫn được giữ");
+  expect(await page.evaluate(()=>sessionStorage.getItem("math11:quiz:17:51"))).toContain("Lời giải chưa lưu");
+  await page.reload();await expect(text).toHaveValue("Lời giải chưa lưu");
+  conflict=true;await page.getByRole("button",{name:"Lưu bài",exact:true}).click();await expect(page.getByRole("button",{name:"Tải bài mới nhất",exact:true})).toBeVisible();await expect(text).toHaveValue("Lời giải chưa lưu");await expect(text).toBeDisabled();const before=writes;await page.waitForTimeout(1000);expect(writes).toBe(before);
+  page.on("dialog",d=>d.accept());await page.getByRole("button",{name:"Tải bài mới nhất",exact:true}).click();await expect(text).toHaveValue("Lời giải từ tab khác");
+});
+
+test("admin catalog form creates chapters and topics and displays protected-delete errors",async({page})=>{
+  await fixture(page);await page.route("**/api/auth/me",r=>r.fulfill({json:{user:{...user,role:"ADMIN"},csrfToken:"session-csrf"}}));
+  const chapters=[{id:1,title:"Chương hiện có",position:1}],topics:{id:number;title:string;chapterId:number;position:number}[]=[];let created=0;
+  await page.route("**/api/chapters**",r=>{if(r.request().method()==="POST"){const body=r.request().postDataJSON();expect(body).toEqual({title:"Chương mới",position:2});chapters.push({id:2,...body});created++;return r.fulfill({json:{id:2,saved:true}});}return r.fulfill({json:chapters});});
+  await page.route("**/api/topics**",r=>{if(r.request().method()==="DELETE")return r.fulfill({status:409,json:{error:{message:"Danh mục đang được sử dụng; không thể xóa."}}});if(r.request().method()==="POST"){const body=r.request().postDataJSON();expect(body).toEqual({title:"Chủ đề mới",chapterId:2,position:0});topics.push({id:3,...body});created++;return r.fulfill({json:{id:3,saved:true}});}return r.fulfill({json:topics});});
+  page.on("dialog",d=>d.accept());await page.goto("/#/lessons");
+  const panel=page.locator("section").filter({has:page.getByRole("heading",{name:"Quản lý chương và chủ đề",exact:true})});
+  await panel.getByLabel("Tên",{exact:true}).fill("Chương mới");await panel.getByLabel("Thứ tự",{exact:true}).fill("2");await panel.getByRole("button",{name:"Lưu danh mục",exact:true}).click();await expect.poll(()=>created).toBe(1);
+  await expect(panel.getByLabel("Danh mục",{exact:true})).toBeEnabled();await panel.getByLabel("Danh mục",{exact:true}).selectOption("topics");await panel.getByLabel("Tên",{exact:true}).fill("Chủ đề mới");await panel.getByLabel("Chương",{exact:true}).selectOption("2");await panel.getByLabel("Thứ tự",{exact:true}).fill("0");await panel.getByRole("button",{name:"Lưu danh mục",exact:true}).click();await expect.poll(()=>created).toBe(2);
+  await expect(panel.getByRole("button",{name:"Lưu danh mục",exact:true})).toBeDisabled();await panel.getByLabel("Mục cần sửa",{exact:true}).selectOption("3");await panel.getByRole("button",{name:"Xóa danh mục",exact:true}).click();await expect(panel.getByRole("alert")).toContainText("đang được sử dụng");
 });

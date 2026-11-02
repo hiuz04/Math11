@@ -87,8 +87,8 @@ public class ExamDAO {
             throws SQLException {
         String sql =
                 """
-                    INSERT exams(author_id,title,chapter,topic,matrix,published,duration_seconds)
-                    VALUES(?,?,?,?,?,?,?)
+                    INSERT exams(author_id,title,chapter,topic,matrix,published,duration_seconds,results_published)
+                    VALUES(?,?,?,?,?,?,?,0)
                 """
                         .strip();
         return Database.insert(

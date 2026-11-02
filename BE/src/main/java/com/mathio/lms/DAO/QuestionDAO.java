@@ -151,7 +151,9 @@ public class QuestionDAO {
         return getQuestions(currentUser, 0, 100);
     }
 
-    public Object getQuestions(Actor currentUser, int offset, int limit) {
+    public Object getQuestions(Actor currentUser, int offset, int limit) { return getQuestions(currentUser,offset,limit,"","",""); }
+
+    public Object getQuestions(Actor currentUser, int offset, int limit, String query, String chapter, String level) {
         return database.read(
                 c -> {
                     ArrayNode out = Json.array();
@@ -166,9 +168,9 @@ public class QuestionDAO {
                                         + " ch.id=q.chapter_id JOIN topics t ON t.id=q.topic_id"
                                         + " WHERE q.deleted=0 AND ("
                                             + AccessDAO.questionScope(currentUser, "q")
-                                            + ") ORDER BY q.id OFFSET ? ROWS FETCH NEXT ? ROWS"
+                                            + ") AND (?='' OR CHARINDEX(?,q.title+N' '+q.content)>0) AND (?='' OR ch.title=?) AND (?='' OR q.cognitive_level=?) ORDER BY q.id OFFSET ? ROWS FETCH NEXT ? ROWS"
                                             + " ONLY",
-                                    offset,
+                                    query,query,chapter,chapter,level,level,offset,
                                     limit);
                     if (rows.isEmpty()) return out;
                     var options =

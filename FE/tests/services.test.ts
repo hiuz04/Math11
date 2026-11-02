@@ -335,3 +335,17 @@ test("lesson adapter normalizes the Servlet integer progress DTO and rejects mis
     await assert.rejects(lmsService.studentAnalytics(0), /chọn học sinh/);
   } finally { globalThis.fetch = original; }
 });
+
+import { draftKey, draftPayload } from "../src/services/quizDraft";
+import { allPages } from "../src/services/pagination";
+test("quiz drafts isolate users and attempts and never persist unuploaded image references", () => {
+  assert.notEqual(draftKey(1,2),draftKey(2,2));assert.notEqual(draftKey(1,2),draftKey(1,3));
+  const draft=draftPayload({revision:"server-v1"} as QuizAttempt,{2:"2"},{3:{content:{text:"unsaved text",image:"blob:pending",imageFile:new File(["image"],"solution.png")}}});
+  assert.equal(draft.revision,"server-v1");assert.equal(draft.pendingImage,true);assert.equal(draft.essayAnswers[3].content.text,"unsaved text");assert.equal(draft.essayAnswers[3].content.image,undefined);assert.ok(!JSON.stringify(draft).includes("blob:"));
+  const refreshed=draftPayload({revision:"server-v1"} as QuizAttempt,draft.answers,draft.essayAnswers);assert.equal(refreshed.pendingImage,true);assert.equal(refreshed.essayAnswers[3].content.imagePending,true);
+});
+test("paginated lookup reads records beyond the first hundred", async () => {
+  const original=globalThis.fetch;const offsets:number[]=[];
+  globalThis.fetch=async url=>{const parsed=new URL(String(url),"http://localhost");const offset=Number(parsed.searchParams.get("offset"));offsets.push(offset);return Response.json(Array.from({length:offset===0?100:3},(_,i)=>({id:offset+i+1})));};
+  try{const rows=await allPages<{id:number}>("users");assert.equal(rows.length,103);assert.equal(rows.at(-1)?.id,103);assert.deepEqual(offsets,[0,100]);}finally{globalThis.fetch=original;}
+});

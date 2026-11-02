@@ -61,6 +61,7 @@ class MixedExamTest {
                                 return Map.of(
                                         "status", status, "exam_id", 9L, "duration_seconds", 1800);
                             if (query.contains("DATEDIFF")) return Map.of("seconds", elapsed);
+                            if (query.startsWith("SELECT TOP (1) id FROM exam_attempts") && query.contains("PENDING_GRADING")) return "PENDING_GRADING".equals(status) ? Map.of("id",5L) : null;
                             if (query.contains("FROM exam_attempts"))
                                 return Map.of(
                                         "id",
@@ -293,5 +294,47 @@ class MixedExamTest {
                                                         "{\"grades\":[{\"questionId\":2,\"score\":10,\"feedback\":\"forged\"}]}")))
                         .status);
         assertEquals(0, auditWrites);
+    }
+
+    @Test
+    void publicationWaitsForGradingAndRepeatedPublicationIsSafe() {
+        status="PENDING_GRADING";
+        assertEquals(409,assertThrows(ApiException.class,()->exams.publishResults(teacher,9)).status);
+        assertFalse(published);
+        status="GRADED";
+        exams.publishResults(teacher,9);
+        assertTrue(published);
+        assertDoesNotThrow(()->exams.publishResults(teacher,9));
+    }
+
+    @Test
+    void staleRevisionCannotOverwriteAnswersFromAnotherTab() {
+        JsonNode initial=Json.MAPPER.valueToTree(exams.getAttemptById(student,5));
+        ObjectNode input=Json.object();input.put("revision",initial.path("revision").asText());input.set("answers",Json.object().put("1","2"));
+        exams.saveAnswers(student,5,input,false);
+        input.set("answers",Json.object().put("1","1"));
+        assertEquals(409,assertThrows(ApiException.class,()->exams.saveAnswers(student,5,input,false)).status);
+        assertEquals("2",mcq.get("1"));
+    }
+
+    @Test
+    void gradingRejectsInvalidScoresAndMcqEditsBeforeAnyAuditWrite() {
+        status="PENDING_GRADING";
+        for(double score:new double[]{-1,11,Double.NaN,Double.POSITIVE_INFINITY}) {
+            ObjectNode grade=Json.object().put("questionId",2).put("score",score).put("feedback","Feedback");
+            ObjectNode input=Json.object();input.set("grades",Json.array().add(grade));
+            assertEquals(400,assertThrows(ApiException.class,()->exams.gradeAttempt(teacher,5,input)).status);
+        }
+        ObjectNode input=Json.object();input.set("grades",Json.array().add(Json.object().put("questionId",1).put("score",10).put("feedback","MCQ")));
+        assertEquals(400,assertThrows(ApiException.class,()->exams.gradeAttempt(teacher,5,input)).status);
+        assertEquals(0,auditWrites);
+    }
+
+    @Test
+    void teacherCanReadRubricWhileStudentCannotReadIt() {
+        JsonNode staff=Json.MAPPER.valueToTree(exams.getAttemptById(teacher,5));
+        JsonNode learner=Json.MAPPER.valueToTree(exams.getAttemptById(student,5));
+        assertTrue(staff.path("questions").path(1).has("answer"));
+        assertFalse(learner.path("questions").path(1).has("answer"));
     }
 }

@@ -452,6 +452,7 @@ public class EssayService {
                     var row = getSubmissionRow(c, actor, id, true);
                     ObjectNode state = getSubmissionState(row);
                     var job = jobs.get(c, id);
+                    ApiException.require(!state.path("finalResult").has("gradedBy"), 409, "Bài đã được giáo viên chấm.");
                     ApiException.require(
                             job == null
                                     || !"PROCESSING".equals(job.get("status"))

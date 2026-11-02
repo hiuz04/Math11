@@ -32,6 +32,7 @@ export function readRoute() {
 export function writeRoute(page: string, replace = false) {
   if (typeof window === "undefined") return;
   const params = new URLSearchParams();
+  if(currentPage()===page) new URLSearchParams(window.location.hash.split("?")[1]).forEach((value,key)=>{if(key.startsWith("list_"))params.set(key,value);});
   if (page === "search" && searchQuery) params.set("q", searchQuery);
   if (page === "search" && searchPage) params.set("page", String(searchPage));
   for (const [key, value] of Object.entries(selection)) if (value) params.set(key, String(value));

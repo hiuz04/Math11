@@ -15,7 +15,7 @@ export interface StudentQuestionDTO {
 export interface TeacherQuestionDTO extends StudentQuestionDTO { answer?: string; courseId?: number; published?: boolean }
 export type Question = TeacherQuestionDTO;
 export interface QuizReviewDTO { score: number; correctCount: number; totalCount: number; review: (TeacherQuestionDTO & { studentAnswer: string | SubmissionContent; correct?: boolean; score?: number; feedback?: string })[] }
-export interface SubmissionContent { text?: string; image?: string; imageName?: string; imageHash?: string; imageFile?: File }
+export interface SubmissionContent { text?: string; image?: string; imageName?: string; imageHash?: string; imageFile?: File; imagePending?: boolean }
 export interface StepAnswer { answer: string; correct: boolean | null; hint?: string; date: string; verification?: "EQUIVALENT" | "NOT_EQUIVALENT" | "UNKNOWN"; diagnostic?: string }
 export interface AITutorStep {
   id: number;
@@ -27,7 +27,7 @@ export interface AITutorStep {
   hint?: string;
   attempts: StepAnswer[];
 }
-export interface Evaluation { correct: boolean; feedback: string; score?: number }
+export interface Evaluation { correct: boolean; feedback: string; score?: number; gradedBy?: number; gradedAt?: string }
 export interface EssaySubmission {
   id: number;
   studentId: number;
@@ -35,6 +35,8 @@ export interface EssaySubmission {
   question: Question;
   originalSubmission: SubmissionContent;
   originalFeedback: string;
+  diagnostic?: string;
+  diagnosticMessage?: string;
   status: "SUBMITTED" | "CORRECT" | "NEEDS_TUTOR" | "RETRY_REQUIRED" | "COMPLETED" | "NEEDS_REVISION";
   aiSteps: AITutorStep[];
   studentStepAnswers: (StepAnswer & { stepId: number })[];

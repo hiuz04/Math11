@@ -211,3 +211,34 @@ Request tạo/sửa câu hỏi, bài giảng và đề giữ `courseId` thực t
 ### Tiến độ và thông báo
 
 Lesson wire DTO hiện có `completed=0|1`; frontend chuẩn hóa thành boolean, không hiểu 0 là đã hoàn thành. GET `/notifications` dùng chung cho Sidebar, Topbar và trang thông báo. POST `/notifications/{id}/read` cập nhật trạng thái/bộ đếm khi server xác nhận, không gửi lại với thông báo đã đọc.
+
+## Local workflow fixes — 02/11/2026
+
+Existing routes and array response contracts are retained.
+
+- New exams default to `published=false`, `resultsPublished=false`, and `durationSeconds=1800`. Explicit publication uses `POST /exams` with `published=true`; a valid assigned course, questions and matching matrix are required. Duration is an integer from 60 through 14400 seconds. Exams with attempts remain immutable. `resultsPublished` is read-only on exam saves and is ignored for compatibility with clients posting a fetched Exam.
+- `POST /exams/{id}/publish-results` remains distinct from exam publication. It locks the exam, checks staff scope, returns 409 while a submitted attempt is `PENDING_GRADING`, and returns `{published:true}` without another audit/update when already published.
+- New exam inserts explicitly write `results_published=0`, independently of legacy database defaults. Existing rows/publication states are preserved.
+- Staff attempt detail includes grading rubrics in `questions`, saved essay grades/feedback, and `mcqScores` from server grading. Student questions retain the public allowlist; student result/essay grade visibility still requires result publication. Attempt summaries additionally include `studentId` and `title`, within the existing staff/student scope.
+- Quiz attempts include an opaque `revision` of persisted answers. Current clients echo it in JSON/multipart answer saves and submits. A mismatch before expiry returns 409 without changing answers. Legacy clients omitting it retain the existing contract. Expired submits still finalize persisted answers only.
+- Standalone essay grading retains `{score,feedback}` and records `gradedBy/gradedAt`; another manual grade returns 409. Grading inside an exam remains a separate API.
+- Tutor `UNKNOWN` has `correct=null`. Three UNKNOWN checks on the same step move the submission to `NEEDS_REVISION`, with `diagnostic=UNABLE_TO_VERIFY` and a public `diagnosticMessage`; no next step or score is granted. Original AI feedback and retry history are preserved.
+
+### Server-side list filters
+
+All filters are applied inside the existing scoped SQL query, before `OFFSET/FETCH`. Responses remain arrays; the UI requests one extra row to determine whether another page exists.
+
+| GET endpoint | Optional filters, in addition to offset/limit |
+| --- | --- |
+| `/users` | `q` (name/email), `role`, `active=true/false` |
+| `/courses` | `q` (title/description), `published=true/false` |
+| `/lessons` | `q` (title/chapter), `published`, `chapter` (title), `chapterId`, `courseId` |
+| `/questions` | `q` (title/content), `chapter` (title), `level` |
+
+### Admin catalog writes
+
+`POST /chapters`, `POST /chapters/{id}`: `{title,position}`.
+`POST /topics`, `POST /topics/{id}`: `{title,chapterId,position?}`.
+`DELETE /chapters/{id}`, `DELETE /topics/{id}`: no body required.
+
+Admin only, with the existing session, CSRF and idempotency machinery. Successful writes return `{id,saved:true}`. Referenced deletes and moves return 409; renames referenced by exam metadata are rejected to preserve snapshots. Chapter creation uses the existing subject when exactly one subject is configured. Topic order requires the optional manual V003 migration; older schemas still support CRUD and report position 0. No migration runs automatically. See `database/README-MIGRATIONS.md`.

@@ -63,6 +63,8 @@ class WarDeploymentTest {
             assertEquals("QuestionController", context.findServletMapping("/api/questions"));
             assertEquals("ExamController", context.findServletMapping("/api/quiz-attempts/*"));
             assertEquals("ReportingController", context.findServletMapping("/api/search"));
+            assertEquals("LessonController", context.findServletMapping("/api/chapters/*"));
+            assertEquals("LessonController", context.findServletMapping("/api/topics/*"));
             // Tomcat reads @MultipartConfig when it first loads each servlet.
             for (String name : new String[] {"ExamController", "EssayController", "AiController"}) {
                 var wrapper = (org.apache.catalina.Wrapper) context.findChild(name);

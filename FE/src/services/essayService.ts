@@ -1,12 +1,18 @@
+import { allPages } from "./pagination";
 import { essayQuestions } from "../constants/lms";
 import type { EssaySubmission, SubmissionContent } from "../types/lms";
 import { readRecords, writeRecord } from "./storage";
-import { apiRequest } from "./api";
+import { apiOperation, apiRequest } from "./api";
 import { postApi, useMockApi } from "./serviceMode";
 import { createMockId } from "./id";
 import { submitContent } from "./imageService";
 type StoredEssay = { id: string; kind: "essay"; value: EssaySubmission };
 export const essayService = {
+  grade(id: number, score: number, feedback: string): Promise<EssaySubmission> {
+    if (!Number.isFinite(score) || score < 0 || score > 10) throw new Error("Điểm phải từ 0 đến 10.");
+    const body = JSON.stringify({ score, feedback });
+    return apiOperation(`essays/${id}/grade`, body, { method: "POST", body });
+  },
   getQuestion: (id: number) => essayQuestions.find(q => q.id === id),
   async getQuestionById(id: number) {
     if (!useMockApi) return apiRequest<import("../types/lms").Question>(`questions/${id}`);
@@ -15,7 +21,7 @@ export const essayService = {
     return question;
   },
   async list(): Promise<EssaySubmission[]> {
-    if (!useMockApi) return apiRequest("essays");
+    if (!useMockApi) return allPages<EssaySubmission>("essays");
     return (await readRecords<StoredEssay>()).filter(r => r.kind === "essay").map(r => r.value);
   },
   async get(id: number): Promise<EssaySubmission> {

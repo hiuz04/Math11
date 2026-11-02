@@ -13,7 +13,7 @@ import java.io.IOException;
 /** Nhận request và trả JSON cho Lesson; giữ nguyên đường dẫn API. */
 @WebServlet(
         name = "LessonController",
-        urlPatterns = {"/api/chapters", "/api/topics", "/api/lessons", "/api/lessons/*"})
+        urlPatterns = {"/api/chapters", "/api/chapters/*", "/api/topics", "/api/topics/*", "/api/lessons", "/api/lessons/*"})
 public class LessonController extends ApiController {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -32,6 +32,11 @@ public class LessonController extends ApiController {
             throws IOException {
         String path = getPath(request);
         String method = request.getMethod();
+        if ((path.matches("/(chapters|topics)(/\\d+)?")) && (method.equals("POST") || method.equals("DELETE"))) {
+            String[] parts=path.split("/");
+            writeJson(response, application(request).catalogDAO.saveCatalog(currentUser(request),parts[1].equals("topics"),parts.length>2?number(parts[2]):0,requestBody(request),method.equals("DELETE")));
+            return;
+        }
         if (path.equals("/chapters") && method.equals("GET")) {
             showChapterList(request, response);
             return;
@@ -79,13 +84,10 @@ public class LessonController extends ApiController {
         Object result = null;
         if (method.equals("GET"))
             result =
-                    paginated(request)
-                            ? app.catalogDAO.getLessons(
-                                    currentUser,
-                                    queryId(request, "chapterId"),
-                                    offset(request),
-                                    limit(request))
-                            : app.catalogDAO.getLessons(currentUser, queryId(request, "chapterId"));
+                    app.catalogDAO.getLessons(currentUser, queryId(request, "chapterId"), offset(request), limit(request),
+                            java.util.Objects.toString(request.getParameter("q"), ""),
+                            java.util.Objects.toString(request.getParameter("published"), ""),
+                            java.util.Objects.toString(request.getParameter("chapter"), ""), queryId(request, "courseId"));
         else if (method.equals("POST")) {
             result = app.catalogDAO.saveLesson(currentUser, 0, input);
             response.setStatus(201);

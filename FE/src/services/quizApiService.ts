@@ -5,26 +5,35 @@ import { submitContent } from "./imageService";
 import type { StudentQuestionDTO, QuizReviewDTO, SubmissionContent } from "../types/lms";
 export interface QuizAttempt {
   id: number; examId: number; status: "IN_PROGRESS" | "SUBMITTED" | "EXPIRED" | "PENDING_GRADING" | "GRADED";
+  revision?: string;
   startedAt: string; deadlineAt?: string; serverTime?: string; expired?: boolean; elapsedSeconds: number;
-  exam: { title: string; durationSeconds: number }; questions: StudentQuestionDTO[];
+  exam: { title: string; durationSeconds: number }; questions: (StudentQuestionDTO & { answer?: string })[];
+  mcqScores?: Record<string, number>;
   answers: Record<string, string>; result?: QuizReviewDTO;
-  essayAnswers?: Record<string, { content: SubmissionContent }>;
+  essayAnswers?: Record<string, { content: SubmissionContent; score?: number; feedback?: string }>;
 }
 type AttemptSummary = Pick<QuizAttempt, "id" | "examId" | "status">;
 type EssayAnswers = NonNullable<QuizAttempt["essayAnswers"]>;
 function serializeEssays(essays: EssayAnswers) {
   return Object.fromEntries(Object.entries(essays).map(([id, { content }]) => {
-    const { imageFile, image, ...metadata } = content;
+    const { imageFile, image, imagePending: _imagePending, ...metadata } = content;
     return [id, { content: { ...metadata, ...(!imageFile ? { image: image || null } : {}) } }];
   }));
 }
+const revisions = new Map<number, string>();
 const starts = new Map<string, Promise<QuizAttempt>>();
 function validateAttempt(attempt: QuizAttempt): QuizAttempt {
   if (!attempt || !Number.isSafeInteger(attempt.id) || !Number.isSafeInteger(attempt.examId) || !Array.isArray(attempt.questions) || !attempt.answers || typeof attempt.answers !== "object" || !attempt.exam || !Number.isFinite(attempt.exam.durationSeconds) || !Number.isFinite(Date.parse(attempt.startedAt))) throw new Error("Máy chủ trả dữ liệu bài thi không hợp lệ.");
   if (attempt.questions.some(q => ["answer", "explanation", "rubric", "correct", "score"].some(field => field in q)) || attempt.status === "IN_PROGRESS" && attempt.result) throw new Error("Dữ liệu bài thi vi phạm hợp đồng bảo vệ đáp án. Vui lòng liên hệ giáo viên.");
+  if (attempt.revision) revisions.set(attempt.id, attempt.revision);
   return attempt;
 }
 export const quizApiService = {
+  grade(id: number, grades: { questionId: number; score: number; feedback: string }[]) {
+    if (!grades.length || grades.some(g => !Number.isFinite(g.score) || g.score < 0 || g.score > 10)) throw new Error("Điểm phải từ 0 đến 10.");
+    const body = JSON.stringify({ grades });
+    return apiOperation<QuizAttempt>(`quiz-attempts/${id}/grade`, body, { method: "POST", body });
+  },
   async start(): Promise<QuizAttempt> {
     const examId = selection.examId, attemptId = selection.attemptId;
     const generation = selectionGeneration();
@@ -55,13 +64,13 @@ export const quizApiService = {
     return apiRequest<QuizAttempt>(`quiz-attempts/${selection.attemptId}`).then(validateAttempt);
   },
   save(id: number, answers: Record<string, string>, submit = false, essayAnswers?: Record<string, { content: SubmissionContent }>) {
-    const body = JSON.stringify({ answers, ...(essayAnswers ? { essayAnswers: serializeEssays(essayAnswers) } : {}) });
+    const body = JSON.stringify({ revision: revisions.get(id), answers, ...(essayAnswers ? { essayAnswers: serializeEssays(essayAnswers) } : {}) });
     return apiOperation<QuizAttempt>(`quiz-attempts/${id}/${submit ? "submit" : "answers"}`, body, { method: "POST", body }).then(validateAttempt);
   },
   saveImage(id: number, questionId: number, answers: Record<string, string>, essays: EssayAnswers) {
     const content = essays[questionId]?.content;
     if (!content?.imageFile) throw new Error("Hãy chọn ảnh bài làm cần lưu.");
-    return submitContent<QuizAttempt>(`quiz-attempts/${id}/answers`, { questionId, answers, essayAnswers: serializeEssays(essays) }, content).then(validateAttempt);
+    return submitContent<QuizAttempt>(`quiz-attempts/${id}/answers`, { revision: revisions.get(id), questionId, answers, essayAnswers: serializeEssays(essays) }, content).then(validateAttempt);
   },
 };
 export function quizClock(attempt: QuizAttempt, receivedAt: number) {

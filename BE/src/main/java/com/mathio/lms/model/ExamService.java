@@ -51,6 +51,8 @@ public class ExamService {
     public Object saveExam(Actor currentUser, JsonNode input) {
         currentUser.requireStaff();
         validateMatrix(input.path("matrix"), input.path("questions"));
+        ApiException.require(!input.has("published") || input.path("published").isBoolean(), 400, "Trạng thái xuất bản không hợp lệ.");
+        // Result publication is changed only by publishResults; ignore read-only metadata on save.
         return database.transaction(
                 connection -> {
                     long id = input.path("id").asLong();
@@ -80,7 +82,7 @@ public class ExamService {
                                         Json.text(input, "chapter", 200),
                                         Json.text(input, "topic", 200),
                                         Json.stringify(input.path("matrix")),
-                                        input.path("published").asBoolean(true),
+                                        input.path("published").asBoolean(false),
                                         Math.max(
                                                 60,
                                                 Math.min(
@@ -94,21 +96,21 @@ public class ExamService {
                     if (course != null)
                         Database.update(
                                 connection, "UPDATE exams SET course_id=? WHERE id=?", course, id);
+                    if (input.path("published").asBoolean(false)) {
+                        var assigned = Database.one(connection, "SELECT course_id FROM exams WHERE id=?", id);
+                        ApiException.require(assigned != null && assigned.get("course_id") instanceof Number, 400, "Hãy chọn khóa học trước khi xuất bản.");
+                        AccessDAO.validateCourseAccess(connection, currentUser, ((Number)assigned.get("course_id")).longValue());
+                    }
                     if (input.has("published"))
                         Database.update(
                                 connection,
                                 "UPDATE exams SET published=? WHERE id=?",
                                 input.path("published").asBoolean(),
                                 id);
-                    if (input.has("resultsPublished"))
-                        Database.update(
-                                connection,
-                                "UPDATE exams SET results_published=? WHERE id=?",
-                                input.path("resultsPublished").asBoolean(),
-                                id);
                     if (input.has("durationSeconds")) {
                         ApiException.require(
                                 input.path("durationSeconds").isIntegralNumber()
+                                        && input.path("durationSeconds").canConvertToInt()
                                         && input.path("durationSeconds").asInt() >= 60
                                         && input.path("durationSeconds").asInt() <= 14400,
                                 400,
@@ -266,13 +268,18 @@ public class ExamService {
         ArrayNode questionList = Json.array();
         for (var snapshotRow : examDAO.getQuestionSnapshots(connection, row.get("examId"))) {
             ObjectNode question = (ObjectNode) Json.parse(snapshotRow.get("snapshot").toString());
-            questionList.add(StudentQuestionDTO.from(question));
+            questionList.add(currentUser.isStudent() ? StudentQuestionDTO.from(question) : question);
         }
         out.set("questions", questionList);
         ObjectNode answers = Json.object();
-        for (var answerRow : examDAO.getAttemptAnswers(connection, id))
+        ObjectNode mcqScores = Json.object();
+        if (!"IN_PROGRESS".equals(row.get("status"))) for (var question : questionList) if ("MCQ".equals(question.path("type").asText())) mcqScores.put(question.path("id").asText(),0);
+        for (var answerRow : examDAO.getAttemptAnswers(connection, id)) {
+            if (!currentUser.isStudent() && !"IN_PROGRESS".equals(row.get("status"))) mcqScores.put(answerRow.get("question_id").toString(), Boolean.TRUE.equals(answerRow.get("correct")) ? 10 : 0);
             answers.put(
                     answerRow.get("question_id").toString(), answerRow.get("answer").toString());
+        }
+        if (!currentUser.isStudent()) out.set("mcqScores", mcqScores);
         out.set("answers", answers);
         var result = examDAO.getAttemptResult(connection, id);
         var publication =
@@ -304,7 +311,17 @@ public class ExamService {
             essayAnswers.set(answer.get("question_id").toString(), item);
         }
         out.set("essayAnswers", essayAnswers);
+        out.put("revision", answerRevision(answers, essayAnswers));
         return out;
+    }
+
+    private static String answerRevision(JsonNode answers, JsonNode essays) {
+        var values = new java.util.TreeMap<String, String>();
+        answers.fields().forEachRemaining(e -> values.put("mcq:" + e.getKey(), e.getValue().asText()));
+        essays.fields().forEachRemaining(e -> values.put("essay:" + e.getKey(), Json.stringify(e.getValue().path("content"))));
+        try {
+            return java.util.HexFormat.of().formatHex(java.security.MessageDigest.getInstance("SHA-256").digest(Json.stringify(values).getBytes(java.nio.charset.StandardCharsets.UTF_8)));
+        } catch (java.security.NoSuchAlgorithmException e) { throw new IllegalStateException(e); }
     }
 
     public Object getAttemptById(Actor currentUser, long id) {
@@ -327,6 +344,8 @@ public class ExamService {
                         boolean expired =
                                 elapsed >= ((Number) row.get("duration_seconds")).longValue();
                         ApiException.require(submit || !expired, 409, "Đã hết thời gian làm bài.");
+                        if (!expired && input.has("revision"))
+                            ApiException.require(input.path("revision").asText().equals(getAttemptById(connection, currentUser, id).path("revision").asText()), 409, "Bài làm đã thay đổi ở tab khác. Hãy tải lại trước khi lưu.");
                         var questionList = examDAO.getExamQuestions(connection, row.get("exam_id"));
                         JsonNode incoming = input.path("answers");
                         ApiException.require(incoming.isObject(), 400, "Đáp án không hợp lệ.");
@@ -488,7 +507,7 @@ public class ExamService {
                 c ->
                         Database.rows(
                                 c,
-                                "SELECT a.id,a.exam_id AS examId,a.status,a.started_at AS startedAt"
+                                "SELECT a.id,a.exam_id AS examId,a.student_id AS studentId,e.title AS title,a.status,a.started_at AS startedAt"
                                     + " FROM exam_attempts a JOIN exams e ON e.id=a.exam_id WHERE "
                                         + (currentUser.isStudent()
                                                 ? "a.student_id=" + currentUser.getId()
@@ -766,7 +785,11 @@ public class ExamService {
         actor.requireStaff();
         return database.transaction(
                 c -> {
+                    ApiException.require(examDAO.getExamAuthor(c, examId) != null, 404, "Không tìm thấy đề thi.");
                     AccessDAO.validateExamAccess(c, actor, examId);
+                    var publication = Database.one(c, "SELECT results_published FROM exams WHERE id=?", examId);
+                    if (Boolean.TRUE.equals(publication.get("results_published"))) return Map.of("published", true);
+                    ApiException.require(Database.one(c, "SELECT TOP (1) id FROM exam_attempts WITH(UPDLOCK,HOLDLOCK) WHERE exam_id=? AND status='PENDING_GRADING'", examId) == null, 409, "Còn bài đã nộp chưa chấm xong. Hãy chấm đủ trước khi công bố.");
                     Database.update(c, "UPDATE exams SET results_published=1 WHERE id=?", examId);
                     AccessDAO.audit(c, actor, "EXAM_RESULTS_PUBLISHED", examId);
                     return Map.of("published", true);

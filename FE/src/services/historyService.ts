@@ -1,7 +1,7 @@
+import { allPages } from "./pagination";
 import type { HistoryEntry } from "../types/lms";
 import { readRecords, writeRecord } from "./storage";
 import { essayService } from "./essayService";
-import { apiRequest } from "./api";
 import { postApi, useMockApi } from "./serviceMode";
 export const essayStatusLabels = { SUBMITTED: "Đã nộp", CORRECT: "Hoàn thành", NEEDS_TUTOR: "Đang hướng dẫn", RETRY_REQUIRED: "Cần nộp lại", COMPLETED: "Hoàn thành", NEEDS_REVISION: "Cần chỉnh sửa" };
 export const historyService = {
@@ -10,7 +10,7 @@ export const historyService = {
     await writeRecord({ id: "history:" + crypto.randomUUID(), kind: "history", value: entry });
   },
   async list(): Promise<HistoryEntry[]> {
-    if (!useMockApi) return apiRequest("learning-history");
+    if (!useMockApi) return allPages<HistoryEntry>("learning-history");
     const records = await readRecords<{ id: string; kind: string; value: HistoryEntry }>();
     const rows = records.filter(r => r.kind === "history").map(r => ({ ...r.value, id: r.id }));
     const essays = await essayService.list();
