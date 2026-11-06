@@ -1,6 +1,6 @@
 import { apiRequest, apiOperation } from "./api";
 import { selection } from "./lmsService";
-import { selectionGeneration } from "./routeState";
+import { currentPage, selectionGeneration } from "./routeState";
 import { submitContent } from "./imageService";
 import type { StudentQuestionDTO, QuizReviewDTO, SubmissionContent } from "../types/lms";
 export interface QuizAttempt {
@@ -37,6 +37,7 @@ export const quizApiService = {
   async start(): Promise<QuizAttempt> {
     const examId = selection.examId, attemptId = selection.attemptId;
     const generation = selectionGeneration();
+    const page = currentPage();
     const key = `${generation}:${examId}:${attemptId}`;
     const existing = starts.get(key); if (existing) return existing;
     const pending = (async () => {
@@ -53,7 +54,7 @@ export const quizApiService = {
       }
       return apiOperation<QuizAttempt>(`exams/${selected}/attempts`, "start", { method: "POST", body: "{}" });
     })().then(validateAttempt).then(attempt => {
-      if (generation !== selectionGeneration() || selection.examId !== examId || selection.attemptId !== attemptId) throw new DOMException("Yêu cầu bài thi đã được thay thế.", "AbortError");
+      if (page !== currentPage() || generation !== selectionGeneration() || selection.examId !== examId || selection.attemptId !== attemptId) throw new DOMException("Yêu cầu bài thi đã được thay thế.", "AbortError");
       selection.examId = attempt.examId; selection.attemptId = attempt.id; return attempt;
     }).finally(() => starts.delete(key));
     starts.set(key, pending);

@@ -25,6 +25,7 @@ export const lmsService = {
   lesson: (id: number, signal?: AbortSignal) => apiRequest<CatalogLessonWire>(`lessons/${id}`, { signal }).then(lessonFromApi),
   progress: (id: number, completed: boolean, elapsedSeconds: number) => apiRequest(`lessons/${id}/progress`, { method: "POST", body: JSON.stringify({ completed, elapsedSeconds }), keepalive: true }),
   exercises: (signal?: AbortSignal) => apiRequest<ExerciseRecord[]>("exercises", { signal }),
+  lessonExercises: (lessonId: number, signal?: AbortSignal) => apiRequest<ExerciseRecord[]>(`exercises?lessonId=${lessonId}`, { signal }),
   studentAnalytics: async (id?: number) => {
     if (id !== undefined && (!Number.isSafeInteger(id) || id <= 0)) throw new Error("Hãy chọn học sinh để xem chi tiết.");
     return apiRequest<StudentAnalytics>(id !== undefined ? `students/${id}/statistics` : "analytics");

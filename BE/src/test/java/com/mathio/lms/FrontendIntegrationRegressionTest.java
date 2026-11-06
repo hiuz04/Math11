@@ -7,10 +7,56 @@ import com.mathio.lms.DAO.*;
 import com.mathio.lms.model.*;
 import java.sql.Connection;
 import java.util.List;
+import java.util.Map;
 import javax.sql.DataSource;
 import org.junit.jupiter.api.Test;
 
 class FrontendIntegrationRegressionTest {
+    @Test
+    void lessonExercisesUseExplicitLinksAndKeepStudentScopeAndProgress() throws Exception {
+        Connection c = mock(Connection.class);
+        DataSource source = mock(DataSource.class);
+        when(source.getConnection()).thenReturn(c);
+        Actor student = new Actor(17, "STUDENT", 1);
+        try (var db = new Database(source); var sql = mockStatic(Database.class)) {
+            sql.when(() -> Database.one(eq(c), contains("OBJECT_ID"))).thenReturn(Map.of("installed", 1));
+            sql.when(() -> Database.rows(eq(c), anyString(), any(Object[].class))).thenAnswer(inv -> {
+                String query = inv.getArgument(1);
+                Object[] args = (Object[]) inv.getRawArguments()[2];
+                if (query.contains("FROM essay_submissions")) {
+                    assertArrayEquals(new Object[] {17L}, args);
+                    return List.of(Map.of("question_id", 654L, "bestScore", 8.5, "inProgress", 1));
+                }
+                assertTrue(query.contains("p.lesson_id=?"));
+                assertTrue(query.contains("scope_n.student_id=17"));
+                if (query.contains("dbo.lesson_practice_questions")) {
+                    assertArrayEquals(new Object[] {77L}, args);
+                    assertTrue(query.contains("q.course_id=l.course_id"));
+                    assertTrue(query.contains("q.type='ESSAY'"));
+                    assertTrue(query.contains("q.published=1"));
+                    assertFalse(query.contains("q.answer"));
+                    return List.of(Map.of("id", 654L, "title", "Practice", "type", "ESSAY"));
+                }
+                assertTrue(query.contains("dbo.lesson_practice_exams"));
+                assertTrue(query.contains("l.course_id=e.course_id"));
+                assertTrue(query.contains("e.published=1"));
+                assertArrayEquals(new Object[] {17L, 17L, 17L, 77L}, args);
+                return List.of(Map.of("id", 321L, "title", "Practice", "status", "IN_PROGRESS"));
+            });
+            var records = Json.MAPPER.valueToTree(new QuestionDAO(db).getExercises(student, 77));
+            assertEquals(2, records.size());
+            assertEquals("essay", records.get(0).path("kind").asText());
+            assertEquals(654L, records.get(0).path("id").asLong());
+            assertEquals(8.5, records.get(0).path("bestScore").asDouble());
+            assertEquals("IN_PROGRESS", records.get(0).path("status").asText());
+            assertEquals("quiz", records.get(1).path("kind").asText());
+            assertEquals(321L, records.get(1).path("id").asLong());
+
+            sql.when(() -> Database.one(eq(c), contains("OBJECT_ID"))).thenReturn(null);
+            assertTrue(Json.MAPPER.valueToTree(new QuestionDAO(db).getExercises(student, 77)).isEmpty());
+        }
+    }
+
     @Test
     void studentDtoNeverCopiesGradingOrUnexpectedSnapshotFields() {
         var source = Json.parse("{\"id\":1,\"title\":\"Question\",\"content\":\"1+1\",\"options\":[\"1\",\"2\"],\"answer\":\"2\",\"explanation\":\"secret\",\"score\":10,\"rubric\":{},\"privatePlan\":[]}");

@@ -91,7 +91,9 @@ public class QuestionController extends ApiController {
             throws IOException {
         Application app = application(request);
         Actor currentUser = currentUser(request);
-        Object result = app.questionDAO.getExercises(currentUser);
+        long lessonId = queryId(request, "lessonId");
+        if (lessonId != 0) app.catalogDAO.getLessonById(currentUser, lessonId);
+        Object result = app.questionDAO.getExercises(currentUser, lessonId);
         writeJson(response, result);
     }
 }

@@ -17,6 +17,6 @@ export const searchService = {
     if (!useMockApi) throw new Error("Danh sách demo không khả dụng trong chế độ API thật.");
     const lessons: SearchResult[] = lessonService.getLessons().map((l,index)=>({id:index+1,title:l[0],chapter:"",kind:"lesson"}));
     if (!student) return [...lessons,...(await questionService.list()).map(q=>({id:q.id,title:q.title,chapter:q.chapter,kind:"question" as const}))];
-    return [...lessons,...exerciseService.getExercises().map((e,index)=>({id:e[2]==="Tự luận"?(e[0].includes("cấp số nhân")?102:101):index+1,title:e[0],chapter:e[1],kind:e[2]==="Tự luận"?"essay" as const:"quiz" as const}))];
+    return [...lessons,...exerciseService.getExercises().map(e=>({id:e[7],title:e[0],chapter:e[1],kind:e[2]==="Tự luận"?"essay" as const:"quiz" as const}))];
   },
 };

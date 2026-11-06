@@ -44,3 +44,9 @@ Rollback requires a backup and a pause in catalog writes. The commented rollback
 
 ## V004 — question review
 Run migrations/V004__question_reviews.sql manually on the selected local SQL Server database before using question review or publishing exams. Adds question_reviews keyed by reviewer and validated content hash; no existing data is deleted. Each question must be explicitly accepted before publication; editing content invalidates its prior review. Existing published exams remain readable. This migration has not been executed in this session.
+
+## V005 — liên kết bài giảng với bài luyện
+
+Sau khi backup, chạy thủ công [V005__lesson_practice.sql](migrations/V005__lesson_practice.sql) trên database đã có V002. Kiểm thử trước trên database riêng. Migration tạo hai bảng liên kết theo ID và ghi version 5. Danh sách luyện tập chung hoạt động trên schema cũ và mới.
+
+Quản trị viên nhập các cặp ID đã được giáo viên xác nhận vào `dbo.lesson_practice_questions (lesson_id, question_id)` cho câu tự luận hoặc `dbo.lesson_practice_exams (lesson_id, exam_id)` cho đề luyện. Chọn bài giảng và bài luyện thuộc cùng khóa học. Học sinh chỉ thấy nội dung đã xuất bản trong khóa học mà mình được ghi danh. Khi chưa có migration hoặc chưa nhập liên kết, trang luyện tập theo bài giảng hiển thị danh sách trống.

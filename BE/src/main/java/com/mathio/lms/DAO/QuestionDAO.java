@@ -389,15 +389,23 @@ public class QuestionDAO {
                 });
     }
 
-    public Object getExercises(Actor currentUser) {
+    public Object getExercises(Actor currentUser, long lessonId) {
         return database.read(
                 c -> {
                     ArrayNode out = Json.array();
+                    boolean scoped = lessonId != 0;
+                    if (scoped && Database.one(c, """
+                            SELECT 1 AS installed
+                            WHERE OBJECT_ID(N'dbo.lesson_practice_questions', N'U') IS NOT NULL
+                              AND OBJECT_ID(N'dbo.lesson_practice_exams', N'U') IS NOT NULL
+                            """) == null) return out;
                     var essayStats = Database.rows(c,
                             "SELECT question_id, MAX(TRY_CONVERT(float,JSON_VALUE(state_json,'$.finalResult.score'))) AS bestScore,"
                             + " MAX(CASE WHEN status IN ('SUBMITTED','NEEDS_TUTOR','RETRY_REQUIRED','NEEDS_REVISION') THEN 1 ELSE 0 END) AS inProgress"
                             + " FROM essay_submissions WHERE student_id=? GROUP BY question_id", currentUser.getId());
-                    for (var q : (ArrayNode) getQuestions(currentUser)) {
+                    ArrayNode questions = scoped ? getLessonEssayExercises(c, currentUser, lessonId)
+                            : (ArrayNode) getQuestions(currentUser);
+                    for (var q : questions) {
                         if (q.path("type").asText().equals("ESSAY")) {
                             ((ObjectNode) q).remove("answer");
                             ((ObjectNode) q).put("kind", "essay");
@@ -411,10 +419,19 @@ public class QuestionDAO {
                             out.add(q);
                         }
                     }
+                    String examFilter = scoped ? """
+                            AND EXISTS (SELECT 1 FROM dbo.lesson_practice_exams p
+                                JOIN lessons l ON l.id=p.lesson_id AND l.course_id=e.course_id
+                                WHERE p.lesson_id=? AND p.exam_id=e.id)
+                            """ : "";
+                    Object[] examParams = scoped
+                            ? new Object[] {currentUser.getId(), currentUser.getId(), currentUser.getId(), lessonId}
+                            : new Object[] {currentUser.getId(), currentUser.getId(), currentUser.getId()};
                     for (var row :
                             Database.rows(
                                     c,
-                                    "SELECT TOP (100) e.id,e.title,e.chapter,e.duration_seconds AS durationSeconds,"
+                                    (scoped ? "SELECT " : "SELECT TOP (100) ")
+                                        + "e.id,e.title,e.chapter,e.duration_seconds AS durationSeconds,"
                                         + " (SELECT COUNT(*) FROM exam_questions eq WHERE eq.exam_id=e.id) AS questionCount,"
                                         + " (SELECT CASE MAX(CASE JSON_VALUE(eq.snapshot,'$.difficulty') WHEN 'HARD' THEN 3 WHEN 'MEDIUM' THEN 2 WHEN 'EASY' THEN 1 END) WHEN 3 THEN 'HARD' WHEN 2 THEN 'MEDIUM' WHEN 1 THEN 'EASY' END FROM exam_questions eq WHERE eq.exam_id=e.id) AS difficulty,"
                                         + " (SELECT MAX(r.score) FROM exam_attempts a JOIN exam_results r ON r.attempt_id=a.id WHERE a.exam_id=e.id AND a.student_id=? AND e.results_published=1) AS bestScore,"
@@ -422,13 +439,24 @@ public class QuestionDAO {
                                         + " WHEN EXISTS(SELECT 1 FROM exam_attempts a WHERE a.exam_id=e.id AND a.student_id=?) THEN 'COMPLETED' ELSE 'NOT_STARTED' END AS status"
                                         + " FROM exams e WHERE e.deleted=0 AND ("
                                             + AccessDAO.examScope(currentUser, "e")
-                                            + ") ORDER BY e.id DESC", currentUser.getId(), currentUser.getId(), currentUser.getId())) {
+                                            + ") " + examFilter + " ORDER BY e.id DESC", examParams)) {
                         ObjectNode e = Json.MAPPER.valueToTree(row);
                         e.put("kind", "quiz");
                         out.add(e);
                     }
                     return out;
                 });
+    }
+
+    private ArrayNode getLessonEssayExercises(Connection c, Actor actor, long lessonId) throws SQLException {
+        return Json.MAPPER.valueToTree(Database.rows(c, """
+                SELECT q.id, q.title, ch.title AS chapter, q.type, q.difficulty
+                FROM dbo.lesson_practice_questions p
+                JOIN lessons l ON l.id=p.lesson_id
+                JOIN questions q ON q.id=p.question_id AND q.course_id=l.course_id
+                JOIN chapters ch ON ch.id=q.chapter_id
+                WHERE p.lesson_id=? AND q.type='ESSAY' AND q.deleted=0 AND (
+                """ + AccessDAO.questionScope(actor, "q") + ") ORDER BY q.id", lessonId));
     }
 
     private Question mapQuestion(Map<String, Object> row) {

@@ -205,6 +205,122 @@ test("teacher regenerates exactly one question and keeps edited neighbours", asy
   expect(calls).toBe(2);
 });
 
+test("lesson practice uses linked IDs and keeps its scope through reload and browser history", async ({ page }) => {
+  await fixture(page);
+  const lesson = { id: 77, title: "Bài giảng SQL", chapter: "Chương SQL", courseId: 8, chapterId: 88, completed: 1, published: true, elapsedSeconds: 60, content: "<p>Nội dung bài giảng</p>" };
+  const otherLesson = { ...lesson, id: 78 };
+  await page.route("**/api/lessons?**", r => r.fulfill({ json: [lesson, otherLesson] }));
+  await page.route("**/api/lessons/77", r => r.fulfill({ json: lesson }));
+  await page.route("**/api/lessons/78", r => r.fulfill({ json: otherLesson }));
+  await page.route("**/api/lessons/77/progress", r => r.fulfill({ json: { saved: true } }));
+  const quiz = { id: 321, title: "Đề luyện", chapter: lesson.chapter, kind: "quiz", difficulty: "EASY", status: "IN_PROGRESS", questionCount: 1 };
+  const essay = { ...quiz, id: 654, kind: "essay", title: "Bài tự luận liên kết", status: "NOT_STARTED" };
+  await page.route("**/api/exercises**", r => {
+    const id = new URL(r.request().url()).searchParams.get("lessonId");
+    return r.fulfill({ json: id === "77" ? [quiz, essay] : id === "78" ? [] : [{ ...quiz, id: 999 }] });
+  });
+  await page.route("**/api/questions/654", r => r.fulfill({ json: { ...sqlQuestion, id: essay.id, title: essay.title, type: "ESSAY" } }));
+  const attempt = { id: 87, examId: quiz.id, status: "IN_PROGRESS", exam: { title: quiz.title, durationSeconds: 1800 }, startedAt: new Date().toISOString(), questions: [sqlQuestion], answers: {} };
+  await page.route("**/api/quiz-attempts", r => r.fulfill({ json: [
+    { id: 86, examId: 999, status: "IN_PROGRESS" },
+    { id: attempt.id, examId: quiz.id, status: attempt.status },
+  ] }));
+  await page.route("**/api/quiz-attempts/87", r => r.fulfill({ json: attempt }));
+
+  await page.goto("/#/lesson?lessonId=77");
+  await expect(page.getByRole("button", { name: "Đã hoàn thành" })).toBeDisabled();
+  await page.getByRole("button", { name: "Luyện tập bài này" }).click();
+  await expect(page).toHaveURL(/exercises.*practiceLessonId=77/);
+  await page.reload();
+  await expect(page.locator(".exercise-card")).toHaveCount(2);
+  await page.getByRole("button", { name: "Tiếp tục" }).click();
+  await expect(page).toHaveURL(/quiz.*examId=321&attemptId=87/);
+  await page.reload();
+  await expect(page.locator(".quiz-top")).toContainText(quiz.title);
+  await page.goBack();
+  await expect(page).toHaveURL(/exercises.*practiceLessonId=77$/);
+  await page.goForward();
+  await expect(page.locator(".quiz-top")).toContainText(quiz.title);
+  await page.goBack();
+  await page.getByRole("button", { name: "Làm bài ngay" }).click();
+  await expect(page).toHaveURL(/essay-practice.*essayQuestionId=654/);
+  await expect(page.getByRole("heading", { name: essay.title })).toBeVisible();
+  await page.goBack();
+  await page.goBack();
+  await expect(page).toHaveURL(/lesson\?lessonId=77$/);
+  await page.getByRole("button", { name: "Bài tiếp theo" }).click();
+  await expect(page).toHaveURL(/lesson\?lessonId=78$/);
+  await page.getByRole("button", { name: "Luyện tập bài này" }).click();
+  await expect(page.getByText("Bài giảng chưa có bài luyện tập")).toBeVisible();
+  await page.locator(".sidebar").getByRole("button", { name: "Bài tập", exact: true }).click();
+  await expect(page).not.toHaveURL(/practiceLessonId/);
+  await expect(page.getByRole("heading", { name: quiz.title })).toBeVisible();
+});
+
+test("essay editor submits text and LaTeX and retries evaluation without resubmitting", async ({ page }) => {
+  await fixture(page);
+  const question = { ...sqlQuestion, id: 101, type: "ESSAY", title: "Tự luận SQL" };
+  const text = "Kết quả:\n\n\\(\\frac{1}{2}\\)";
+  const submission = { id: 61, studentId: user.id, questionId: 101, question, originalSubmission: { text }, originalFeedback: "Đã đánh giá", status: "CORRECT", aiSteps: [], studentStepAnswers: [], retrySubmissions: [], totalSteps: 0, currentStep: 0, startedAt: new Date().toISOString(), updatedAt: new Date().toISOString(), elapsedSeconds: 3 };
+  await page.route("**/api/questions/101", r => r.fulfill({ json: question }));
+  let submits = 0, evaluations = 0;
+  await page.route("**/api/essays", r => {
+    submits++;
+    const payload = r.request().postDataJSON();
+    expect(payload.questionId).toBe(101);
+    expect(payload.content).toEqual({ text });
+    expect(r.request().headers()["idempotency-key"]).toBeTruthy();
+    return r.fulfill({ status: 201, json: { ...submission, status: "SUBMITTED" } });
+  });
+  await page.route("**/api/ai/essays/evaluate", r => {
+    expect(r.request().postDataJSON()).toEqual({ submissionId: 61 });
+    return ++evaluations === 1
+      ? r.fulfill({ status: 503, json: { error: { message: "Đánh giá tạm gián đoạn." } } })
+      : r.fulfill({ json: submission });
+  });
+  await page.route("**/api/essays/61", r => r.fulfill({ json: submission }));
+  await page.goto("/#/essay-practice?essayQuestionId=101");
+  const editor = page.getByRole("textbox", { name: "Bài làm", exact: true });
+  const submit = page.getByRole("button", { name: "Nộp bài", exact: true });
+  await expect(submit).toBeDisabled();
+  await editor.fill("   ");
+  await expect(submit).toBeDisabled();
+  await page.getByRole("button", { name: "Formula" }).click();
+  const formula = page.getByRole("textbox", { name: "LaTeX" });
+  await formula.fill("\\frac{");
+  await page.getByRole("button", { name: "Chèn công thức" }).click();
+  await expect(page.getByText("Công thức LaTeX chưa hợp lệ.")).toBeVisible();
+  await formula.fill("\\frac{1}{2}");
+  await page.getByRole("button", { name: "Chèn công thức" }).click();
+  await expect(editor.locator(".katex")).toBeVisible();
+  await expect(submit).toBeEnabled();
+  await editor.fill("");
+  await expect(submit).toBeDisabled();
+  await editor.evaluate(element => {
+    const clipboardData = new DataTransfer();
+    clipboardData.setData("text/html", '<p><strong>Kết quả:</strong><img src="x" onerror="window.unsafeEssayPaste=true"><script>window.unsafeEssayPaste=true</script></p>');
+    element.dispatchEvent(new ClipboardEvent("paste", { clipboardData, bubbles: true, cancelable: true }));
+  });
+  await expect(editor.locator("strong")).toHaveText("Kết quả:");
+  await expect(editor.locator("img, script, [onerror]")).toHaveCount(0);
+  await editor.press("Control+End");
+  await editor.press("Enter");
+  await page.getByRole("button", { name: "Formula" }).click();
+  await formula.fill("\\frac{1}{2}");
+  await page.getByRole("button", { name: "Chèn công thức" }).click();
+  await page.getByRole("button", { name: "Upload ảnh", exact: true }).click();
+  await page.getByRole("button", { name: "Nhập bài làm", exact: true }).click();
+  await expect(editor.locator(".katex")).toBeVisible();
+  await submit.click();
+  await expect(page.getByRole("alert")).toHaveText("Đánh giá tạm gián đoạn.");
+  await expect(page.locator(".tiptap[aria-label='Bài làm']")).toHaveAttribute("contenteditable", "false");
+  await submit.click();
+  await expect(page).toHaveURL(/essay-result.*submissionId=61/);
+  await expect(page.getByText("Đã đánh giá")).toBeVisible();
+  expect(submits).toBe(1);
+  expect(evaluations).toBe(2);
+});
+
 test("essay image uses multipart and survives switching input modes before submission", async ({ page }) => {
   await fixture(page);
   const question = { ...sqlQuestion, id: 101, type: "ESSAY", title: "Tự luận SQL" };

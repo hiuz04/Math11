@@ -1,5 +1,6 @@
-const emptySelection = { courseId: 0, chapterId: 0, lessonId: 0, examId: 0, attemptId: 0, studentId: 0, editLessonId: 0, essayQuestionId: 0, submissionId: 0, questionId: 0 };
+const emptySelection = { courseId: 0, chapterId: 0, lessonId: 0, practiceLessonId: 0, examId: 0, attemptId: 0, studentId: 0, editLessonId: 0, essayQuestionId: 0, submissionId: 0, questionId: 0 };
 type Selection = typeof emptySelection;
+export type RouteSelection = Partial<Selection>;
 let restoring = false;
 let generation = 0;
 let searchQuery = "";
@@ -29,8 +30,13 @@ export function readRoute() {
   restoring = false;
   return page || "";
 }
-export function writeRoute(page: string, replace = false) {
+export function writeRoute(page: string, replace = false, updates?: RouteSelection) {
   if (typeof window === "undefined") return;
+  if (updates) {
+    restoring = true;
+    Object.assign(selection, updates);
+    restoring = false;
+  }
   const params = new URLSearchParams();
   if(currentPage()===page) new URLSearchParams(window.location.hash.split("?")[1]).forEach((value,key)=>{if(key.startsWith("list_"))params.set(key,value);});
   if (page === "search" && searchQuery) params.set("q", searchQuery);

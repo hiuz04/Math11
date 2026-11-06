@@ -27,7 +27,7 @@ function update(s: EssaySubmission) {
 }
 function evaluateText(s: EssaySubmission): Evaluation {
   if (s.originalSubmission.image && !s.originalSubmission.text?.trim()) return { correct: false, feedback: "Đã nhận ảnh thật. Chế độ mock chưa đọc/chấm được ảnh; em có thể luyện các bước của bài này. Cần backend để đánh giá ảnh." };
-  const text = (s.originalSubmission.text || "").trim();
+  const text = (s.originalSubmission.text || "").replace(/\\\((.*?)\\\)|\\\[(.*?)\\\]/gs, (_, inline, block) => inline ?? block).trim();
   const expected = s.question.scenario === "GEOMETRIC" ? "48" : "29";
   const correct = new RegExp(`(?:^|[=\\s])${expected}(?:\\s*(?:ghế|\\.)?\\s*)$`).test(text);
   return correct ? { correct: true, feedback: "Chính xác theo kiểm tra đáp số mẫu. Chế độ mock chưa đánh giá đầy đủ lập luận.", score: 10 } : { correct: false, feedback: "Kết quả chưa khớp với bài mẫu. Hãy kiểm tra lại cách thay dữ kiện; Tutor sẽ giúp em từng bước." };

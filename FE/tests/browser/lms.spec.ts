@@ -68,7 +68,7 @@ test("teacher generates all requested questions and saves a 16-question matrix e
   await expect(page.getByText("Tổng số câu:")).toContainText("16");
   await page.getByRole("button", { name: "Tạo đề", exact: true }).click();
   await expect(page.locator(".generated-question")).toHaveCount(16);
-  await page.getByRole("button", { name: "Lưu đề", exact: true }).click();
+  await page.getByRole("button", { name: "Lưu nháp", exact: true }).click();
   await expect(page.getByRole("heading", { name: "Đề đã lưu" })).toBeVisible();
   await nav(page, "Bài giảng"); await page.getByRole("button", { name: "Thêm mới" }).click();
   await page.locator(".tiptap").fill("Nội dung bài giảng");

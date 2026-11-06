@@ -5,18 +5,36 @@ import Mathematics from "@tiptap/extension-mathematics";
 import katex from "katex";
 import Button from "./Button";
 import Icon from "./Icon";
-export default function RichTextEditor({ value, onChange, readOnly = false }: { value: string; onChange?: (html: string) => void; readOnly?: boolean }) {
+export default function RichTextEditor({ value, onChange, onTextChange, readOnly = false, disabled = false, label = "Nội dung văn bản" }: {
+  value: string;
+  onChange?: (html: string) => void;
+  onTextChange?: (text: string) => void;
+  readOnly?: boolean;
+  disabled?: boolean;
+  label?: string;
+}) {
   const [formulaOpen, setFormulaOpen] = useState(false), [latex, setLatex] = useState(""), [error, setError] = useState("");
   const [mathPosition, setMathPosition] = useState<number>();
   const editor = useEditor({
-    extensions: [StarterKit.configure({ heading: { levels: [1, 2] }, link: { openOnClick: false } }), Mathematics.configure({ katexOptions: { trust: false, throwOnError: false }, inlineOptions: { onClick: (node, pos) => { if (!readOnly) { setLatex(String(node.attrs.latex)); setMathPosition(pos); setFormulaOpen(true); } } } })],
-    content: value, editable: !readOnly,
-    onUpdate: ({ editor }) => onChange?.(editor.getHTML()),
-    editorProps: { attributes: { "aria-label": "Nội dung văn bản", role: "textbox", "aria-multiline": "true" } },
+    extensions: [StarterKit.configure({ heading: { levels: [1, 2] }, link: { openOnClick: false } }), Mathematics.configure({ katexOptions: { trust: false, throwOnError: false }, inlineOptions: { onClick: (node, pos) => { if (!readOnly && !disabled) { setLatex(String(node.attrs.latex)); setMathPosition(pos); setFormulaOpen(true); } } } })],
+    content: value, editable: !readOnly && !disabled,
+    onUpdate: ({ editor }) => {
+      onChange?.(editor.getHTML());
+      onTextChange?.(editor.getText({
+        textSerializers: {
+          inlineMath: ({ node }) => `\\(${node.attrs.latex}\\)`,
+          blockMath: ({ node }) => `\\[${node.attrs.latex}\\]`,
+          hardBreak: () => "\n",
+        },
+      }).trim());
+    },
+    editorProps: { attributes: { "aria-label": label, role: "textbox", "aria-multiline": "true" } },
   });
   useEffect(() => { if (editor && editor.getHTML() !== value) editor.commands.setContent(value, { emitUpdate: false }); }, [editor, value]);
+  useEffect(() => { editor?.setEditable(!readOnly && !disabled, false); }, [editor, readOnly, disabled]);
   if (!editor) return null;
   function insertFormula() {
+    if (!editor?.isEditable) return;
     try {
       katex.renderToString(latex, { throwOnError: true, trust: false });
       if (mathPosition !== undefined) editor!.chain().focus().updateInlineMath({ latex, pos: mathPosition }).run();
@@ -24,7 +42,7 @@ export default function RichTextEditor({ value, onChange, readOnly = false }: { 
       setFormulaOpen(false); setMathPosition(undefined); setLatex(""); setError("");
     } catch { setError("Công thức LaTeX chưa hợp lệ."); }
   }
-  return <div className={`rich-editor ${readOnly ? "rich-editor-readonly" : ""}`}>
+  return <div className={`rich-editor ${readOnly ? "rich-editor-readonly" : ""}`} inert={disabled}>
     {!readOnly && <div className="rich-toolbar" role="toolbar" aria-label="Định dạng văn bản">
       <button type="button" title="Bold" aria-label="Bold" aria-pressed={editor.isActive("bold")} onClick={() => editor.chain().focus().toggleBold().run()}><b>B</b></button>
       <button type="button" title="Italic" aria-label="Italic" aria-pressed={editor.isActive("italic")} onClick={() => editor.chain().focus().toggleItalic().run()}><i>I</i></button>
