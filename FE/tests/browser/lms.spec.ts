@@ -73,7 +73,7 @@ test("teacher generates all requested questions and saves a 16-question matrix e
   await nav(page, "Bài giảng"); await page.getByRole("button", { name: "Thêm mới" }).click();
   await page.locator(".tiptap").fill("Nội dung bài giảng");
   await page.getByRole("button", { name: "Bold", exact: true }).click();
-  await page.getByRole("button", { name: "Formula", exact: true }).click();
+  await page.getByRole("button", { name: "∑ Công thức", exact: true }).click();
   await page.getByLabel("LaTeX").fill("u_n = u_1 + (n-1)d");
   await page.getByRole("button", { name: "Chèn công thức" }).click();
   await expect(page.locator(".tiptap .katex")).toBeVisible();

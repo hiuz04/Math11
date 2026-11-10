@@ -200,5 +200,16 @@ tr:last-child td { border-bottom: 0; } td strong { display:block;color:var(--ink
 .rich-editor .tiptap p{margin:0 0 8px}.rich-editor-readonly .tiptap{min-height:0}
 .rich-editor .tiptap-mathematics-render{color:var(--primary)}
 .rich-editor .katex-display{max-width:100%;overflow-x:auto}
+.formula-dialog{position:fixed;inset:0;margin:auto;max-width:calc(100vw - 28px);max-height:calc(100dvh - 28px);border-radius:14px;background:white;color:var(--ink);overflow:auto}
+.formula-dialog::backdrop{background:rgba(17,24,39,.45)}
+.formula-dialog .form-modal{width:min(480px,calc(100vw - 28px))}
+.formula-dialog .form-modal>label,.formula-dialog .form-modal input{font-size:14px}
+.formula-dialog .form-modal input{width:100%;font-family:monospace}
+.formula-hint,.formula-preview p{color:var(--muted);font-size:12px}
+.formula-symbols{display:grid;grid-template-columns:repeat(auto-fit,minmax(44px,1fr));gap:6px}
+.formula-symbols button{min-height:36px;border:1px solid var(--line);border-radius:6px;background:#f6f7fa;color:var(--ink);font-size:15px}
+.formula-symbols button:hover,.formula-symbols button:focus-visible{background:var(--primary-soft);color:var(--primary)}
+.formula-preview{display:grid;align-items:center;min-height:64px;padding:8px 12px;border:1px solid var(--line);border-radius:8px;text-align:center;overflow:auto}
+.formula-preview .katex-display{margin:0;overflow-x:auto}
 .feature-actions .btn:disabled,.lesson-editor .btn:disabled{opacity:.6;cursor:default}
 @media(max-width:600px){.exam-matrix th,.exam-matrix td{padding:8px}.essay-image img{max-height:260px}.feature-formula{font-size:16px}.question-form{padding:18px}}
