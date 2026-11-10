@@ -370,18 +370,26 @@ test("essay image uses multipart and survives switching input modes before submi
 test("teacher saves and reloads lesson content using the backend ID", async ({ page }) => {
   await fixture(page);
   await page.route("**/api/auth/me", r => r.fulfill({ json: { user: { ...user, role: "TEACHER" }, csrfToken: "session-csrf" } }));
-  await page.route("**/api/chapters", r => r.fulfill({ json: [{ id: 88, title: "Chương SQL" }] }));
+  await page.route("**/api/courses?*", r => r.fulfill({ json: [{ id: 8, title: "Khóa SQL" }] }));
+  await page.route("**/api/chapters**", r => r.fulfill({ json: [{ id: 88, title: "Chương SQL" }] }));
   let content = "";
   await page.route("**/api/lessons", r => { const payload = r.request().postDataJSON(); expect(payload).toMatchObject({ chapterId: 88, courseId: 8, title: "Bài SQL", published: false }); content = payload.content; return r.fulfill({ json: { id: 77 } }); });
   await page.route("**/api/lessons/77", r => r.fulfill({ json: { id: 77, courseId: 8, chapterId: 88, title: "Bài SQL", description: "", content, published: false, completed: 0 } }));
   await page.goto("/#/create-lesson");
   await page.getByLabel("Tên bài giảng", { exact: true }).fill("Bài SQL");
-  await page.getByRole("textbox", { name: "Nội dung văn bản" }).fill("Nội dung SQL x²");
+  const editor = page.getByRole("textbox", { name: "Nội dung bài học", exact: true });
+  await editor.fill("Nội dung SQL ");
+  await page.getByRole("button", { name: "∑ Công thức", exact: true }).click();
+  await page.getByRole("button", { name: "Lũy thừa", exact: true }).click();
+  await page.getByRole("textbox", { name: "LaTeX" }).press("2");
+  await page.getByRole("button", { name: "Chèn công thức" }).click();
+  await expect(page.getByRole("combobox", { name: "Chương", exact: true })).toHaveValue("8:0");
   await page.getByRole("button", { name: "Lưu nháp", exact: true }).click();
   await expect(page).toHaveURL(/editLessonId=77/);
   await page.reload();
   await expect(page.getByLabel("Tên bài giảng", { exact: true })).toHaveValue("Bài SQL");
-  await expect(page.getByRole("textbox", { name: "Nội dung văn bản" })).toContainText("Nội dung SQL x²");
+  await expect(editor).toContainText("Nội dung SQL");
+  await expect(editor.locator("[data-type='inline-math']")).toHaveAttribute("data-latex", "x^{2}");
 });
 
 test("essay questions inside an exam restore text and submit for server grading", async ({ page }) => {
